@@ -1,0 +1,6 @@
+npm init -y                                         node package manager
+npm install "package-name"
+npm install module-alias --save                     for saving alias like import "src"
+npm install --save-dev typescript ts-node           for compiling typescript
+npx ts-node "file-name.ts"                          Run type script
+npm install --save-dev @types/node-telegram-bot-api for Dev

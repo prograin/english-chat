@@ -1,0 +1,2 @@
+Role: It uses repositories to perform operations, apply rules, or process data before sending it somewhere else.
+Example: A UserService might use UserRepository to fetch a user and then check if the user has permissions, calculate age, etc.
