@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import dotenv from "dotenv";
 import sequelize from "../config/postgres.js";
+import { CAREERS } from "../config/constants.js";
 
 dotenv.config();
 
@@ -41,6 +42,14 @@ const usersModel = sequelize.define(
     gender: {
       type: DataTypes.ENUM("male", "female", "other"),
       allowNull: false,
+    },
+    career: {
+      type: DataTypes.ENUM(...CAREERS),
+      allowNull: true,
+    },
+    interests: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING,

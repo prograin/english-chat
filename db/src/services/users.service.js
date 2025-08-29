@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import usersModel from "../models/users.model.js";
-import redis from "../config/redis.js";
+// import redis from "../config/redis.js";
 
 // Get all users
 export const getAllUsersService = async () => {

@@ -12,7 +12,7 @@ export class ManageHandlers {
   }
 
   commandHandler() {
-    this.bot.onText(/\/start/, (msg: Message) => start(this.bot, msg));
+    this.bot.onText(/\/start/, async (msg: Message) => start(this.bot, msg));
   }
 
   callbackHandler() {
@@ -28,6 +28,10 @@ export class ManageHandlers {
       switch (data) {
         case "PROFILE::":
           await profile(this.bot, message);
+          break;
+
+        case "RANDOMSEARCH::":
+          console.log("start search");
           break;
       }
     });

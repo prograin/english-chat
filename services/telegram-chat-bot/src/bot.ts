@@ -1,3 +1,5 @@
+import { Message } from "node-telegram-bot-api";
+
 require("module-alias/register");
 require("dotenv").config();
 
