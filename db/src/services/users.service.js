@@ -1,16 +1,30 @@
 import { Op } from "sequelize";
 import usersModel from "../models/users.model.js";
-// import redis from "../config/redis.js";
+import UsersRepository from "../repositories/users.repository.js";
 
-// Get all users
-export const getAllUsersService = async () => {
-  return await usersModel.findAll();
+// ------------------------------------------------------
+// SET
+// ------------------------------------------------------
+
+//Create New User When User Start Telegram -->>  If Exists ,it will bre returned
+export const createUserTelegramService = async (date) => {
+  const existUser = await UsersRepository.getUserByTelegramId(data.telegram_id);
+  if (existUser) {
+    return { error: true, message: "User already exists" };
+  }
+
+  const user = await usersRepository.createUser(date);
+  return { error: false, data: user };
 };
+
+// ------------------------------------------------------
+// GET
+// ------------------------------------------------------
 
 // Get user by its id
 export const getUserService = async (id) => {
   try {
-    const user = await usersModel.findByPk(id);
+    const user = await UsersRepository.getUserById(id);
 
     if (!user) {
       return { error: true, message: "User not found" };
@@ -23,22 +37,7 @@ export const getUserService = async (id) => {
   }
 };
 
-//Create New User  -->>  If Exists ,it will bre returned
-export const createUserService = async (date) => {
-  const existsUser = await usersModel.findOne({
-    where: {
-      [Op.or]: [{ email: date.email }, { username: DataTransfer.username }],
-    },
-  });
-
-  if (existsUser) {
-    return { error: true, message: "User already exists" };
-  }
-
-  Object.keys(data).forEach((key) => {
-    if (data[key] === undefined) delete data[key];
-  });
-
-  const user = await modelUsers.create(data);
-  return { error: false, data: user };
+// Get all users
+export const getAllUsersService = async () => {
+  return await UsersRepository.listUsers();
 };

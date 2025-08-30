@@ -9,39 +9,43 @@ const usersModel = sequelize.define(
   "Users",
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true,
+    },
+    telegram_id: {
+      type: DataTypes.BIGINT,
+      unique: true,
     },
     username: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     first_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     last_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     age: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     gender: {
       type: DataTypes.ENUM("male", "female", "other"),
-      allowNull: false,
+      allowNull: true,
     },
     career: {
       type: DataTypes.ENUM(...CAREERS),
@@ -49,6 +53,10 @@ const usersModel = sequelize.define(
     },
     interests: {
       type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     country: {
@@ -71,10 +79,26 @@ const usersModel = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
+    last_active: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     tableName: "users",
-    timestamp: true, // adds createdAt & updatedAt
+    timestamps: true,
+    indexes: [
+      {
+        fields: ["telegram_id"],
+      },
+      {
+        fields: ["email"],
+      },
+      {
+        fields: ["username"],
+      },
+    ],
   }
 );
 
