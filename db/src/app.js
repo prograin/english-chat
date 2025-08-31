@@ -9,6 +9,5 @@ const app = express();
 
 app.use(express.json());
 app.use("/users", routerUser);
-app.use("/users-telegram", routerUsersTelegram);
 
 export default app;

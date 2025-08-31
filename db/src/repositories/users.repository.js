@@ -5,7 +5,9 @@ class UsersRepository {
     Object.keys(data).forEach((key) => {
       if (date[key] === undefined) delete data[key];
     });
-    return await usersModel.create(data);
+    const user = await usersModel.create(data);
+
+    return user;
   }
 
   async getUserById(id) {
@@ -13,7 +15,17 @@ class UsersRepository {
   }
 
   async getUserByTelegramId(telegram_id) {
-    usersModel.findOne({ where: { telegram_id: telegram_id } });
+    try {
+      const user = await usersModel.findOne({
+        where: { telegram_id: telegram_id },
+      });
+      return user;
+    } catch (error) {
+      console.error(
+        `Error fetching user with telegram_id ${telegram_id}:`,
+        error
+      );
+    }
   }
 
   async getUserByEmail(email) {

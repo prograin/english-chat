@@ -5,15 +5,15 @@ import validate from "../middlewares/validate.js";
 import {
   getAllUsersController,
   getUserController,
-  postUserTelegram,
+  postUserController,
+  getUserByExternalIdController,
 } from "../controllers/users.controller.js";
-import { postUsersController } from "../controllers/users.controller.js";
 
 const router = express.Router();
 
-router.post("/users-telegram", validate(schemaUsers), postUserTelegram);
-router.post("/", validate(schemaUsers), getAllUsersController);
-router.get("/all", postUsersController);
+router.post("/", validate(schemaUsers), postUserController);
+router.get("/all", getAllUsersController);
 router.get("/:id", getUserController);
+router.get("/", getUserByExternalIdController);
 
 export default router;
