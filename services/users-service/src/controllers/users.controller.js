@@ -1,3 +1,4 @@
+import { ExclusionConstraintError } from "sequelize";
 import {
   getUserByTelegramIdService,
   createUserService,
@@ -6,17 +7,14 @@ import {
 } from "../services/users.service.js";
 
 //Create New User When User Start Telegram -->> If exists, it will be returned
-export const postUserController = async (req, res) => {
+export const postUserController = async (req, res, next) => {
   try {
     const data = req.validatedBody;
-    const result = await createUserService(data);
-    if (result.error) {
-      return res.status(400).json({ message: result.message });
-    }
+    const user = await createUserService(data);
 
-    res.status(201).json(result.data);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message, server: "server error" });
+    next(error);
   }
 };
 
@@ -32,24 +30,23 @@ export const getAllUsersController = async (req, res) => {
 };
 
 // Get user
-export const getUserController = async (req, res) => {
+export const getUserController = async (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
     return res.status(400).json({ message: "User ID is required" });
   }
 
-  const result = await getUserService(id);
-
-  if (result.error) {
-    return res.status(404).json({ message: result.message });
+  try {
+    const user = await getUserService(id);
+    return res.status(200).json(user);
+  } catch (err) {
+    next(err);
   }
-
-  return res.status(200).json(result.data);
 };
 
 // Get user by external id
-export const getUserByExternalIdController = async (req, res) => {
+export const getUserByExternalIdController = async (req, res, next) => {
   const { telegram_id } = req.query;
 
   if (!telegram_id) {
@@ -59,19 +56,9 @@ export const getUserByExternalIdController = async (req, res) => {
   }
 
   try {
-    const result = await getUserByTelegramIdService(telegram_id);
-
-    if (!result) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (result.error) {
-      return res.status(500).json({ message: result.error });
-    }
-
-    return res.status(200).json(result.data);
+    const data = await getUserByTelegramIdService(telegram_id);
+    return res.status(200).json(data);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };

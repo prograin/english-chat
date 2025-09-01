@@ -1,27 +1,28 @@
-import usersCache from "../cache/users.cache.js";
-import { UsersCacheHelper } from "../helpers/cache.helper.js";
-import { UsersDBHelper } from "../helpers/db.helper.js";
+import UsersCache from "../cache/users.cache.js";
 import UsersRepository from "../repositories/users.repository.js";
+import { usersResponseSchema } from "../schemas/users.schema.js";
 
 // ------------------------------------------------------
 // SET
 // ------------------------------------------------------
 
 //Create New User When User Start Telegram -->>  If Exists ,it will bre returned
-export const createUserService = async (date) => {
+//DEBUG
+export const createUserService = async (data) => {
   let user;
-  user = UsersCacheHelper.getUser(date);
+
+  user = await UsersRepository.getUser(data.id);
   if (user) {
-    return { error: true, message: "User already exists" };
+    await UsersCache.addUser(user.id, user);
+    const error = new Error("User already exists");
+    error.statusCode = 409;
+    throw error;
   }
 
-  user = UsersDBHelper.getUser(date);
-  if (user) {
-    return { error: true, message: "User already exists" };
-  }
-
-  user = await usersRepository.createUser(date);
-  return { error: false, data: user };
+  user = await UsersRepository.createUser(data);
+  await UsersCache.addUser(user.id, user);
+  console.log(user);
+  return user;
 };
 
 // ------------------------------------------------------
@@ -30,35 +31,35 @@ export const createUserService = async (date) => {
 
 // Get user by its id
 export const getUserService = async (id) => {
-  try {
-    const user = await UsersRepository.getUserById(id);
+  const user = await UsersRepository.getUser(id);
+  if (user) return user;
 
-    if (!user) {
-      return { error: true, message: "User not found" };
-    }
-
-    return { error: false, data: user };
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return { error: true, message: "Server error" };
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
   }
 };
 
 // Get user by telegram id
 export const getUserByTelegramIdService = async (id) => {
-  try {
-    const user = await UsersRepository.getUserByTelegramId(id);
-    if (!user) {
-      return { error: true, message: "User not found" };
-    }
+  const user = await UsersRepository.getUserByTelegramId(id);
+  if (user) return user;
 
-    usersCache.addUser(user.id, user);
-
-    return { error: false, data: user };
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return { error: true, message: "Server error" };
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
   }
+
+  const { error, value } = usersResponseSchema.validate(user, {
+    allowUnknown: false,
+  });
+  if (error) throw error;
+
+  await UsersCache.addUser(value.id, value);
+
+  return value;
 };
 
 // Get all users

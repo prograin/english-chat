@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/bot.ts"
+    "dev": "nodemon src/bot.ts",
+    "debug":"nodemon src/bot.ts --inspect-brk"
   },
   "author": "",
   "license": "ISC",
@@ -14,12 +15,14 @@
     "dotenv": "^17.2.1",
     "ioredis": "^5.7.0",
     "module-alias": "^2.2.3",
-    "node-telegram-bot-api": "^0.66.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "redis": "^5.8.2"
   },
   "_moduleAliases": {
     "src": "src"
   },
   "devDependencies": {
+    "@types/ioredis": "^4.28.10",
     "@types/node": "^24.3.0",
     "@types/node-telegram-bot-api": "^0.64.10",
     "nodemon": "^3.1.10",

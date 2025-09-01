@@ -1,31 +1,24 @@
-import usersModel from "../models/users.model";
+import usersModel from "../models/users.model.js";
 
 class UsersRepository {
   async createUser(data) {
     Object.keys(data).forEach((key) => {
-      if (date[key] === undefined) delete data[key];
+      if (data[key] === undefined) delete data[key];
     });
     const user = await usersModel.create(data);
 
     return user;
   }
 
-  async getUserById(id) {
+  async getUser(id) {
     return await usersModel.findByPk(id);
   }
 
   async getUserByTelegramId(telegram_id) {
-    try {
-      const user = await usersModel.findOne({
-        where: { telegram_id: telegram_id },
-      });
-      return user;
-    } catch (error) {
-      console.error(
-        `Error fetching user with telegram_id ${telegram_id}:`,
-        error
-      );
-    }
+    const user = await usersModel.findOne({
+      where: { telegram_id: telegram_id },
+    });
+    return user;
   }
 
   async getUserByEmail(email) {

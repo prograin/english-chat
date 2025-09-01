@@ -1,0 +1,6 @@
+tsc index.js    //Convert to javacript
+node index.js   //Then run it
+
+
+//For running directly
+npx ts-node index.ts
