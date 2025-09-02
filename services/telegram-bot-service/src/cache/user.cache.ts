@@ -2,7 +2,7 @@ import redis from "../config/redis";
 
 class UsersCache {
   /*** Save mapping telegram_id -> user_id ***/
-  setUserIdByTelegramId = async (telegram_id: number, user_id: number) => {
+  setUserIdByTelegramId = async (telegram_id: bigint, user_id: bigint) => {
     try {
       await redis.set(
         `telegram_user:${telegram_id}`,
@@ -17,7 +17,7 @@ class UsersCache {
   };
 
   /*** Get user_id by telegram_id ***/
-  getUserIdByTelegramId = async (telegram_id: number) => {
+  getUserIdByTelegramId = async (telegram_id: bigint) => {
     try {
       const userId = await redis.get(`telegram_user:${telegram_id}`);
       if (userId) {
@@ -28,6 +28,15 @@ class UsersCache {
       }
     } catch (error) {
       console.error("❌ Redis GET error:", error);
+      throw error;
+    }
+  };
+
+  deleteUserByTelegramId = async (telegram_id: bigint) => {
+    try {
+      redis.del(`telegram_user:${telegram_id}`);
+    } catch (error) {
+      console.error("❌ Redis DEL error:", error);
       throw error;
     }
   };

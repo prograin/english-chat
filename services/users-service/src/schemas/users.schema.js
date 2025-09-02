@@ -2,6 +2,7 @@ import joi from "joi";
 import { INTERESTS, CAREERS } from "../config/constants.js";
 
 const schema = {
+  id: joi.number().optional(),
   telegram_id: joi.number().integer().required(),
 
   username: joi.string().allow(null).optional(),
@@ -41,6 +42,7 @@ const usersSchema = joi.object(schema);
 // Create response schema by cloning and removing password
 const responseSchemaObj = { ...schema };
 delete responseSchemaObj.password;
+
 export const usersResponseSchema = joi.object(responseSchemaObj);
 
 export default usersSchema;

@@ -2,6 +2,10 @@ import TelegramBot, { Message } from "node-telegram-bot-api";
 import axios from "axios";
 import { ma_main_in } from "src/markups/inline.markup";
 import UsersCache from "src/cache/user.cache";
+import {
+  createUserService,
+  getUserByTelegramIdService,
+} from "src/services/user.service";
 
 export default async (bot: TelegramBot, message: Message) => {
   if (!message.from) return;
@@ -20,59 +24,27 @@ export default async (bot: TelegramBot, message: Message) => {
   const options = { reply_markup: ma_main_in };
 
   try {
-    // --- 1. Try cache first ---
-    const userId = await UsersCache.getUserIdByTelegramId(userTelegramId);
-    if (userId) {
-      const { data } = await axios.get(`http://localhost:3000/users/${userId}`);
+    // --- 1. Try get user ---
+    const result = await getUserByTelegramIdService(BigInt(userTelegramId));
+
+    if (!result.error) {
       await bot.sendMessage(chatId, `Welcome Back ${firstName}`, options);
-      console.log(`✅ User exists (cache): ${data.id}`);
+      console.log(`✅ User exists : ${result.data.id}`);
       return;
+    } else if (result.error) {
+      if (result.status === 404) {
+        console.log(`ℹ️ User not found : ${userTelegramId}`);
+      }
     }
 
-    // --- 2. Try fetch user by telegram_id ---
-    const existingUser = await axios.get(
-      `http://localhost:3000/users/?telegram_id=${userTelegramId}`,
-      { validateStatus: (status) => status < 500 }
-    );
-    if (existingUser.status === 200 && existingUser.data?.id) {
-      await UsersCache.setUserIdByTelegramId(
-        existingUser.data.telegram_id,
-        existingUser.data.id
-      );
-      await bot.sendMessage(chatId, `Welcome Back ${firstName}`, options);
-      console.log(`✅ User exists (API): ${existingUser.data.id}`);
-      return;
-    } else if (existingUser.status === 400) {
-      console.warn(
-        `⚠️ Bad request when fetching user by telegram_id: ${userTelegramId}`
-      );
-      return;
-    } else if (existingUser.status === 404) {
-      console.log(`ℹ️ User not found by telegram_id: ${userTelegramId}`);
-    } else {
-      throw new Error(
-        `❌ Unexpected response status when fetching user: ${existingUser.status}`
-      );
-    }
+    // --- 2. Create new user ---
+    const response = await createUserService(usersTelegramData);
 
-    // --- 3. Create new user ---
-    const response = await axios.post(
-      "http://localhost:3000/users/",
-      usersTelegramData,
-      { validateStatus: (status) => status < 500 }
-    );
-
-    if ([201, 409].includes(response.status)) {
-      await UsersCache.setUserIdByTelegramId(userTelegramId, response.data.id);
-      await bot.sendMessage(chatId, `Welcome ${firstName}`, options);
-      console.log(`🆕 User created: ${response.data.id}`);
-      return;
-    }
-
-    console.error(
-      `❌ Unexpected status when creating user: ${response.status}`
-    );
+    await bot.sendMessage(chatId, `Welcome ${firstName}`, options);
+    console.log(`🆕 User created: ${response.data.id}`);
+    return;
   } catch (error: any) {
+    await console.error(error);
     if (axios.isAxiosError(error)) {
       console.error(
         `❌ Axios error: ${error.response?.status} → ${

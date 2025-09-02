@@ -19,13 +19,14 @@ const usersModel = sequelize.define(
     },
     username: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: true,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
+      validate: { isEmail: true },
     },
     password: {
       type: DataTypes.STRING,
@@ -42,13 +43,15 @@ const usersModel = sequelize.define(
     age: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      validate: { min: 0, max: 120 },
     },
     gender: {
       type: DataTypes.ENUM("male", "female", "other"),
       allowNull: true,
     },
     career: {
-      type: DataTypes.ENUM(...CAREERS),
+      type: DataTypes.STRING,
+      validate: { isIn: [CAREERS] },
       allowNull: true,
     },
     interests: {
@@ -89,15 +92,9 @@ const usersModel = sequelize.define(
     tableName: "users",
     timestamps: true,
     indexes: [
-      {
-        fields: ["telegram_id"],
-      },
-      {
-        fields: ["email"],
-      },
-      {
-        fields: ["username"],
-      },
+      { fields: ["username"], unique: true, name: "unique_username" },
+      { fields: ["email"], unique: true, name: "unique_email" },
+      { fields: ["telegram_id"], unique: true, name: "unique_telegram_id" },
     ],
   }
 );

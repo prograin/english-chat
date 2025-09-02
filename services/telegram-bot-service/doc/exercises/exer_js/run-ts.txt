@@ -3,4 +3,4 @@ node index.js   //Then run it
 
 
 //For running directly
-npx ts-node index.ts
+npx ts-node index.ts   -->>   Node Package eXecute

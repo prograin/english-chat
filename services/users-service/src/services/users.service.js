@@ -20,9 +20,13 @@ export const createUserService = async (data) => {
   }
 
   user = await UsersRepository.createUser(data);
-  await UsersCache.addUser(user.id, user);
-  console.log(user);
-  return user;
+  const { error, value } = usersResponseSchema.validate(user.toJSON(), {
+    stripUnknown: true,
+    allowUnknown: false,
+  });
+  if (error) throw error;
+  await UsersCache.addUser(user.id, value);
+  return value;
 };
 
 // ------------------------------------------------------
@@ -31,10 +35,21 @@ export const createUserService = async (data) => {
 
 // Get user by its id
 export const getUserService = async (id) => {
-  const user = await UsersRepository.getUser(id);
+  let user;
+  user = await UsersCache.getUser(id);
   if (user) return user;
 
-  if (!user) {
+  user = await UsersRepository.getUser(id);
+  if (user) {
+    const { error, value } = usersResponseSchema.validate(user.toJSON(), {
+      stripUnknown: true,
+      allowUnknown: false,
+    });
+    if (error) throw error;
+    await UsersCache.addUser(id, value);
+    return value;
+  } else {
+    await UsersCache.deleteUser(id);
     const error = new Error("User not found");
     error.statusCode = 404;
     throw error;
@@ -44,22 +59,19 @@ export const getUserService = async (id) => {
 // Get user by telegram id
 export const getUserByTelegramIdService = async (id) => {
   const user = await UsersRepository.getUserByTelegramId(id);
-  if (user) return user;
-
-  if (!user) {
+  if (user) {
+    const { error, value } = usersResponseSchema.validate(user.toJSON(), {
+      stripUnknown: true,
+      allowUnknown: false,
+    });
+    if (error) throw error;
+    await UsersCache.addUser(user.id, value);
+    return value;
+  } else {
     const error = new Error("User not found");
     error.statusCode = 404;
     throw error;
   }
-
-  const { error, value } = usersResponseSchema.validate(user, {
-    allowUnknown: false,
-  });
-  if (error) throw error;
-
-  await UsersCache.addUser(value.id, value);
-
-  return value;
 };
 
 // Get all users
