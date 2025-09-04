@@ -1,1 +1,0 @@
-Purpose: Handles direct access to your database or data storage.    like "db.presence". without using alchemy and call from "http"

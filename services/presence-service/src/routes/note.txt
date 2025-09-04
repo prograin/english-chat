@@ -1,3 +1,0 @@
-Purpose: Define the HTTP endpoints your service exposes.
-Contains: The mapping between URL + HTTP method and controller functions.
-Used by: The web server (app.js) to register API endpoints.

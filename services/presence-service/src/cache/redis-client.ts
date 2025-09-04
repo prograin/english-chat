@@ -1,7 +1,7 @@
 // This is exactly where the Redis connection logic should live.
 //Client: Any program that connects to the server to send commands.
 
-import { redis } from "../../config/config.js";
+import { redis } from "../config/redis.js";
 
 export const zaddUserLastSeen = async (userId: number, timestamp: number) => {
   try {

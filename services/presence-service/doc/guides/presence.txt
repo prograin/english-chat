@@ -1,0 +1,34 @@
+Clients or other services call presence service API to get user status.
+presence service fetches from Redis internally and returns the result.
+
+Pros: keeps logic centralized, easy to change cache structure later.
+Cons: adds a small network hop, but negligible.
+
+✅ Best practice: other services never access Redis directly, always go through presence service API.
+
+--------------------------------------------------
+
+User activity → presence service → updates Redis (fast)
+                                   ↓ every 2 min
+                         updates Postgres via ORM (persistent)
+Other services → query presence service API → gets data from Redis
+Optional: presence service → publishes events via Pub/Sub
+
+--------------------------------------------------
+
+presence/src/
+├─ controllers/        # API endpoints
+│   └─ presenceController.js
+├─ services/           # business logic (cache handling, pub/sub)   #Receives requests like GET /presence/:userId or POST /presence/update.
+│   ├─ presenceService.js
+│   └─ pubSubService.js
+├─ repositories/       # DB access via ORM  #Functions like saveUserStatus(userId, status) or getUserStatus(userId).   #Key point: Keeps database queries centralized and separate from business logic.
+│   └─ presenceRepository.js
+├─ cache/              # Redis helper / cache functions   #Functions for reading/writing user presence: setUserOnline(userId), getUserStatus(userId).
+│   └─ redisClient.js
+├─ config/             # env, connection strings, pub/sub setup
+│   └─ config.js
+├─ routes/             # API routes
+│   └─ presenceRoutes.js
+├─ app.js              # setupdoc/guides/presence.txt express/fastify server
+└─ server.js           # start server

@@ -1,2 +1,0 @@
-Purpose: Handles incoming requests (like HTTP requests) and returns responses.
-Example: A UserController might have getUser(req, res) method which calls UserService.getUserById(id) and sends JSON back.
