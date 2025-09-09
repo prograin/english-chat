@@ -12,3 +12,4 @@ export const redis = new Redis({
 });
 
 export const subscriber = redis.duplicate();
+export const publisher = redis.duplicate();
