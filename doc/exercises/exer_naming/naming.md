@@ -33,5 +33,6 @@
 | Subscribers         | `<entity>-<action>-event.subscriber.ts` | `events/subscribers/` | Listen and react to events                               |
 | Scheduled Tasks     | `<entity>-<action>-task.ts`             | `tasks/`              | Cron jobs or data sync tasks                             |
 | Tests               | `<entity>-<action>.spec.ts`             | `tests/`              | Unit and integration tests                               |
+| Channels            | `<domain> <entity> <action>`            | `events/channels/`    | Unit and integration tests                               |
 
 ---
