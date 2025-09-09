@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "baseUrl": "src",
     "paths": {
       "src/*": ["*"]

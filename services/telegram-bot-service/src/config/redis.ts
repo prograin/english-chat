@@ -10,6 +10,8 @@ const redis = new Redis({
   db: 0,
 });
 
+export const publisher = redis.duplicate();
+
 redis.on("connect", () => console.log("✅ Redis connected"));
 redis.on("ready", () => console.log("⚡ Redis ready"));
 redis.on("error", (err) => console.error("❌ Redis error:", err));

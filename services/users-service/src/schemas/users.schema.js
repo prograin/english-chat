@@ -42,6 +42,7 @@ const usersSchema = joi.object(schema);
 // Create response schema by cloning and removing password
 const responseSchemaObj = { ...schema };
 delete responseSchemaObj.password;
+delete responseSchemaObj.last_active;
 
 export const usersResponseSchema = joi.object(responseSchemaObj);
 

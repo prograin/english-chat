@@ -1,2 +1,0 @@
-pub/sub  -->>  for "scale modules" and when the answer of taht is not "required" .
-api  -->>  When we don't need "responce"

@@ -1,11 +1,12 @@
 import { subscriber } from "../../config/redis.js";
+import { CHANNELS } from "../channels.js";
 
 class EventBus {
   constructor() {
     this.handlers = {};
   }
   async init() {
-    const channels = ["user-clicked"];
+    const channels = [CHANNELS.USER.BUTTON.ANY.CLICKED];
     await subscriber.subscribe(...channels);
 
     subscriber.on("message", async (channel, message) => {

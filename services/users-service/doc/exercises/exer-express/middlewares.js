@@ -7,4 +7,4 @@ app.use(loggerMiddleware); // global logger
 app.post("/profile", validateProfile, profileHandler);
 
 // Error must be after all routes
-app.user((err, req, res, next) => {});
+app.use((err, req, res, next) => {});

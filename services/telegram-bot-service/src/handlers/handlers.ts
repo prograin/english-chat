@@ -1,6 +1,10 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 import start from "src/messages/reply/start";
 import profile from "src/messages/reply/profile";
+import { userButtonClickedMiddleware } from "src/middlewares/user-button-clicked.middleware";
+import { messageValidateMiddleware } from "src/middlewares/message-validate.middleware";
+import { userValidateMiddleware } from "src/middlewares/user-validate.middleware";
+import { middlewareRunner } from "src/middlewares/runner/middleware-runner";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -11,11 +15,18 @@ export class ManageHandlers {
     this.callbackHandler();
   }
 
-  commandHandler() {
-    this.bot.onText(/\/start/, async (msg: Message) => start(this.bot, msg));
+  async commandHandler() {
+    this.bot.onText(
+      /\/start/,
+      middlewareRunner(
+        this.bot,
+        [messageValidateMiddleware, userValidateMiddleware, userButtonClickedMiddleware],
+        start
+      )
+    );
   }
 
-  callbackHandler() {
+  async callbackHandler() {
     this.bot.on("callback_query", async (callbackQuery) => {
       const message = callbackQuery.message;
       const data = callbackQuery.data;
