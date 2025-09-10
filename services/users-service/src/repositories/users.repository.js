@@ -26,15 +26,27 @@ class UsersRepository {
   }
 
   async updateUser(id, data) {
-    return await Users.update(data, { where: { id } });
+    return await usersModel.update(data, { where: { id } });
+  }
+
+  async updateBulkUsers(data) {
+    try {
+      for (const item of data) {
+        await usersModel.update(item, { where: { id: item.id } });
+      }
+      return { message: "Bulk update completed" };
+    } catch (error) {
+      console.error("Error updating users:", error);
+      throw error;
+    }
   }
 
   async deleteUser(id) {
-    return await Users.destroy({ where: { id } });
+    return await usersModel.destroy({ where: { id } });
   }
 
   async listUsers(limit = 10, offset = 0) {
-    return await Users.findAll({ limit, offset });
+    return await usersModel.findAll({ limit, offset });
   }
 }
 
