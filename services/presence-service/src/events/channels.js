@@ -15,9 +15,9 @@ export const CHANNELS = {
     },
   },
   SYNC: {
-    USERS: {
-      PRESENCE: {
-        CACHE: "sync:cache:users:presence",
+    CACHE: {
+      USERS: {
+        PRESENCE: "sync:cache:users:precense",
       },
     },
   },

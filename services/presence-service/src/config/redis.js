@@ -11,5 +11,9 @@ export const redis = new Redis({
   port: process.env.REDIS_PORT || 6379,
 });
 
+redis.on("connect", () => console.log("✅ Redis connected"));
+redis.on("ready", () => console.log("⚡ Redis ready"));
+redis.on("error", (err) => console.error("❌ Redis error:", err));
+
 export const subscriber = redis.duplicate();
 export const publisher = redis.duplicate();

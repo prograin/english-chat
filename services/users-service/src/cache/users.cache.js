@@ -57,6 +57,25 @@ class UsersCache {
       return null;
     }
   }
+
+  async getUsersLastActive() {
+    try {
+      const data = await redis.zrange(`users:last_active`, 0, -1, "WITHSCORES");
+
+      const result = [];
+      for (let i = 0; i < data.length; i += 2) {
+        result.push({
+          id: data[i],
+          last_active: new Date(Number(data[i + 1]) * 1000),
+        });
+      }
+
+      return result;
+    } catch (err) {
+      console.error("Error fetching all users:", err);
+      return [];
+    }
+  }
 }
 
 export default new UsersCache();

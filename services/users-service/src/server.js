@@ -1,20 +1,22 @@
 import "module-alias/register.js";
 import sequelize from "./config/postgres.js";
 import app from "./app.js";
+import eventbus from "./events/bus/eventbus.js";
+import { initSyncUsersPresenceCacheSubscriber } from "./events/sunscriber/sync-users.subscriber.js";
 
 console.log("Database connected!");
 
 (async () => {
   try {
-    // Connect to the database
+    await eventbus.init();
+    await initSyncUsersPresenceCacheSubscriber();
+
     await sequelize.authenticate();
     console.log("✅ Database connected!");
 
-    // Sync models with database
     await sequelize.sync({ alter: true });
     console.log("✅ Database synchronized!");
 
-    // Start the server
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`🚀 Server is running on port ${port}`);
