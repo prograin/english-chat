@@ -1,4 +1,3 @@
-import { ExclusionConstraintError } from "sequelize";
 import {
   getUserByTelegramIdService,
   createUserService,
@@ -50,9 +49,7 @@ export const getUserByExternalIdController = async (req, res, next) => {
   const { telegram_id } = req.query;
 
   if (!telegram_id) {
-    return res
-      .status(400)
-      .json({ message: "You have to define external id like telegram_id" });
+    return res.status(400).json({ message: "You have to define external id like telegram_id" });
   }
 
   try {

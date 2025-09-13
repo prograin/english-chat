@@ -2,7 +2,7 @@ import app from "../src/app.js";
 import dotenv from "dotenv";
 import eventBus from "./events/bus/event.bus.js";
 import { initUserButtonClickedSubscriber } from "./events/subscribers/user-button-clicked.subscriber.js";
-import { syncUsersPresenceCacheJob } from "./jobs/sync-cache.job.js";
+import { syncPresenceCacheJob } from "./jobs/sync-cache.job.js";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ dotenv.config();
     await initUserButtonClickedSubscriber();
 
     // Jobs
-    syncUsersPresenceCacheJob.start();
+    syncPresenceCacheJob.start();
 
     // Express
     const PORT = process.env.PORT || 3001;

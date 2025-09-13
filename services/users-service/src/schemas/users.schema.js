@@ -32,8 +32,6 @@ const schema = {
 
   latitude: joi.number().allow(null).optional(),
   longitude: joi.number().allow(null).optional(),
-
-  last_active: joi.date().allow(null).optional(),
 };
 
 // Create schema for creation/updating
@@ -42,7 +40,6 @@ const usersSchema = joi.object(schema);
 // Create response schema by cloning and removing password
 const responseSchemaObj = { ...schema };
 delete responseSchemaObj.password;
-delete responseSchemaObj.last_active;
 
 export const usersResponseSchema = joi.object(responseSchemaObj);
 

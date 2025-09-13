@@ -82,11 +82,6 @@ const usersModel = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    last_active: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
   },
   {
     tableName: "users",
