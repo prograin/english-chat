@@ -5,8 +5,8 @@ import { publishUserButtonClickedEvent } from "src/events/publishers/user-button
 
 export const userButtonClickedMiddleware = async (msg: Message, response: BotResponse, next: Next) => {
   if (response.user.exists) {
+    console.log(response.user.id!);
     await publishUserButtonClickedEvent({ id: response.user.id! });
-    msg.text = "HIIII";
   }
 
   await next();

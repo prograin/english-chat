@@ -21,6 +21,9 @@ class UsersCache {
     try {
       const key = `user:${id}`;
       const cached = await redis.get(key);
+
+      if (Object.keys(cached).length === 0) return null;
+
       await redis.expire(key, this.USERTTL);
       return cached ? JSON.parse(cached) : null;
     } catch (error) {

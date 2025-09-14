@@ -1,6 +1,6 @@
 import cron from "node-cron";
-import { bulkUpdatePresenceService } from "../services/presence.service";
-import { getUsersLastActive } from "../cache/users.cache";
+import { bulkUpdatePresenceService } from "../services/presence.service.js";
+import { getUsersLastActive } from "../cache/users.cache.js";
 
 export const syncPresenceCacheJob = cron.schedule("*/5 * * * * *", async () => {
   try {

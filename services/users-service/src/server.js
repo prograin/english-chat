@@ -7,8 +7,6 @@ console.log("Database connected!");
 
 (async () => {
   try {
-    await eventbus.init();
-
     await sequelize.authenticate();
     console.log("✅ Database connected!");
 

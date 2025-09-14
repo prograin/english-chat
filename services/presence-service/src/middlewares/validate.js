@@ -1,4 +1,4 @@
-export const validate = async (schema) => {
+export const validate = (schema) => {
   return async (req, res, next) => {
     const { error, value } = schema.validate(req.body, { abortEarly: false });
     if (error) {

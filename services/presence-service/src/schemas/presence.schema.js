@@ -11,7 +11,7 @@ const baseSchema = {
 export const createPresencesSchema = Joi.object({
   user_id: baseSchema.user_id,
   last_active: baseSchema.last_active.optional(),
-  status: baseSchema.status,
+  status: baseSchema.status.optional(),
 });
 
 // UPDATE schema

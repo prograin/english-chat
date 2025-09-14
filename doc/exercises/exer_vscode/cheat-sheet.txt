@@ -1,0 +1,1 @@
+alt + right-click                Collapse all children throgh their parents

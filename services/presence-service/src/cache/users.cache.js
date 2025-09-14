@@ -16,9 +16,8 @@ export const getUsersLastActive = async () => {
   for (let i = 0; i < data.length; i += 2) {
     result.push({
       user_id: data[i],
-      last_active: new Date(Number(data[i + 1]) * 1000),
+      last_active: new Date(Number(data[i + 1])),
     });
   }
-
   return result;
 };

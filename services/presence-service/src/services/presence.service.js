@@ -34,3 +34,17 @@ export const bulkUpdatePresenceService = async (data) => {
     throw error;
   }
 };
+
+// Get Presence
+export const getPresenceByUserIdService = async (data) => {
+  try {
+    const presence = await getPresenceByUserIdRepository(data.user_id);
+    if (!presence) return null;
+
+    const value = await validateSchemaUtil(responsePresencesSchema, presence.toJSON(), false, true);
+    return value;
+  } catch (error) {
+    console.error("Failed to get user presence data:", error);
+    throw error;
+  }
+};

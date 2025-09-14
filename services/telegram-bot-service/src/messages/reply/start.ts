@@ -33,7 +33,9 @@ export default async (bot: TelegramBot, message: Message, response: Response) =>
   } catch (error: any) {
     console.error(error);
     if (axios.isAxiosError(error)) {
-      console.error(`❌ Axios error: ${error.response?.status} → ${error.response?.data || error.message}`);
+      console.error(
+        `❌ Axios error: ${error.response?.status} → ${JSON.stringify(error.response?.data) || error.message}`
+      );
     } else {
       console.error(`❌ Unexpected error:`, error);
     }

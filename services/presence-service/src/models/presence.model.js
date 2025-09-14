@@ -1,7 +1,7 @@
-import sequelize from "../config/postgres";
+import sequelize from "../config/postgres.js";
 import { DataTypes } from "sequelize";
 
-export default presenceModel = sequelize.define(
+const presenceModel = sequelize.define(
   "Presence",
   {
     id: {
@@ -14,7 +14,7 @@ export default presenceModel = sequelize.define(
       unique: true,
       allowNull: false,
       references: {
-        model: "Users",
+        model: "users",
         key: "id",
       },
       onUpdate: "CASCADE",
@@ -32,11 +32,13 @@ export default presenceModel = sequelize.define(
     },
   },
   {
-    tableName: "Presence",
+    tableName: "presence",
     timestamps: true,
-    indexes: [{ fields: ["user_id"], unique: true }],
+    indexes: [{ fields: ["user_id"], unique: true, name: "unique_user_id" }],
     defaultScope: {
       order: [["last_active", "DESC"]],
     },
   }
 );
+
+export default presenceModel;

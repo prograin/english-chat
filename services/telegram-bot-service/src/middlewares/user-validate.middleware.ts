@@ -23,7 +23,11 @@ export const userValidateMiddleware = async (message: Message, response: BotResp
   } catch (error: any) {
     console.error(error);
     if (axios.isAxiosError(error)) {
-      console.error(`❌ Axios error: ${error.response?.status} → ${error.response?.data || error.message}`);
+      console.error(
+        `❌ Axios error: JSON.stringify${error.response?.status} → ${
+          JSON.stringify(error.response?.data) || error.message
+        }`
+      );
     } else {
       console.error(`❌ Unexpected error:`, error);
     }
