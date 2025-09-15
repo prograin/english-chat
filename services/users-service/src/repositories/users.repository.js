@@ -2,9 +2,6 @@ import usersModel from "../models/users.model.js";
 
 class UsersRepository {
   async createUser(data, options = {}) {
-    Object.keys(data).forEach((key) => {
-      if (data[key] === undefined) delete data[key];
-    });
     const user = await usersModel.create(data, options);
 
     return user;

@@ -1,0 +1,15 @@
+Choreography (event-driven) ✅
+
+Services react to events instead of a central orchestrator.
+
+Example:
+users service creates user → emits UserCreated event.
+profile service listens → creates profile → emits ProfileCreated.
+notifications service listens → sets up notifications.
+If profile service fails → emits ProfileCreationFailed → users service deletes user (compensation).
+Fully event-driven, loosely coupled.
+
+Orchestration (central saga orchestrator)
+Central orchestrator tells each service what to do.
+If any step fails, orchestrator tells services to run compensating transactions.
+Easier to track complex flows but adds a central dependency.
