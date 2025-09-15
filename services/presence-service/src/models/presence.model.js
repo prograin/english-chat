@@ -18,7 +18,7 @@ const presenceModel = sequelize.define(
         key: "id",
       },
       onUpdate: "CASCADE",
-      onDelete: "SET NULL",
+      onDelete: "CASCADE",
     },
     last_active: {
       type: DataTypes.DATE,

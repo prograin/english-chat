@@ -18,7 +18,7 @@ const ProfileModel = sequelize.define(
         model: "users",
         key: "id",
       },
-      onDelete: "SET NULL",
+      onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
     first_name: {

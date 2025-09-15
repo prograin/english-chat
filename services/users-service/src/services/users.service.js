@@ -30,13 +30,11 @@ export const createUserService = async (data) => {
   let user, presence, profile;
 
   try {
-    const user = await UsersRepository.createUser(data);
-    const presence = await axios.post("http://localhost:3001/presence/", { user_id: Number(user.id) });
-    const profile = await axios.post("http://localhost:3002/profile/", { user_id: Number(user.id) });
+    user = await UsersRepository.createUser(data);
+    presence = await axios.post("http://localhost:3001/presence/", { user_id: Number(user.id) });
+    profile = await axios.post("http://localhost:3002/profile/", { user_id: Number(user.id) });
   } catch (err) {
-    if (user) UsersRepository.deleteUser(user.id);
-    if (presence) await axios.delete("http://localhost:3001/presence/", { user_id: Number(user.id) });
-    if (profile) await axios.delete("http://localhost:3002/profile/", { user_id: Number(user.id) });
+    if (user) await UsersRepository.deleteUser(user.id);
 
     throw err;
   }

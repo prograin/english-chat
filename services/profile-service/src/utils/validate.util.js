@@ -7,8 +7,8 @@ import Joi from "joi";
  * @returns {Promise<object>} - The validated value (with any Joi defaults/coercions applied).
  * @throws {Error} - With `status` 400 when validation fails.
  */
-const validateUtil = async (schema, data) => {
-  const { error, value } = schema.validate(data);
+const validateUtil = async (schema, data, allowUnknown = false, stripUnknown = false) => {
+  const { error, value } = schema.validate(data, { allowUnknown, stripUnknown });
   if (error) {
     const err = new Error("Profile Return Validation Error");
     err.status = 400; // 400 Bad Request is typical for validation failures

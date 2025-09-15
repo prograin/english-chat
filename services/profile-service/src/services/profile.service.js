@@ -23,7 +23,7 @@ export const createProfileService = async (data, options = {}) => {
   });
 
   const profile = await createProfile(data);
-  return validateUtil(responseProfileSchema, profile.toJSON());
+  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true);
 };
 
 /**
@@ -35,7 +35,7 @@ export const createProfileService = async (data, options = {}) => {
 export const getProfileByUserIdService = async (user_id, options = {}) => {
   const profile = await getProfileByUserId(user_id, options);
   if (!profile) return null;
-  return validateUtil(responseProfileSchema, profile.toJSON());
+  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true);
 };
 
 /**
