@@ -97,3 +97,19 @@ export const getUserByTelegramIdService = async (id) => {
 export const getAllUsersService = async () => {
   return await UsersRepository.listUsers();
 };
+
+/**
+ * Delete user by id
+ * @param {Number} id
+ * @returns
+ */
+export const deleteUserService = async (id) => {
+  const user = await UsersRepository.getUser(id);
+  if (user) {
+    return await UsersRepository.deleteUser(id);
+  } else {
+    const error = new Error(`User ${id} was not found`);
+    error.statusCode = 404;
+    throw error;
+  }
+};

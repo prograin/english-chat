@@ -1,0 +1,5 @@
+We can manage prettier on this file
+
+{
+  "printWidth": 100
+}

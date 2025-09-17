@@ -1,0 +1,33 @@
+┣ 📂mobile
+┗ 📂web
+  ┣ 📂doc
+  ┃ ┣ 📂exercises
+  ┃ ┗ 📂guides
+  ┃   ┣ 📜install.txt
+  ┃   ┗ 📜structure.php
+  ┣ 📂public
+  ┃ ┗ 📜vite.svg
+  ┣ 📂src
+  ┃ ┣ 📂app
+  ┃ ┃ ┣ 📂providers
+  ┃ ┃ ┣ 📂routes
+  ┃ ┃ ┣  ┗UserRoutes.jsx 
+  ┃ ┃ ┗ 📂store
+  ┃ ┣ 📂assets
+  ┃ ┣ 📂features
+  ┃ ┃ ┗ 📂users
+  ┃ ┃   ┣ 📂components
+  ┃ ┃   ┃ ┗ 📜ProfileForm.component.jsx
+  ┃ ┃   ┣ 📂hooks
+  ┃ ┃   ┃ ┗ 📜useProfile.js
+  ┃ ┃   ┣ 📂pages
+  ┃ ┃   ┃ ┗ 📜ProfileEdit.page.jsx
+  ┃ ┃   ┗ 📂services
+  ┃ ┃     ┗ 📜user.service.js
+  ┃ ┣ 📂shared
+  ┃ ┃ ┣ 📂components
+  ┃ ┃ ┣ 📂hooks
+  ┃ ┃ ┗ 📂utils
+  ┃ ┣ 📂styles
+  ┃ ┣ 📜App.jsx
+  ┃ ┗ 📜main.jsx
