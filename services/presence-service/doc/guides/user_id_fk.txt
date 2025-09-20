@@ -1,0 +1,11 @@
+user_id:{
+    reference:{
+        model:'users',
+        key:"id"
+    }
+}
+
+After --> we removed reference , because of transactional in create users
+
+user_id:{
+}

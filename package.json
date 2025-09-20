@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "node-cron": "^4.2.1"
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10"
   }
 }

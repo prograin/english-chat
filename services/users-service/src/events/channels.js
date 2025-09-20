@@ -7,11 +7,4 @@ export const CHANNELS = {
       },
     },
   },
-  SYNC: {
-    CACHE: {
-      USERS: {
-        PRESENCE: "sync:cache:users:precense",
-      },
-    },
-  },
 };

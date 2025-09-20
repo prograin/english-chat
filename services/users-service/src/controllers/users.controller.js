@@ -1,9 +1,9 @@
-import { ExclusionConstraintError } from "sequelize";
 import {
   getUserByTelegramIdService,
   createUserService,
   getAllUsersService,
   getUserService,
+  deleteUserService,
 } from "../services/users.service.js";
 
 //Create New User When User Start Telegram -->> If exists, it will be returned
@@ -50,9 +50,7 @@ export const getUserByExternalIdController = async (req, res, next) => {
   const { telegram_id } = req.query;
 
   if (!telegram_id) {
-    return res
-      .status(400)
-      .json({ message: "You have to define external id like telegram_id" });
+    return res.status(400).json({ message: "You have to define external id like telegram_id" });
   }
 
   try {
@@ -60,5 +58,19 @@ export const getUserByExternalIdController = async (req, res, next) => {
     return res.status(200).json(data);
   } catch (err) {
     next(err);
+  }
+};
+
+export const deleteUserController = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ message: "You have to pass id for deleting user" });
+  }
+
+  try {
+    await deleteUserService(Number(id));
+    res.status(200).json({ message: `User ${id} was deleted` });
+  } catch (error) {
+    next(error);
   }
 };

@@ -1,12 +1,13 @@
 import { subscriber } from "../../config/redis.js";
 import { CHANNELS } from "../channels.js";
+
 class EventBus {
   constructor() {
     this.handlers = {};
   }
 
   async init() {
-    const channels = [CHANNELS.SYNC.CACHE.USERS.PRESENCE];
+    const channels = [];
     await subscriber.subscribe(...channels);
 
     subscriber.on("message", async (channel, message) => {

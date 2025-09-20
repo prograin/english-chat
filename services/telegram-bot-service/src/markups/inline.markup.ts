@@ -7,6 +7,6 @@ export const ma_main_in = {
   ],
 };
 
-export const ma_profile_register_in = {
-  inline_keyboard: [[InlineButton.in_register_b, InlineButton.in_edit_b]],
+export const ma_profile_in = {
+  inline_keyboard: [[InlineButton.in_edit_b]],
 };

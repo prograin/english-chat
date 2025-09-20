@@ -1,0 +1,14 @@
+We add and run them throgh pallete 
+
+WE save this in tasks.json
+"tasks": [
+    {
+        "label": "telegram-bot-service",
+        "type": "shell",
+        "command": "npm run dev",
+        "options": {
+            "cwd": "C:/Code/Main-Computer/english-chat/services/telegram-bot-service"
+        },
+        "problemMatcher": []
+    }
+]

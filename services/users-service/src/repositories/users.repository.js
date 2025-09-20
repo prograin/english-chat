@@ -1,17 +1,14 @@
 import usersModel from "../models/users.model.js";
 
 class UsersRepository {
-  async createUser(data) {
-    Object.keys(data).forEach((key) => {
-      if (data[key] === undefined) delete data[key];
-    });
-    const user = await usersModel.create(data);
+  async createUser(data, options = {}) {
+    const user = await usersModel.create(data, options);
 
     return user;
   }
 
-  async getUser(id) {
-    return await usersModel.findByPk(id);
+  async getUser(id, options = {}) {
+    return await usersModel.findByPk(id, options);
   }
 
   async getUserByTelegramId(telegram_id) {

@@ -44,6 +44,10 @@ export class ManageHandlers {
         case "RANDOMSEARCH::":
           console.log("start search");
           break;
+
+        case "EDIT::":
+          console.log("edit profile");
+          break;
       }
     });
   }
