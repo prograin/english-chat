@@ -38,5 +38,6 @@ export class InlineButton {
   static in_edit_b = {
     text: InlineName.in_edit_n,
     callback_data: InlineCallback.in_edit_c,
+    url: "http://192.168.1.10:5173/user/profile",
   };
 }

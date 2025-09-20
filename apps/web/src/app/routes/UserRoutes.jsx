@@ -1,21 +1,22 @@
-// src/app/routes/AppRoutes.jsx
+// src/app/routes/UserRoute.jsx
 import { Routes, Route } from "react-router-dom";
 
-import HomePage from "../../features/home/pages/HomePage";
-import AboutPage from "../../features/home/pages/AboutPage";
-import UserRoutes from "./UserRoutes";
+import ProfileEditPage from "../../features/users/pages/ProfileEditPage";
+import AuthGuard from "../../shared/components/AuthGuard";
 
-export default function AppRoutes() {
+function UserRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<AboutPage />} />
-
-      {/* User feature routes */}
-      <UserRoutes />
-
-      {/* 404 fallback */}
-      <Route path="*" element={<div>Page not found</div>} />
+      <Route
+        path="profile"
+        element={
+          <AuthGuard>
+            <ProfileEditPage />
+          </AuthGuard>
+        }
+      />
     </Routes>
   );
 }
+
+export default UserRoutes;
