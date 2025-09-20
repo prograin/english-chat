@@ -7,17 +7,19 @@ dotenv.config();
 
 export const authService = async (data: Record<string, string | number>) => {
   if (!verifyTelegramAuth(data)) {
-    throw new Error("Invalid telegram data");
+    const error = new Error("Invalid telegram data") as Error & { statusCode?: number };
+    error.statusCode = 400;
+    throw error;
   }
 
-  const telegram_id = BigInt(data.id);
+  const telegram_id = BigInt(data.id.toString());
   const user = await getUserByTelegramIdService(telegram_id);
   if (!user.error) throw new Error(`User with ${telegram_id} is not found`);
 
   const user_id = user.data.id;
   const payload = {
-    user_id: 123,
-    telegram_id: 456,
+    user_id,
+    telegram_id,
   };
 
   const secret = process.env.JWT_SECRET as Secret;
@@ -26,7 +28,7 @@ export const authService = async (data: Record<string, string | number>) => {
   const token = jwt.sign(payload, secret, { expiresIn: "30d" });
 
   console.log(token);
-  return { token };
+  return token;
 };
 
 const verifyTelegramAuth = (data: Record<string, string | number>) => {
