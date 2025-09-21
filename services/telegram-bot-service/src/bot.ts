@@ -1,4 +1,3 @@
-require("module-alias/register");
 require("dotenv").config();
 import { ManageHandlers } from "src/handlers/handlers";
 

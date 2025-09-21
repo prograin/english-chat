@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { authService } from "src/services/auth.service";
+import { authService } from "../services/auth.service";
 
 export const authController = async (req: Request, res: Response, next: NextFunction) => {
   try {
