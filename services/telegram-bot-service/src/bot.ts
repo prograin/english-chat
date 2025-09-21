@@ -1,10 +1,18 @@
-require("dotenv").config();
-import { ManageHandlers } from "src/handlers/handlers";
+import dotenv from "dotenv";
+dotenv.config();
 
-const TelegramBot = require("node-telegram-bot-api");
+import { SocksProxyAgent } from "socks-proxy-agent";
+import { ManageHandlers } from "src/handlers/handlers";
+import TelegramBot from "node-telegram-bot-api";
+
+const proxy = process.env.PROXY;
+process.env.HTTP_PROXY = proxy ?? undefined;
+process.env.HTTPS_PROXY = proxy ?? undefined;
+
+const token = process.env.BOT_TOKEN;
+if (!token) throw new Error("BOT_TOKEN is not set in .env");
 
 const runBot = async () => {
-  const token = process.env.BOT_TOKEN;
   const bot = new TelegramBot(token, { polling: true });
 
   new ManageHandlers(bot);

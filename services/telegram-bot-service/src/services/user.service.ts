@@ -1,9 +1,10 @@
 import axios from "axios";
+import localAxiosInstance from "src/utils/axios.util";
 import UsersCache from "src/cache/user.cache";
 
 // --- Create User ---
 export const createUserService = async (data: object) => {
-  const user = await axios.post("http://localhost:3000/users/", data, {
+  const user = await localAxiosInstance.post("http://localhost:3004/users/", data, {
     validateStatus: (status) => status < 500,
   });
   if ([201, 409].includes(user.status)) {
@@ -22,7 +23,8 @@ export const getUserByTelegramIdService = async (telegram_id: bigint) => {
   const userId = await UsersCache.getUserIdByTelegramId(telegram_id);
   if (userId) {
     // --- 1. Try to get by user id ---
-    user = await axios.get(`http://localhost:3000/users/${userId}`);
+    console.log(`${userId}`);
+    user = await localAxiosInstance.get(`http://localhost:3004/users/${userId}`);
     if (user.status === 200) {
       return { error: false, data: user.data, status: 200 };
     } else if (user.status === 404) {
@@ -34,7 +36,7 @@ export const getUserByTelegramIdService = async (telegram_id: bigint) => {
     }
   } else {
     // --- 2. Try to get by telegram id ---
-    user = await axios.get(`http://localhost:3000/users/?telegram_id=${telegram_id}`, {
+    user = await localAxiosInstance.get(`http://localhost:3004/users/?telegram_id=${telegram_id}`, {
       validateStatus: (status) => status < 500,
     });
 

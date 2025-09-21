@@ -1,0 +1,4 @@
+sudo apt install redis-server -y
+sudo nano /etc/redis/redis.conf
+systemctl restart redis-server
+redis-cli ping

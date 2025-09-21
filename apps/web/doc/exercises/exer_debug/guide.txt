@@ -1,0 +1,3 @@
+node --inspect-brk node_modules/vite/bin/vite.js --host 0.0.0.0 --port 5173
+instead of 
+vite --host 0.0.0.0 --port 5173

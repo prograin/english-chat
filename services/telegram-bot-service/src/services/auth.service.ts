@@ -14,12 +14,12 @@ export const authService = async (data: Record<string, string | number>) => {
 
   const telegram_id = BigInt(data.id.toString());
   const user = await getUserByTelegramIdService(telegram_id);
-  if (!user.error) throw new Error(`User with ${telegram_id} is not found`);
+  if (user.error) throw new Error(`User with ${telegram_id} is not found`);
 
   const user_id = user.data.id;
   const payload = {
-    user_id,
-    telegram_id,
+    user_id: user_id,
+    telegram_id: telegram_id.toString(),
   };
 
   const secret = process.env.JWT_SECRET as Secret;
@@ -27,8 +27,7 @@ export const authService = async (data: Record<string, string | number>) => {
 
   const token = jwt.sign(payload, secret, { expiresIn: "30d" });
 
-  console.log(token);
-  return token;
+  return { token, user: user.data };
 };
 
 const verifyTelegramAuth = (data: Record<string, string | number>) => {
@@ -42,7 +41,11 @@ const verifyTelegramAuth = (data: Record<string, string | number>) => {
     .join("\n");
 
   const secretKey = crypto.createHash("sha256").update(bot_token).digest();
-  const hmac = crypto.createHmac("sha256", secretKey).update(dataCheckString).digest("hex");
+  const hmac = crypto
+    .createHmac("sha256", secretKey)
+    .update(dataCheckString)
+    .digest("hex")
+    .toLowerCase();
 
   return hmac === hash;
 };

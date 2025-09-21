@@ -1,0 +1,3 @@
+sudo snap install ngrok
+ngrok config add-authtoken 32zsiAbbTsVkwfsdz01vuVE2s7E_7hANcpobU48yN4fQ8hTyQ
+ngrok http 3003

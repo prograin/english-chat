@@ -1,0 +1,8 @@
+{
+    "id": 1221951839,
+    "first_name": "Ahmadreza",
+    "username": "ahmadrr1999",
+    "photo_url": "https://t.me/i/userpic/320/mruIgfNCrfyNFZZK5gLPUY59f6sUwESGdi3GOSlr13U.jpg",
+    "auth_date": 1758446705,
+    "hash": "8b813eb7900da28d1afc85e1542fdeeb7cc24009cdd112083f29ccd59eba2371"
+}

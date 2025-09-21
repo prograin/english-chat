@@ -5,14 +5,14 @@ export default function TelegramLoginWidget() {
   const { login } = useAuthContext();
 
   const handleTelegramAuth = (user) => {
-    fetch("localhost:3003/auth/", {
+    fetch("/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     })
       .then((res) => res.json())
-      .then(({ token, user }) => {
-        login(token, user);
+      .then(({ data }) => {
+        login(data.token, data.user);
       })
       .catch((err) => console.error("Telegram login failed", err));
   };
@@ -33,7 +33,6 @@ export default function TelegramLoginWidget() {
     document.getElementById("telegram-button-container").appendChild(script);
 
     return () => {
-      // Cleanup
       document.getElementById("telegram-button-container").innerHTML = "";
       delete window.handleTelegramAuth;
     };
