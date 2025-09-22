@@ -15,9 +15,25 @@ export const createProfileController = async (req, res, next) => {
   }
 };
 
+export const getProfileController = async (req, res, next) => {
+  try {
+    const user_id = req.user.user_id;
+    const profile = await getProfileByUserIdService(user_id);
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    res.status(200).json({ data: profile });
+  } catch (error) {
+    error.status = 401;
+    next(error);
+  }
+};
+
 export const getProfileByUserIdController = async (req, res, next) => {
   try {
-    const user_id = Number(req.query.user_id);
+    const user_id = Number(req.params.user_id);
     const profile = await getProfileByUserIdService(user_id);
 
     if (!profile) {

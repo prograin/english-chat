@@ -1,9 +1,10 @@
 // features/users/hooks/useProfile.js
 import { useEffect, useState, useCallback } from "react";
 import { fetchUserProfile, updateUserProfile } from "../services/userService";
+import { useAuthContext } from "../../auth/context/AuthContext";
 
 export default function useProfile() {
-  const [user, setUser] = useState({ firstName: "", lastName: "" });
+  const [user, setUser] = useState({ first_name: "", last_name: "" });
   const [originalUser, setOriginalUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -42,7 +43,7 @@ export default function useProfile() {
   const handleDiscard = useCallback(() => setUser(originalUser), [originalUser]);
 
   const isDirty =
-    user.firstName !== originalUser.firstName || user.lastName !== originalUser.lastName;
+    user.first_name !== originalUser.first_name || user.last_name !== originalUser.last_name;
 
   return {
     user,

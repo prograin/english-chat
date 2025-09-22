@@ -18,6 +18,7 @@ const validateMiddleware = (schema) => {
       req.validatedBody = value;
       next();
     } catch (err) {
+      err.status = 401;
       next(err);
     }
   };

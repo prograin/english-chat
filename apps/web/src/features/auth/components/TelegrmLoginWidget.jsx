@@ -1,20 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function TelegramLoginWidget() {
   const { login } = useAuthContext();
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
 
-  const handleTelegramAuth = (user) => {
-    fetch("/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        login(data.token, data.user);
-      })
-      .catch((err) => console.error("Telegram login failed", err));
+  const handleTelegramAuth = async (user) => {
+    try {
+      const res = await fetch("/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Auth failed: ${res.status} ${errText}`);
+      }
+
+      const { data } = await res.json();
+      login(data.token, data.user);
+      navigate("/user/profile");
+    } catch (err) {
+      console.error("Telegram login failed", err);
+    }
   };
 
   useEffect(() => {
@@ -26,17 +37,20 @@ export default function TelegramLoginWidget() {
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-request-access", "write");
 
-    // Expose handleTelegramAuth globally so Telegram can call it
     window.handleTelegramAuth = handleTelegramAuth;
     script.setAttribute("data-onauth", "handleTelegramAuth(user)");
 
-    document.getElementById("telegram-button-container").appendChild(script);
+    if (containerRef.current) {
+      containerRef.current.appendChild(script);
+    }
 
     return () => {
-      document.getElementById("telegram-button-container").innerHTML = "";
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
+      }
       delete window.handleTelegramAuth;
     };
   }, []);
 
-  return <div id="telegram-button-container"></div>;
+  return <div ref={containerRef}></div>;
 }

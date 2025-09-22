@@ -24,7 +24,9 @@ export const getUserByTelegramIdService = async (telegram_id: bigint) => {
   if (userId) {
     // --- 1. Try to get by user id ---
     console.log(`${userId}`);
-    user = await localAxiosInstance.get(`http://localhost:3004/users/${userId}`);
+    user = await localAxiosInstance.get(`http://localhost:3004/users/${userId}`, {
+      validateStatus: (status) => status < 500,
+    });
     if (user.status === 200) {
       return { error: false, data: user.data, status: 200 };
     } else if (user.status === 404) {

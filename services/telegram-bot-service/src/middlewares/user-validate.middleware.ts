@@ -4,7 +4,11 @@ import axios from "axios";
 import BotResponse from "src/types/bot-response.type";
 import { Next } from "src/types/next.type";
 
-export const userValidateMiddleware = async (message: Message, response: BotResponse, next: Next) => {
+export const userValidateMiddleware = async (
+  message: Message,
+  response: BotResponse,
+  next: Next
+) => {
   const userTelegramId = message.from!.id;
 
   try {
@@ -24,7 +28,7 @@ export const userValidateMiddleware = async (message: Message, response: BotResp
     console.error(error);
     if (axios.isAxiosError(error)) {
       console.error(
-        `❌ Axios error: JSON.stringify${error.response?.status} → ${
+        `❌ Axios error: ${JSON.stringify(error.response?.status)} → ${
           JSON.stringify(error.response?.data) || error.message
         }`
       );

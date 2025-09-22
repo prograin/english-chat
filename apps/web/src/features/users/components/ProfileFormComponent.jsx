@@ -6,11 +6,11 @@ export default function ProfileForm({ user, onChange, onSave, onDiscard, saving,
     <form className="profile-form">
       <label>
         First Name:
-        <input name="firstName" value={user.firstName} onChange={onChange} />
+        <input name="firstName" value={user.first_name} onChange={onChange} />
       </label>
       <label>
         Last Name:
-        <input name="lastName" value={user.lastName} onChange={onChange} />
+        <input name="lastName" value={user.last_name} onChange={onChange} />
       </label>
       <div style={{ marginTop: "1rem" }}>
         <button type="button" onClick={onSave} disabled={!isDirty || saving}>

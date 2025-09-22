@@ -1,0 +1,3 @@
+We have to care about multi runner for per service
+we can remove it by 
+pkill -f pattern-folder

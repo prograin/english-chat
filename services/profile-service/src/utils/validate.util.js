@@ -11,10 +11,17 @@ const validateUtil = async (schema, data, allowUnknown = false, stripUnknown = f
   const { error, value } = schema.validate(data, { allowUnknown, stripUnknown });
   if (error) {
     const err = new Error("Profile Return Validation Error");
-    err.status = 400; // 400 Bad Request is typical for validation failures
-    err.details = error.details; // optional: include Joi details for debugging
+    err.status = 400;
+    err.details = error.details;
     throw err;
   }
+
+  Object.keys(value).forEach((key) => {
+    if (value[key] === undefined || value[key] === null) {
+      delete value[key];
+    }
+  });
+
   return value;
 };
 

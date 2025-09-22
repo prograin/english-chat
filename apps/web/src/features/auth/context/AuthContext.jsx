@@ -7,9 +7,10 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
   // optional: load user profile on first mount if a token exists
+  //After run all child and dom , it will be runned
   useEffect(() => {
     if (token) {
-      fetch("/api/users/me", {
+      fetch("/profile/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => (res.ok ? res.json() : null))

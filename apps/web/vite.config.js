@@ -5,10 +5,15 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ["real-bobcats-cheer.loca.lt"],
+    allowedHosts: ["silver-ducks-smoke.loca.lt"],
     proxy: {
       "/auth": {
         target: "http://localhost:3003",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/profile": {
+        target: "http://localhost:3002",
         changeOrigin: true,
         secure: false,
       },
