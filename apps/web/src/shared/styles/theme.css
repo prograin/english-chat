@@ -1,0 +1,15 @@
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-shadow-light: var(--shadow-light);
+  --color-shadow-medium: var(--shadow-medium);
+  --color-shadow-heavy: var(--shadow-heavy);
+}

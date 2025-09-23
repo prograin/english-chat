@@ -1,5 +1,5 @@
-import UserRoutes from "./app/routes/UserRoutes";
-import AuthRoute from "./app/routes/AuthRoute";
+import UserRoutes from "./routes/UserRoutes";
+import AuthRoute from "./routes/AuthRoute";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

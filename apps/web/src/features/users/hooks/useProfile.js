@@ -1,7 +1,8 @@
 // features/users/hooks/useProfile.js
 import { useEffect, useState, useCallback } from "react";
 import { fetchUserProfile, updateUserProfile } from "../services/userService";
-import { useAuthContext } from "../../auth/context/AuthContext";
+import { DEFAULT_PROFILE } from "../constants/defaults.js";
+import { PROFILE_FIELDS } from "../constants/fields.js";
 
 export default function useProfile() {
   const [user, setUser] = useState({ first_name: "", last_name: "" });
@@ -13,8 +14,10 @@ export default function useProfile() {
   useEffect(() => {
     fetchUserProfile()
       .then((data) => {
-        setUser(data);
-        setOriginalUser(data);
+        const { id, user_id, latitude, longitude, ...cleaned } = data;
+        const normalized = { ...DEFAULT_PROFILE, ...cleaned };
+        setUser(normalized);
+        setOriginalUser(normalized);
         setLoading(false);
       })
       .catch(() => {
@@ -42,8 +45,12 @@ export default function useProfile() {
 
   const handleDiscard = useCallback(() => setUser(originalUser), [originalUser]);
 
-  const isDirty =
-    user.first_name !== originalUser.first_name || user.last_name !== originalUser.last_name;
+  const isDirty = PROFILE_FIELDS.some((field) => {
+    const key = field.name;
+    return user[key] !== originalUser[key];
+  });
+
+  console.log(isDirty);
 
   return {
     user,

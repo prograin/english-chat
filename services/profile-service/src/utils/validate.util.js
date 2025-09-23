@@ -16,11 +16,12 @@ const validateUtil = async (schema, data, allowUnknown = false, stripUnknown = f
     throw err;
   }
 
-  Object.keys(value).forEach((key) => {
-    if (value[key] === undefined || value[key] === null) {
-      delete value[key];
-    }
-  });
+  // DEPRECATED
+  // Object.keys(value).forEach((key) => {
+  //   if (value[key] === undefined || value[key] === null) {
+  //     delete value[key];
+  //   }
+  // });
 
   return value;
 };

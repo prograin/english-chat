@@ -44,6 +44,7 @@ export default function TelegramLoginWidget() {
       containerRef.current.appendChild(script);
     }
 
+    //Unmounted, means remove from dom, when we change the page and link to other pages
     return () => {
       if (containerRef.current) {
         containerRef.current.innerHTML = "";
