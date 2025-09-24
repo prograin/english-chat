@@ -7,6 +7,6 @@ export const DEFAULT_PROFILE = {
   interests: [],
   description: "",
   country: "",
-  capital: "",
+  state: "",
   city: "",
 };

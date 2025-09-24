@@ -2,7 +2,6 @@ import api from "../../../api";
 
 export const fetchUserProfile = async () => {
   const { data } = await api.get("/profile/me");
-  console.log(data);
   return data;
 };
 

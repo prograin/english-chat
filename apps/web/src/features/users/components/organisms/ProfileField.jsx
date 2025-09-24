@@ -17,26 +17,41 @@ export default function ProfileField({ field, value, onChange }) {
             value={fieldValue}
             onChange={onChange}
             options={field.options}
+            className="input-glass"
           />
         );
       case "multi-select":
         return (
-          <CheckboxGroup
-            label={field.label}
+          <div className="w-full">
+            <CheckboxGroup
+              name={field.name}
+              value={fieldValue}
+              onChange={onChange}
+              options={field.options}
+            />
+          </div>
+        );
+      case "textarea":
+        return (
+          <TextArea
             name={field.name}
             value={fieldValue}
             onChange={onChange}
-            options={field.options}
+            className="input-glass"
           />
         );
-      case "textarea":
-        return <TextArea name={field.name} value={fieldValue} onChange={onChange} />;
       default:
-        return <Input name={field.name} value={fieldValue} type={field.type} onChange={onChange} />;
+        return (
+          <Input
+            name={field.name}
+            value={fieldValue}
+            type={field.type}
+            onChange={onChange}
+            className="input-glass"
+          />
+        );
     }
   };
-
-  if (field.type === "multi-select") return renderField();
 
   return <FormField label={field.label}>{renderField()}</FormField>;
 }

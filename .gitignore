@@ -2,6 +2,7 @@ package-lock*
 node_modules*
 .env*
 .vscode
+apps/web/src/features/users/static
 
 # Logs
 logs

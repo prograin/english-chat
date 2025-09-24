@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import "tailwindcss";
+@import "tailwindcss";
+@import "tw-animate-css";
+
 @theme inline {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -7,9 +12,54 @@
   --color-error: var(--error);
   --color-background: var(--background);
   --color-surface: var(--surface);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
+  --color-te-text-primary: var(--text-text-primary);
+  --color-text-text-secondary: var(--text-text-secondary);
   --color-shadow-light: var(--shadow-light);
   --color-shadow-medium: var(--shadow-medium);
   --color-shadow-heavy: var(--shadow-heavy);
+
+  --font-sans: "Roboto", sans-serif;
+  --font-serif: "Georgia", serif;
+  --font-mono: "Courier New", monospace;
+
+  --spacing-xs: var(--xs);
+  --spacing-sm: var(--sm);
+  --spacing-md: var(--md);
+  --spacing-lg: var(--lg);
+  --spacing-xl: var(--xl);
+}
+
+@layer components {
+  .input-glass {
+    @apply w-full px-sm py-xs rounded-md 
+    bg-white/20 backdrop-blur-sm 
+    text-[var(text-text-primary)] border border-white/30
+    placeholder:text-[var(text-text-secondary)]/70 
+    focus:outline-none focus:ring-0 
+    transition-all duration-300 
+    hover:border-white/50;
+  }
+
+  .button-glass {
+    @apply px-sm py-xs rounded-md
+          bg-white/20 backdrop-blur-sm 
+          text-[var(text-text-primary)] border border-white/30
+          placeholder:text-[var(text-text-secondary)]
+          font-sans text-sm transition-all duration-300 
+          hover:bg-white/25 hover:border-white/50;
+  }
+
+  .checkbox-glass {
+    @apply px-md py-sm rounded-lg border font-sans text-sm
+           bg-white/20 backdrop-blur-sm
+           border-white/30 text-[var(--text-text-primary)]
+           transition-all duration-300
+           hover:border-white/70
+           hover:bg-white/45;
+  }
+
+  .checkbox-glass-checked {
+    @apply bg-primary/60 border-primary/70
+           text-[var(--text-text-primary)];
+  }
 }

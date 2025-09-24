@@ -1,7 +1,6 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserRoutes from "./routes/UserRoutes";
 import AuthRoute from "./routes/AuthRoute";
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function App() {
   return (
@@ -9,7 +8,10 @@ export default function App() {
       <Routes>
         <Route path="user/*" element={<UserRoutes />} />
         <Route path="auth/*" element={<AuthRoute />} />
-        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+        <Route
+          path="*"
+          element={<h1 className="text-center mt-20 text-3xl text-white">404 - Page Not Found</h1>}
+        />
       </Routes>
     </BrowserRouter>
   );

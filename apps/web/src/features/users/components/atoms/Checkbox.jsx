@@ -2,16 +2,16 @@ import React from "react";
 
 export default function Checkbox({ name, value, checked, onChange, label }) {
   return (
-    <label className="inline-flex items-center space-x-2">
+    <label className="flex items-center cursor-pointer select-none">
       <input
         type="checkbox"
         name={name}
         value={value}
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+        className="sr-only"
       />
-      <span className="text-primary">{label}</span>
+      <span className={`checkbox-glass ${checked ? "checkbox-glass-checked" : ""}`}>{label}</span>
     </label>
   );
 }

@@ -7,7 +7,6 @@ import "./shared/styles/index.css";
 import "./shared/styles/variables.css";
 import "./shared/styles/theme.css";
 import "./shared/styles/animations.css";
-import "./shared/styles/gradients.css";
 
 localStorage.setItem(
   "token",

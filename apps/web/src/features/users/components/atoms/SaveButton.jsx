@@ -1,20 +1,23 @@
 import React from "react";
 
-export default function SaveButton({ onClick, disabled, saving }) {
+export default function SaveButton({ onClick, disabled, saving, className }) {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-4 py-2 
+        px-sm py-xs
+        rounded
         bg-primary 
-        text-white 
-        rounded 
-        hover:bg-primary/90 
-        disabled:bg-gray-300 
-        disabled:text-gray-400
-        transition-colors
+        text-white
+        hover:bg-primary/90
+        disabled:bg-surface/50 
+        disabled:text-text-secondary/50
+        transition-colors 
+        duration-200
+        font-sans text-sm
+        ${className}
       `}
     >
       {saving ? "Saving..." : "Save"}

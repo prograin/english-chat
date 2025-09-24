@@ -1,19 +1,25 @@
-export const CAREERS = Object.freeze({
-  DEVELOPER: "Developer",
-  DESIGNER: "Designer",
-  MANAGER: "Manager",
-  TEACHER: "Teacher",
-  STUDENT: "Student",
-  OTHER: "Other",
-});
+export const CAREERS = [
+  { value: "DEVELOPER", label: "Developer" },
+  { value: "DESIGNER", label: "Designer" },
+  { value: "MANAGER", label: "Manager" },
+  { value: "TEACHER", label: "Teacher" },
+  { value: "STUDENT", label: "Student" },
+  { value: "OTHER", label: "Other" },
+];
 
-export const INTERESTS = Object.freeze({
-  CODING: "Coding",
-  MUSIC: "Music",
-  SPORTS: "Sports",
-  TRAVEL: "Travel",
-  ART: "Art",
-  READING: "Reading",
-  GAMING: "Gaming",
-  OTHER: "Other",
-});
+export const INTERESTS = [
+  { value: "CODING", label: "Coding" },
+  { value: "MUSIC", label: "Music" },
+  { value: "SPORTS", label: "Sports" },
+  { value: "TRAVEL", label: "Travel" },
+  { value: "ART", label: "Art" },
+  { value: "READING", label: "Reading" },
+  { value: "GAMING", label: "Gaming" },
+  { value: "OTHER", label: "Other" },
+];
+
+export const GENDERS = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+];
