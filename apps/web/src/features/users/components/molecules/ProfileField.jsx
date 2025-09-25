@@ -2,8 +2,8 @@ import React from "react";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
-import FormField from "../molecules/FormField";
-import CheckboxGroup from "../molecules/CheckboxGroup";
+import FormField from "./FormField";
+import CheckboxGroup from "./CheckboxGroup";
 
 export default function ProfileField({ field, value, onChange }) {
   const fieldValue = value ?? (field.type === "multi-select" ? [] : "");

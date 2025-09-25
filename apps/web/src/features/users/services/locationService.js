@@ -1,6 +1,6 @@
-import countries from "../statics/countries_with_label.json";
-import states from "../statics/states_by_country.json";
-import cities from "../statics/cities_by_state.json";
+import countries from "../assets/data/countries_with_label.json";
+import states from "../assets/data/states_by_country.json";
+import cities from "../assets/data/cities_by_state.json";
 
 export function getCountries() {
   return countries;
