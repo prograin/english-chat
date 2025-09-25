@@ -2,19 +2,21 @@
 import { Routes, Route } from "react-router-dom";
 
 import ProfileEditPage from "../features/users/pages/ProfileEditPage";
+import UserLayout from "../features/users/layouts/UserLayout";
 import AuthGuard from "../shared/components/AuthGuard";
 
 function UserRoutes() {
   return (
     <Routes>
       <Route
-        path="profile"
         element={
           <AuthGuard>
-            <ProfileEditPage />
+            <UserLayout />
           </AuthGuard>
         }
-      />
+      >
+        <Route path="profile" element={<ProfileEditPage />} />
+      </Route>
     </Routes>
   );
 }

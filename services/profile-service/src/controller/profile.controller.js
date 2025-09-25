@@ -2,6 +2,7 @@ import {
   createProfileService,
   deleteProfileByUserIdService,
   getProfileByUserIdService,
+  updateProfileByUserIdService,
 } from "../services/profile.service.js";
 
 export const createProfileController = async (req, res, next) => {
@@ -9,7 +10,7 @@ export const createProfileController = async (req, res, next) => {
     const body = req.validatedBody;
     const profile = await createProfileService(body);
 
-    res.status(201).json({ data: profile });
+    res.status(201).json({ profile: profile });
   } catch (error) {
     next(error);
   }
@@ -24,7 +25,7 @@ export const getProfileController = async (req, res, next) => {
       return res.status(404).json({ message: "Profile not found" });
     }
 
-    res.status(200).json({ data: profile });
+    res.status(200).json({ profile: profile });
   } catch (error) {
     error.status = 401;
     next(error);
@@ -40,7 +41,18 @@ export const getProfileByUserIdController = async (req, res, next) => {
       return res.status(404).json({ message: "Profile not found" });
     }
 
-    res.status(200).json({ data: profile });
+    res.status(200).json({ profile: profile });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProfileController = async (req, res, next) => {
+  try {
+    const body = req.validatedBody;
+    const user_id = req.user.user_id;
+    const profile = await updateProfileByUserIdService(user_id, body);
+    await res.status(200).json({ status: "success", profile });
   } catch (error) {
     next(error);
   }

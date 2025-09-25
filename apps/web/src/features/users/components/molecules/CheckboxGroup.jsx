@@ -5,7 +5,7 @@ export default function CheckboxGroup({ label, name, value = [], options, onChan
   return (
     <div className="mb-md w-full">
       {/* Group label */}
-      <div className="text-text-primary font-medium mb-sm font-sans">{label}</div>
+      <div className="text-[var(--text-primary)] font-medium mb-sm font-sans">{label}</div>
 
       {/* Checkboxes */}
       <div className="flex flex-wrap gap-sm mt-xs">

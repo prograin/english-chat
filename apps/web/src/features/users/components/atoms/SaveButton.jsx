@@ -13,7 +13,7 @@ export default function SaveButton({ onClick, disabled, saving, className }) {
         text-white
         hover:bg-primary/90
         disabled:bg-surface/50 
-        disabled:text-text-secondary/50
+        disabled:text-[var(--text-secondary)]/50
         transition-colors 
         duration-200
         font-sans text-sm

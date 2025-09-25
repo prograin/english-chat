@@ -1,9 +1,9 @@
 export const DEFAULT_PROFILE = {
   first_name: "",
   last_name: "",
-  age: null,
-  gender: null,
-  career: null,
+  age: 0,
+  gender: "",
+  career: "",
   interests: [],
   description: "",
   country: "",

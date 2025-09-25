@@ -1,4 +1,9 @@
-import { createProfile, deleteProfileByUserId, getProfileByUserId } from "../repositories/profile.repository.js";
+import {
+  createProfile,
+  deleteProfileByUserId,
+  getProfileByUserId,
+  updateProfileByUserId,
+} from "../repositories/profile.repository.js";
 import validateUtil from "../utils/validate.util.js";
 import { responseProfileSchema } from "../schemas/profile.schema.js";
 
@@ -23,7 +28,7 @@ export const createProfileService = async (data, options = {}) => {
   });
 
   const profile = await createProfile(data);
-  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true);
+  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
 };
 
 /**
@@ -35,7 +40,25 @@ export const createProfileService = async (data, options = {}) => {
 export const getProfileByUserIdService = async (user_id, options = {}) => {
   const profile = await getProfileByUserId(user_id, options);
   if (!profile) return null;
-  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true);
+  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+};
+
+/**
+ * @param {number} user_id
+ * @param {Object} data
+ * @returns {Promise<Object>}
+ * @throws {Error}
+ */
+export const updateProfileByUserIdService = async (user_id, data, options = {}) => {
+  const updatedCount = await updateProfileByUserId(user_id, data, options);
+
+  if (updatedCount === 0) {
+    const error = new Error(`Profile not found or not updated for user_id ${user_id}`);
+    error.status = 404;
+    throw error;
+  }
+  const profile = await getProfileByUserIdService(user_id, options);
+  return profile;
 };
 
 /**

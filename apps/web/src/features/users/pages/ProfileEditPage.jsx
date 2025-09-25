@@ -25,15 +25,12 @@ export default function ProfileEditPage() {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div
-      className="min-h-screen flex justify-center items-center p-6
-                 animate-gradient bg-gradient-to-r from-primary via-secondary to-accent"
-    >
+    <div className="flex justify-center p-2 pt-5">
       <div
-        className="w-full max-w-3xl mt-3 p-6 sm:p-8 rounded-2xl
-                   bg-surface/20 backdrop-blur-md shadow-lg"
+        className="w-full max-w-3xl p-6 sm:p-8 rounded-2xl
+               bg-surface/20 backdrop-blur-md shadow-lg"
       >
-        <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-6 font-sans">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6 font-sans">
           Edit Profile
         </h2>
         <ProfileForm

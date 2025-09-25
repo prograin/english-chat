@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileField from "./ProfileField";
+import ProfileField from "../molecules/ProfileField";
 import { PROFILE_FIELDS } from "../../constants/fields";
 import SaveButton from "../atoms/SaveButton";
 import DiscardButton from "../atoms/DiscardButton";

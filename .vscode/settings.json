@@ -1,3 +1,15 @@
 {
-  "sqltools.connections": []
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "english-chat",
+      "username": "postgres",
+      "password": "735915Pcg1999",
+      "database": "english_chat_db"
+    }
+  ]
 }

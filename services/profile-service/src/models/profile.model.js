@@ -1,6 +1,8 @@
 import sequelize from "../config/postgres.js";
-import { CAREERS, INTERESTS } from "../config/constants.js";
 import { DataTypes } from "sequelize";
+import { GENDER_VALUES } from "../../../../shared/constants/genders.js";
+import { CAREER_VALUES } from "../../../../shared/constants/careers.js";
+import { INTEREST_VALUES } from "../../../../shared/constants/interests.js";
 
 const ProfileModel = sequelize.define(
   "Profiles",
@@ -36,12 +38,12 @@ const ProfileModel = sequelize.define(
     },
     gender: {
       type: DataTypes.STRING,
-      validate: { isIn: ["male", "female", "other"] },
+      validate: { isIn: [...GENDER_VALUES] },
       allowNull: true,
     },
     career: {
       type: DataTypes.STRING,
-      validate: { isIn: [...CAREERS] },
+      validate: { isIn: [...CAREER_VALUES] },
       allowNull: true,
     },
     interests: {
@@ -56,7 +58,7 @@ const ProfileModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    capital: {
+    state: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -24,6 +24,22 @@ export const getProfileByUserId = async (user_id, options = {}) => {
 };
 
 /**
+ * Updates a user profile by user ID.
+ * @param {number} user_id - The ID of the user.
+ * @param {object} data - Data to update.
+ * @param {object} [options] - Optional Sequelize options (e.g., transaction).
+ * @returns {Promise<Number>}
+ */
+export const updateProfileByUserId = async (user_id, data, options = {}) => {
+  const [updatedCount, updatedRows] = await ProfileModel.update(data, {
+    where: { user_id: user_id },
+    ...options,
+  });
+
+  return updatedCount;
+};
+
+/**
  * Deletes a user profile by user ID.
  * @param {number} user_id - The ID of the user whose profile should be deleted.
  * @param {object} [options] - Optional Sequelize options (e.g., transaction).
