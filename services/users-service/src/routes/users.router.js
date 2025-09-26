@@ -1,6 +1,6 @@
 import express from "express";
 import schemaUsers from "../schemas/users.schema.js";
-import validate from "../middlewares/validate.js";
+import validate from "../middlewares/validate.middleware.js";
 
 import {
   getAllUsersController,

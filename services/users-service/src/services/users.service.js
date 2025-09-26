@@ -1,8 +1,14 @@
 import UsersCache from "../cache/users.cache.js";
-import UsersRepository from "../repositories/users.repository.js";
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  getUserByTelegramId,
+} from "../repositories/users.repository.js";
 import { usersResponseSchema } from "../schemas/users.schema.js";
-import { validateSchemaUtil } from "../utils/validate.util.js";
+import validateUtil from "../utils/validate.util.js";
 import axios from "axios";
+import { createProfileService } from "./profile.service.js";
 
 // ------------------------------------------------------
 // SET
@@ -18,28 +24,28 @@ export const createUserService = async (data) => {
     if (data[key] === undefined) delete data[key];
   });
 
-  const existingUser = await UsersRepository.getUser(data.id);
+  const existingUser = await getUser(data.id);
   if (existingUser) {
-    const value = await validateSchemaUtil(usersResponseSchema, existingUser.toJSON(), false, true);
+    const value = await validateUtil(usersResponseSchema, existingUser.toJSON(), false, true);
     await UsersCache.addUser(existingUser.id, value);
     const error = new Error("User already exists");
-    error.statusCode = 409;
+    error.status = 409;
     throw error;
   }
 
   let user, presence, profile;
 
   try {
-    user = await UsersRepository.createUser(data);
+    user = await createUser(data);
+    profile = await createProfileService({ user_id: Number(user.id) });
     presence = await axios.post("http://localhost:3001/presence/", { user_id: Number(user.id) });
-    profile = await axios.post("http://localhost:3002/profile/", { user_id: Number(user.id) });
   } catch (err) {
-    if (user) await UsersRepository.deleteUser(user.id);
+    if (user) await deleteUser(user.id);
 
     throw err;
   }
 
-  const value = await validateSchemaUtil(usersResponseSchema, user.toJSON(), false, true);
+  const value = await validateUtil(usersResponseSchema, user.toJSON(), false, true);
   await UsersCache.addUser(user.id, value);
 
   return value;
@@ -59,15 +65,15 @@ export const getUserService = async (id) => {
   user = await UsersCache.getUser(id);
   if (user) return user;
 
-  user = await UsersRepository.getUser(id);
+  user = await getUser(id);
   if (user) {
-    const value = await validateSchemaUtil(usersResponseSchema, user.toJSON(), false, true);
+    const value = await validateUtil(usersResponseSchema, user.toJSON(), false, true);
     await UsersCache.addUser(id, value);
     return value;
   } else {
     await UsersCache.deleteUser(id);
     const error = new Error("User not found");
-    error.statusCode = 404;
+    error.status = 404;
     throw error;
   }
 };
@@ -78,14 +84,14 @@ export const getUserService = async (id) => {
  * @returns
  */
 export const getUserByTelegramIdService = async (id) => {
-  const user = await UsersRepository.getUserByTelegramId(id);
+  const user = await getUserByTelegramId(id);
   if (user) {
-    const value = await validateSchemaUtil(usersResponseSchema, user.toJSON(), false, true);
+    const value = await validateUtil(usersResponseSchema, user.toJSON(), false, true);
     await UsersCache.addUser(user.id, value);
     return value;
   } else {
     const error = new Error("User not found");
-    error.statusCode = 404;
+    error.status = 404;
     throw error;
   }
 };
@@ -95,7 +101,7 @@ export const getUserByTelegramIdService = async (id) => {
  * @returns
  */
 export const getAllUsersService = async () => {
-  return await UsersRepository.listUsers();
+  return await listUsers();
 };
 
 /**
@@ -104,12 +110,12 @@ export const getAllUsersService = async () => {
  * @returns
  */
 export const deleteUserService = async (id) => {
-  const user = await UsersRepository.getUser(id);
+  const user = await getUser(id);
   if (user) {
-    return await UsersRepository.deleteUser(id);
+    return await deleteUser(id);
   } else {
     const error = new Error(`User ${id} was not found`);
-    error.statusCode = 404;
+    error.status = 404;
     throw error;
   }
 };
