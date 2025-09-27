@@ -1,5 +1,5 @@
 import { Op, where } from "sequelize";
-import usersModel from "../../../src/models/users.model";
+import usersModel from "../../../services/users-service/src/models/users.model";
 
 `
 User.update() expects one object, not an array.

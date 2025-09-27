@@ -1,0 +1,1 @@
+curl.exe -X POST "http://localhost:3004/users" -H "Content-Type: application/json" -d '{\"id\":11,\"telegram_id\":1221951839}'      
