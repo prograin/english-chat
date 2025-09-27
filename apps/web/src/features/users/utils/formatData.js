@@ -1,11 +1,9 @@
 import { PROFILE_FIELDS } from "../constants/fields";
 
-export const formatProfileData = (data) => {
-  const formatted = {};
-  PROFILE_FIELDS.forEach((field) => {
-    let value = data[field.name] ?? field.default;
-    if (field.formatter) value = field.formatter(value);
-    formatted[field.name] = value;
-  });
-  return formatted;
-};
+export const formatProfileData = (data) =>
+  PROFILE_FIELDS.reduce((acc, { name, formatter }) => {
+    const raw = data[name];
+    if (raw == null) return acc; // skip null / undefined
+    acc[name] = formatter ? formatter(raw) : raw;
+    return acc;
+  }, {});
