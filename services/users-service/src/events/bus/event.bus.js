@@ -5,12 +5,13 @@ class EventBus {
   constructor() {
     this.handlers = {};
   }
-
   async init() {
-    const channels = [];
+    const channels = [CHANNELS.USER.BUTTON.ANY.CLICKED];
     await subscriber.subscribe(...channels);
 
     subscriber.on("message", async (channel, message) => {
+      console.log(`📩 Event received [${channel}]: ${message}`);
+
       if (this.handlers[channel]) {
         for (const handler of this.handlers[channel]) {
           await handler(JSON.parse(message));
