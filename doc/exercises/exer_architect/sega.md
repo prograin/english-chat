@@ -1,2 +1,0 @@
-- We use sega instead of transaction in sequalize
-- We use it when we have multi service and we want they acting like a transaction

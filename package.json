@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.19.1"
   }
 }
