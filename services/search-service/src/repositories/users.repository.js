@@ -1,37 +1,49 @@
 import { esClient } from "../config/elastic.js";
 
-export const indexUser = async (profile) => {
+export const indexUserRepository = async (user) => {
   return esClient.index({
     index: "users",
-    document: profile,
+    document: user,
   });
 };
 
-export const indexUserById = async (id, profile) => {
+export const indexUserByIdRepository = async (id, user) => {
   return esClient.index({
     index: "users",
     id,
-    document: profile,
+    document: user,
   });
 };
 
-export const searchUsers = async (query) => {
-  return esClient.search({
-    index: "users",
-    body: query,
-  });
-};
-
-export const getUserById = async (id) => {
+export const getUserByIdRepository = async (id) => {
   return esClient.get({
     index: "users",
     id,
   });
 };
 
-export const deleteUser = async (id) => {
+export const deleteUserRepository = async (id) => {
   return esClient.delete({
     index: "users",
     id,
   });
+};
+
+export const updateUserRepository = async (id, fieldsToUpdate) => {
+  return esClient.update({
+    index: "users",
+    id,
+    doc: fieldsToUpdate,
+  });
+};
+
+export const bulkUpdateUsersRepository = async (users) => {
+  if (!users || !users.length) return null;
+
+  const body = users.flatMap((user) => [
+    { update: { _index: "users", _id: user.id } },
+    { doc: user.fields },
+  ]);
+
+  return esClient.bulk({ refresh: true, body });
 };

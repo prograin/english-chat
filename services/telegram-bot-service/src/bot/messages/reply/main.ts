@@ -1,5 +1,5 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
-import { ma_main_in } from "src/markups/inline.markup";
+import { ma_main_in } from "src/bot/markups/inline.markup";
 
 export const main = async (bot: TelegramBot, message: Message) => {
   try {

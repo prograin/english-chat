@@ -1,7 +1,7 @@
 require("module-alias/register");
 
 import app from "./app";
-import runBot from "./bot";
+import runBot from "./bot-entry";
 import dotenv from "dotenv";
 
 dotenv.config();

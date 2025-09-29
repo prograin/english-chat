@@ -1,10 +1,10 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
-import start from "src/messages/reply/start";
-import profile from "src/messages/reply/profile";
-import { userButtonClickedMiddleware } from "src/middlewares/user-button-clicked.middleware";
-import { messageValidateMiddleware } from "src/middlewares/message-validate.middleware";
-import { userValidateMiddleware } from "src/middlewares/user-validate.middleware";
-import { middlewareRunner } from "src/middlewares/runner/middleware-runner";
+import start from "src/bot/messages/reply/start";
+import profile from "src/bot/messages/reply/profile";
+import { userButtonClickedInterceptor } from "src/interceptor/user-button-clicked.interceptor";
+import { messageValidateInterceptor } from "src/interceptor/message-validate.interceptor";
+import { userValidateInterceptor } from "src/interceptor/user-validate.interceptor";
+import { middlewareRunner } from "src/interceptor/runner/interceptor-runner";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -20,7 +20,7 @@ export class ManageHandlers {
       /\/start/,
       middlewareRunner(
         this.bot,
-        [messageValidateMiddleware, userValidateMiddleware, userButtonClickedMiddleware],
+        [messageValidateInterceptor, userValidateInterceptor, userButtonClickedInterceptor],
         start
       )
     );

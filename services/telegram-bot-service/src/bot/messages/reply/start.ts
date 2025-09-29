@@ -1,6 +1,6 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 
-import { ma_main_in } from "src/markups/inline.markup";
+import { ma_main_in } from "src/bot/markups/inline.markup";
 import Response from "src/types/bot-response.type";
 import { createUserService } from "src/services/user.service";
 import axios from "axios";
@@ -30,7 +30,11 @@ export default async (bot: TelegramBot, message: Message, response: Response) =>
   } catch (error: any) {
     console.error(error);
     if (axios.isAxiosError(error)) {
-      console.error(`❌ Axios error: ${error.response?.status} → ${JSON.stringify(error.response?.data) || error.message}`);
+      console.error(
+        `❌ Axios error: ${error.response?.status} → ${
+          JSON.stringify(error.response?.data) || error.message
+        }`
+      );
     } else {
       console.error(`❌ Unexpected error:`, error);
     }

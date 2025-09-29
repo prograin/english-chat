@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { SocksProxyAgent } from "socks-proxy-agent";
-import { ManageHandlers } from "src/handlers/handlers";
+import { ManageHandlers } from "src/handlers/bot.handler";
 import TelegramBot from "node-telegram-bot-api";
 
 const proxy = process.env.PROXY;

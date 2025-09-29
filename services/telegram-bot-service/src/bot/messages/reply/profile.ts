@@ -1,5 +1,5 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
-import { ma_profile_in } from "src/markups/inline.markup";
+import { ma_profile_in } from "src/bot/markups/inline.markup";
 
 export default async (bot: TelegramBot, message: Message) => {
   const chatId = message.chat.id;

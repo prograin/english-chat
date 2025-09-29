@@ -1,5 +1,5 @@
 import esClient from "../config/elastic.js";
-import { userMapping } from "./usersIndex.js";
+import { userMapping } from "./users.index.js";
 
 /**
  * @param {String} indexName

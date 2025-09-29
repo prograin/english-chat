@@ -4,7 +4,7 @@ import axios from "axios";
 import BotResponse from "src/types/bot-response.type";
 import { Next } from "src/types/next.type";
 
-export const userValidateMiddleware = async (
+export const userValidateInterceptor = async (
   message: Message,
   response: BotResponse,
   next: Next
