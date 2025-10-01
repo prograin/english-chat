@@ -12,9 +12,9 @@ if (proxy) {
 const token = process.env.BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is not set in .env");
 
-const runBot = async () => {
-  const bot = new TelegramBot(token, { polling: true });
+export const bot = new TelegramBot(token, { polling: true });
 
+const runBot = async () => {
   new ManageHandlers(bot);
 };
 

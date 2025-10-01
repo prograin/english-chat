@@ -1,5 +1,6 @@
 export default interface User {
-  id?: bigint;
-  telegram_id?: bigint;
+  id?: bigint | null;
+  telegram_id?: bigint | null;
+  token?: string | null;
   exists: boolean;
 }

@@ -1,0 +1,19 @@
+{
+  "message_id": 345,
+  "from": {
+    "id": 6608912631,
+    "is_bot": false,
+    "first_name": "A.",
+    "language_code": "en"
+  },
+  "chat": {
+    "id": 6608912631,
+    "first_name": "A.",
+    "type": "private"
+  },
+  "date": 1759211620,
+  "text": "/start",
+  "entities": [
+    { "offset": 0, "length": 6, "type": "bot_command" }
+  ]
+}

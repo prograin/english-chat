@@ -9,7 +9,7 @@ class InlineName {
   static in_search_career_n = "By Career";
 }
 
-class InlineCallback {
+export class InlineCallback {
   static in_random_chat_c = "RANDOMCHAT::";
   static in_profile_c = "PROFILE::";
   static in_coin_c = "COIN::";

@@ -1,10 +1,4 @@
-import {
-  getUserByTelegramIdService,
-  createUserService,
-  getAllUsersService,
-  getUserService,
-  deleteUserService,
-} from "../services/users.service.js";
+import { getUserByTelegramIdService, createUserService, getAllUsersService, getUserService, deleteUserService } from "../services/users.service.js";
 
 //Create New User When User Start Telegram -->> If exists, it will be returned
 export const postUserController = async (req, res, next) => {
@@ -18,14 +12,14 @@ export const postUserController = async (req, res, next) => {
   }
 };
 
-// Get all users
-export const getAllUsersController = async (req, res) => {
+export const getMyUserController = async (req, res, next) => {
   try {
-    const users = await getAllUsersService();
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "server error" });
+    const userId = req.user.userId;
+    const user = await getUserService(userId);
+
+    return res.status(200).json(user);
+  } catch (err) {
+    next(err);
   }
 };
 

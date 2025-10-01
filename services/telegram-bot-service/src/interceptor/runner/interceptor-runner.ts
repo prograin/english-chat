@@ -1,22 +1,24 @@
-import TelegramBot, { Message } from "node-telegram-bot-api";
+import TelegramBot from "node-telegram-bot-api";
 import { BotCallback } from "src/types/bot-callback.type";
 import { Interceptors } from "src/types/interceptor.type";
 import { botResponseDefault } from "src/types/bot-response.type";
+import { BotEvent } from "src/types/bot-event.type";
 
-export const middlewareRunner = (
+export const interceptorRunner = (
   bot: TelegramBot,
   middlewares: Interceptors,
   callback: BotCallback
 ) => {
-  return async (msg: Message) => {
+  return async (event: BotEvent) => {
+    console.log(event);
     let index = -1;
     const response = botResponseDefault;
     const next = async () => {
       index++;
       if (index < middlewares.length) {
-        middlewares[index](msg, response, next);
+        middlewares[index](event, response, next);
       } else {
-        await callback(bot, msg, response);
+        await callback(bot, event, response);
       }
     };
     await next();

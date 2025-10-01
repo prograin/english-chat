@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import ProfileModel from "../models/profile.model.js";
 
 /**
@@ -19,6 +20,19 @@ export const createProfile = async (data, options = {}) => {
 export const getProfileByUserId = async (user_id, options = {}) => {
   return await ProfileModel.findOne({
     where: { user_id },
+    ...options,
+  });
+};
+
+/**
+ * Retrieves a user profile by user ID.
+ * @param {number[]} user_ids - The ID of the user.
+ * @param {object} [options] - Optional Sequelize options (e.g., transaction).
+ * @returns {Promise<ProfileModel[]|null>} The found profile instance or null.
+ */
+export const getProfilesByUserIds = async (user_ids, options = {}) => {
+  return await ProfileModel.findAll({
+    where: { user_id: { [Op.in]: user_ids } },
     ...options,
   });
 };
