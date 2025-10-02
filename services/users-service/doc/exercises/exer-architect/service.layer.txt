@@ -1,5 +1,0 @@
-Handles higher-level logic, including caching. So the service can:
-Check the cache first.
-If not found, call the repository to get it from the DB.
-Save the result into the cache for next time.
-Return the user to the caller.

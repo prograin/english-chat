@@ -1,6 +1,6 @@
 package-lock*
 node_modules*
-.env*
+*.env*
 .vscode
 apps/web/src/features/users/static
 

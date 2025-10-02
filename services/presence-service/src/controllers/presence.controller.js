@@ -1,12 +1,9 @@
-import {
-  createPresenceService,
-  getPresenceByUserIdService,
-  deletePresenceByUserIdService,
-} from "../services/presence.service.js";
+import { createPresenceService, getPresenceByUserIdService, deletePresenceByUserIdService } from "../services/presence.service.js";
 
 export const postPresenceController = async (req, res, next) => {
   try {
-    const data = req.validatedBody;
+    const data = { ...(req.validatedBody || {}), user_id: req.params.userId };
+
     const presence = await createPresenceService(data);
 
     res.status(201).json({ data: presence });
@@ -17,7 +14,7 @@ export const postPresenceController = async (req, res, next) => {
 
 export const getPresenceByUserIdController = async (req, res, next) => {
   try {
-    const user_id = Number(req.query.user_id);
+    const user_id = Number(req.query.userId);
 
     if (user_id) {
       const presence = await getPresenceByUserIdService(user_id);
@@ -34,7 +31,7 @@ export const getPresenceByUserIdController = async (req, res, next) => {
 
 export const deletePresenceByUserIdController = async (req, res, next) => {
   try {
-    const user_id = Number(req.query.user_id);
+    const user_id = Number(req.params.user_id);
 
     if (!user_id) {
       return res.status(400).json({ message: "user_id is required" });

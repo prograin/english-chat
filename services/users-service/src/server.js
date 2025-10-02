@@ -1,7 +1,6 @@
 import "module-alias/register.js";
 import sequelize from "./config/postgres.js";
 import app from "./app.js";
-import eventbus from "./events/bus/eventbus.js";
 
 console.log("Database connected!");
 

@@ -1,0 +1,34 @@
+{
+  "id": "714947504282616999",
+  "from": {
+    "id": 6608912631,
+    "is_bot": false,
+    "first_name": "A.",
+    "language_code": "en"
+  },
+  "message": {
+    "message_id": 342,
+    "from": {
+      "id": 8485307841,
+      "is_bot": true,
+      "first_name": "English Chat",
+      "username": "ENGLISH_CHAT_AI_bot"
+    },
+    "chat": {
+      "id": 6608912631,
+      "first_name": "A.",
+      "type": "private"
+    },
+    "date": 1759210422,
+    "text": "Welcome Back A.",
+    "reply_markup": {
+      "inline_keyboard": [
+        [
+          { "text": "Search", "callback_data": "SEARCH::" }
+        ]
+      ]
+    }
+  },
+  "chat_instance": "3794604839316595815",
+  "data": "SEARCH::"
+}

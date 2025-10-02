@@ -5,9 +5,12 @@ import {
   updateProfileByUserIdService,
 } from "../services/profile.service.js";
 
-export const createProfileController = async (req, res, next) => {
+export const createProfileByUserIdController = async (req, res, next) => {
   try {
+    const userId = Number(req.params.userId);
     const body = req.validatedBody;
+    body.id = userId;
+
     const profile = await createProfileService(body);
 
     res.status(201).json({ profile: profile });
@@ -16,10 +19,10 @@ export const createProfileController = async (req, res, next) => {
   }
 };
 
-export const getProfileController = async (req, res, next) => {
+export const getMyProfileController = async (req, res, next) => {
   try {
-    const user_id = req.user.user_id;
-    const profile = await getProfileByUserIdService(user_id);
+    const userId = req.user.userId;
+    const profile = await getProfileByUserIdService(userId);
 
     if (!profile) {
       return res.status(404).json({ message: "Profile not found" });
@@ -34,8 +37,8 @@ export const getProfileController = async (req, res, next) => {
 
 export const getProfileByUserIdController = async (req, res, next) => {
   try {
-    const user_id = Number(req.params.user_id);
-    const profile = await getProfileByUserIdService(user_id);
+    const userId = Number(req.params.userId);
+    const profile = await getProfileByUserIdService(userId);
 
     if (!profile) {
       return res.status(404).json({ message: "Profile not found" });
@@ -47,11 +50,32 @@ export const getProfileByUserIdController = async (req, res, next) => {
   }
 };
 
-export const updateProfileController = async (req, res, next) => {
+export const getProfilesByUserIdsController = async (req, res, next) => {
+  try {
+    const userIds = req.query.userIds;
+
+    if (!userIds) {
+      return res.status(400).json({ message: "userIds query parameter is required" });
+    }
+
+    const idsArray = userIds.split(",").map((id) => Number(id.trim()));
+    if (idsArray.some(isNaN)) {
+      return res.status(400).json({ message: "All userIds must be valid numbers" });
+    }
+
+    const profiles = await getProfilesByUserIdsService(idsArray);
+
+    return res.json(profiles);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateMyProfileController = async (req, res, next) => {
   try {
     const body = req.validatedBody;
-    const user_id = req.user.user_id;
-    const profile = await updateProfileByUserIdService(user_id, body);
+    const userId = req.user.userId;
+    const profile = await updateProfileByUserIdService(userId, body);
     await res.status(200).json({ status: "success", profile });
   } catch (error) {
     next(error);
@@ -60,12 +84,12 @@ export const updateProfileController = async (req, res, next) => {
 
 export const deleteProfileByUserIdController = async (req, res, next) => {
   try {
-    const user_id = Number(req.query.user_id);
-    if (!user_id) {
+    const userId = Number(req.params.userId);
+    if (!userId) {
       return res.status(400).json({ message: "User id has not been defined" });
     }
 
-    await deleteProfileByUserIdService(user_id);
+    await deleteProfileByUserIdService(userId);
     res.status(200).json({ message: "User has been deleted" });
   } catch (error) {
     next(error);

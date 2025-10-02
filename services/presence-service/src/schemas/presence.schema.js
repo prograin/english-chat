@@ -9,14 +9,14 @@ const baseSchema = {
 
 // CREATE schema
 export const createPresencesSchema = Joi.object({
-  user_id: baseSchema.user_id,
+  user_id: baseSchema.user_id.optional(),
   last_active: baseSchema.last_active.optional(),
   status: baseSchema.status.optional(),
 });
 
 // UPDATE schema
 export const updatePresencesSchema = Joi.object({
-  user_id: baseSchema.user_id,
+  user_id: baseSchema.user_id.optional(),
   last_active: baseSchema.last_active.required(),
   status: baseSchema.status.optional(),
 });

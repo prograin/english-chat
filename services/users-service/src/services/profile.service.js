@@ -3,6 +3,7 @@ import {
   deleteProfileByUserId,
   getProfileByUserId,
   updateProfileByUserId,
+  getProfilesByUserIds,
 } from "../repositories/profile.repository.js";
 import validateUtil from "../utils/validate.util.js";
 import { responseProfileSchema } from "../schemas/profile.schema.js";
@@ -41,6 +42,25 @@ export const getProfileByUserIdService = async (user_id, options = {}) => {
   const profile = await getProfileByUserId(user_id, options);
   if (!profile) return null;
   return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+};
+
+/**
+ * retrieve a profile by user_id
+ * @param {list[]} user_ids
+ * @param {Object} options
+ * @returns {Promise<Object>}
+ */
+export const getProfilesByUserIdsService = async (user_ids, options = {}) => {
+  const profiles = await getProfilesByUserIds(user_ids, options);
+  if (!profiles || profiles.length === 0) return null;
+
+  const validatedProfiles = await Promise.all(
+    profiles.map((profile) =>
+      validateUtil(responseProfileSchema, profile.toJSON(), false, true, false)
+    )
+  );
+
+  return validatedProfiles;
 };
 
 /**

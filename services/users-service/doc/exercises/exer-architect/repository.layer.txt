@@ -1,1 +1,0 @@
-Only deals with the database (CRUD). It doesn’t need to know about caching. Keeps separation of concerns clean.

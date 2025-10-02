@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "outDir": "dist",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "baseUrl": "src",

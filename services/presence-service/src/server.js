@@ -1,11 +1,11 @@
-import app from "../src/app.js";
 import dotenv from "dotenv";
+dotenv.config({ path: ".presence.env" });
+
+import app from "../src/app.js";
 import eventBus from "./events/bus/event.bus.js";
 import { initUserButtonClickedSubscriber } from "./events/subscribers/user-button-clicked.subscriber.js";
 import { syncPresenceCacheJob } from "./jobs/sync-cache.job.js";
 import sequelize from "./config/postgres.js";
-
-dotenv.config();
 
 (async () => {
   try {

@@ -18,7 +18,7 @@ export const createPresenceService = async (data) => {
   const existing = await getPresenceByUserIdRepository(data.user_id);
   if (existing) {
     const error = new Error("Presence already exists for this user");
-    error.statusCode = 409;
+    error.status = 409;
     throw error;
   }
 

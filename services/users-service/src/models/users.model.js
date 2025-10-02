@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import dotenv from "dotenv";
 import sequelize from "../config/postgres.js";
 
-dotenv.config();
+dotenv.config({ path: ".users.env" });
 
 const usersModel = sequelize.define(
   "Users",

@@ -4,5 +4,5 @@ export default interface BotResponse {
 }
 
 export const botResponseDefault = {
-  user: { exists: false },
+  user: { exists: false, id: null },
 };
