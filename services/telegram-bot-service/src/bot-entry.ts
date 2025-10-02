@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: ".telegram.env" });
 
 import { ManageHandlers } from "src/handlers/bot.handler";
 import TelegramBot from "node-telegram-bot-api";

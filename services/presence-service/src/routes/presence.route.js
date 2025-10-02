@@ -2,10 +2,12 @@ import express from "express";
 import { createPresencesSchema } from "../schemas/presence.schema.js";
 import { postPresenceController, deletePresenceByUserIdController } from "../controllers/presence.controller.js";
 import { validate } from "../middlewares/validate.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { allowRole } from "../../../users-service/src/middlewares/allow-role.middleware.js";
 
-const router = express.Router();
+export const adminPresenceRouter = express.Router();
 
-router.post("/", validate(createPresencesSchema), postPresenceController);
-router.delete("/", deletePresenceByUserIdController);
+adminPresenceRouter.use(authMiddleware, allowRole("admin"));
 
-export default router;
+adminPresenceRouter.post("/user/:userId/presence", validate(createPresencesSchema), postPresenceController);
+adminPresenceRouter.delete("/user/:userId/presence", deletePresenceByUserIdController);

@@ -1,5 +1,3 @@
-import { AdminAxiosInstance } from "src/utils/axios.util";
-import UsersCache from "src/cache/user.cache";
 import { AdminService, UserService } from "src/services/user.service";
 
 export class UserController {

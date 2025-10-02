@@ -4,7 +4,7 @@ import { PayloadType } from "src/types/payload.type";
 
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: ".telegram.env" });
 
 export const generateUserToken = async (payload: PayloadType) => {
   const secret = process.env.JWT_SECRET as Secret;

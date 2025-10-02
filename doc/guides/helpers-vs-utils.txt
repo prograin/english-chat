@@ -1,0 +1,11 @@
+utile --> is so generic which can be used for all features.
+helper --> specify for a specific feature and domain.
+
+example:
+
+helper
+|- users.helper.js
+|- profile.helper.js
+
+util
+|-generate-token

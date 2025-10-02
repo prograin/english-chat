@@ -1,14 +1,10 @@
 import UsersCache from "../cache/users.cache.js";
-import {
-  createUser,
-  deleteUser,
-  getUser,
-  getUserByTelegramId,
-} from "../repositories/users.repository.js";
+import { createUser, deleteUser, getUser, getUserByTelegramId } from "../repositories/users.repository.js";
 import { usersResponseSchema } from "../schemas/users.schema.js";
 import validateUtil from "../utils/validate.util.js";
 import axios from "axios";
 import { createProfileService } from "./profile.service.js";
+import { AdminAxiosInstance } from "../utils/axios.util.js";
 
 // ------------------------------------------------------
 // SET
@@ -38,8 +34,8 @@ export const createUserService = async (data) => {
   try {
     user = await createUser(data);
     profile = await createProfileService({ user_id: Number(user.id) });
-    presence = await axios.post("http://localhost:3001/presence/", { user_id: Number(user.id) });
-    search = await axios.post(`http://localhost:3005/users/${user.id}`);
+    presence = await AdminAxiosInstance.post(`http://localhost:3001/admin/user/${user.id}/presence/`);
+    search = await AdminAxiosInstance.post(`http://localhost:3005/admin/user/${user.id}/index`);
   } catch (err) {
     if (user) await deleteUser(user.id);
 
@@ -95,14 +91,6 @@ export const getUserByTelegramIdService = async (id) => {
     error.status = 404;
     throw error;
   }
-};
-
-/**
- * Get all users
- * @returns
- */
-export const getAllUsersService = async () => {
-  return await listUsers();
 };
 
 /**

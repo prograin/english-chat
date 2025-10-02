@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { initIndexes } from "./indexes/indexManager.js";
 import app from "./app.js";
 
-dotenv.config();
+dotenv.config({ path: ".search.env" });
 
 (async () => {
   try {

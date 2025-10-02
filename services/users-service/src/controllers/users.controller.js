@@ -1,4 +1,4 @@
-import { getUserByTelegramIdService, createUserService, getAllUsersService, getUserService, deleteUserService } from "../services/users.service.js";
+import { getUserByTelegramIdService, createUserService, getUserService, deleteUserService } from "../services/users.service.js";
 
 //Create New User When User Start Telegram -->> If exists, it will be returned
 export const postUserController = async (req, res, next) => {

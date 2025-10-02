@@ -5,7 +5,7 @@ import { AdminController } from "src/controllers/bot.user.controller";
 import { getUserToken } from "src/cache/auth.cache";
 import { generateUserToken, verifyUserToken } from "src/utils/auth.util";
 
-dotenv.config();
+dotenv.config({ path: ".telegram.env" });
 
 /**
  * Authenticates a user via Telegram data.

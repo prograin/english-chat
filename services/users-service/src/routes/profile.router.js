@@ -4,12 +4,12 @@ import validateMiddleware from "../middlewares/validate.middleware.js";
 import { updateProfileSchema } from "../schemas/profile.schema.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+export const selfProfileRouter = express.Router();
+export const userProfileRouter = express.Router();
+export const adminProfileRouter = express.Router();
 
-router.put("/me", authMiddleware, validateMiddleware(updateProfileSchema), updateMyProfileController);
-router.get("/me", authMiddleware, getMyProfileController);
-
-export default router;
+selfProfileRouter.put("/me", authMiddleware, validateMiddleware(updateProfileSchema), updateMyProfileController);
+selfProfileRouter.get("/me", authMiddleware, getMyProfileController);
 
 // GET    user/:userId/profiles/me
 // POST   user/:userId/profiles/me

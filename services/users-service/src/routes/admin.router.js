@@ -5,13 +5,7 @@ import {
   getProfilesByUserIdsController,
   deleteProfileByUserIdController,
 } from "../controllers/profile.controller.js";
-import {
-  getAllUsersController,
-  getUserController,
-  postUserController,
-  getUserByExternalIdController,
-  deleteUserController,
-} from "../controllers/users.controller.js";
+import { getUserController, postUserController, getUserByExternalIdController, deleteUserController } from "../controllers/users.controller.js";
 
 import validateMiddleware from "../middlewares/validate.middleware.js";
 import { createProfileSchema } from "../schemas/profile.schema.js";
