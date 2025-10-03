@@ -27,6 +27,7 @@ export const userMapping = {
   },
   mappings: {
     properties: {
+      user_id: { type: "integer" },
       age: { type: "integer" },
       gender: { type: "keyword", normalizer: "lowercase_normalizer" },
       career: { type: "keyword", normalizer: "lowercase_normalizer" },

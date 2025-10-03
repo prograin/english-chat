@@ -11,6 +11,6 @@ export const adminProfileRouter = express.Router();
 selfProfileRouter.put("/me", authMiddleware, validateMiddleware(updateProfileSchema), updateMyProfileController);
 selfProfileRouter.get("/me", authMiddleware, getMyProfileController);
 
+// POST   user/profile/:id
 // GET    user/:userId/profiles/me
-// POST   user/:userId/profiles/me
-// GET    user/:userId/profiles/:profile_id
+// GET    user/:userId/profiles/:id

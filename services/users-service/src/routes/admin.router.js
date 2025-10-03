@@ -25,4 +25,10 @@ router.get("/user/:userId/profile", authMiddleware, allowRole("admin"), getProfi
 router.get("/users/profiles", authMiddleware, allowRole("admin"), getProfilesByUserIdsController);
 router.delete("/user/:userId/profile", authMiddleware, allowRole("admin"), deleteProfileByUserIdController);
 
+// admin/user
+// admin/user/:id
+// admin/user
+// admin/user/:userId/profile
+// admin/users/profiles
+
 export default router;

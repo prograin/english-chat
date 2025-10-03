@@ -2,56 +2,52 @@ import {
   createUserService,
   createUserByIdService,
   getUserByIdService,
-  deleteUserService,
   updateUserService,
+  bulkUpdateUsersService,
 } from "../services/users.service.js";
 
-// Create new user
 export const createUserController = async (req, res, next) => {
   try {
-    const user = req.body;
-    const result = await createUserService(user);
+    const doc = req.body;
+    const result = await createUserService(doc);
     res.status(201).json({ result });
   } catch (err) {
     next(err);
   }
 };
 
-// Create/update by ID
+export const createSelfUserController = async (req, res, next) => {
+  try {
+    const { id } = req.user.user_id;
+    const data = req.body;
+    const result = await createUserByIdService(id, data);
+    res.status(201).json({ result });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createUserByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = req.body;
-    const result = await createUserByIdService(id, user);
+    const data = req.body;
+    const result = await createUserByIdService(id, data);
     res.status(201).json({ result });
   } catch (err) {
     next(err);
   }
 };
 
-// Get user by ID
 export const getUserByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await getUserByIdService(id);
-    res.status(200).json({ user });
+    const doc = await getUserByIdService(id);
+    res.status(200).json({ doc });
   } catch (err) {
     next(err);
   }
 };
 
-// Delete user
-export const deleteUserController = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const result = await deleteUserService(id);
-    res.status(200).json({ result });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// Update user partially
 export const updateUserController = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -65,11 +61,11 @@ export const updateUserController = async (req, res, next) => {
 
 export const bulkUpdateUsersController = async (req, res, next) => {
   try {
-    const { users } = req.body;
+    const { data } = req.body;
     // users: [{ id: "1", fields: { last_active: "2025-09-29T10:00:00Z" } }, ...]
 
-    if (!Array.isArray(users) || users.length === 0) {
-      return res.status(400).json({ error: "users must be a non-empty array" });
+    if (!Array.isArray(data) || data.length === 0) {
+      return res.status(400).json({ error: "data must be a non-empty array" });
     }
 
     const result = await bulkUpdateUsersService(users);

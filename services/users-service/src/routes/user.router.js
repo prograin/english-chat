@@ -9,4 +9,6 @@ const router = express.Router();
 
 router.get("/me", authMiddleware, getMyUserController);
 
+// hostname/user/me
+
 export default router;
