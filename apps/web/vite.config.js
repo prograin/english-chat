@@ -13,7 +13,7 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      "/profile": {
+      "/profiles": {
         target: "http://localhost:3004",
         changeOrigin: true,
         secure: false,

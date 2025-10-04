@@ -11,19 +11,19 @@ export class UserService {
 
 export class AdminService {
   static createUser = async (data: object) => {
-    return await AdminAxiosInstance.post("http://localhost:3004/admin/user/", data, {
+    return await AdminAxiosInstance.post("http://localhost:3004/users/", data, {
       validateStatus: (status) => status < 500,
     });
   };
 
   static getUser = async (userId: bigint) => {
-    return await AdminAxiosInstance.get(`/admin/user/${userId}`, {
+    return await AdminAxiosInstance.get(`/users/${userId}`, {
       validateStatus: (status) => status < 500,
     });
   };
 
   static getUserByTelegramId = async (telegramId: bigint) => {
-    return await AdminAxiosInstance.get(`http://localhost:3004/admin/user?telegram_id=${telegramId}`, {
+    return await AdminAxiosInstance.get(`http://localhost:3004/users/telegram/${telegramId}`, {
       validateStatus: (status) => status < 500,
     });
   };

@@ -40,14 +40,9 @@ export const getUserController = async (req, res, next) => {
 };
 
 // Get user by external id
-export const getUserByExternalIdController = async (req, res, next) => {
-  const { telegram_id } = req.query;
-
-  if (!telegram_id) {
-    return res.status(400).json({ message: "You have to define external id like telegram_id" });
-  }
-
+export const getUserByTelegramIdController = async (req, res, next) => {
   try {
+    const { telegram_id } = req.params.id;
     const data = await getUserByTelegramIdService(telegram_id);
     return res.status(200).json(data);
   } catch (err) {

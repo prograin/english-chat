@@ -5,9 +5,9 @@ import { validate } from "../middlewares/validate.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { allowRole } from "../../../users-service/src/middlewares/allow-role.middleware.js";
 
-export const adminPresenceRouter = express.Router();
+export const userPresenceRouter = express.Router();
 
-adminPresenceRouter.use(authMiddleware, allowRole("admin"));
+userPresenceRouter.use(authMiddleware, allowRole("admin"));
 
-adminPresenceRouter.post("/user/:userId/presence", validate(createPresencesSchema), postPresenceController);
-adminPresenceRouter.delete("/user/:userId/presence", deletePresenceByUserIdController);
+userPresenceRouter.post("/:userId/presence", validate(createPresencesSchema), postPresenceController);
+userPresenceRouter.delete("/:userId/presence", deletePresenceByUserIdController);
