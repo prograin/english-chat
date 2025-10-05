@@ -8,10 +8,7 @@ import "./shared/styles/variables.css";
 import "./shared/styles/theme.css";
 import "./shared/styles/animations.css";
 
-localStorage.setItem(
-  "token",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwidGVsZWdyYW1faWQiOiIxMjIxOTUxODM5IiwiaWF0IjoxNzU4NTM2MTc1LCJleHAiOjE3NjExMjgxNzV9.BA29n9n1GldOWhwdQw6UpWSB9jzC1hVWyn3YTIz-Lxg"
-);
+localStorage.setItem("token", import.meta.env.VITE_USER_TEST_TOKEN);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>

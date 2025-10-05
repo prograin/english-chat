@@ -24,9 +24,9 @@ export const topProfilesRouter = express.Router();
 // GET    /profiles/me
 // GET   /profiles
 
-topProfilesRouter.put("/me", authMiddleware, allowRole(["admin", "user"]), validateMiddleware(updateProfileSchema), updateMyProfileController);
-topProfilesRouter.get("/me", authMiddleware, allowRole(["admin", "user"]), getMyProfileController);
-topProfilesRouter.get("/", authMiddleware, allowRole(["admin"]), getProfilesByUserIdsController);
+topProfilesRouter.put("/me", authMiddleware, allowRole("admin", "user"), validateMiddleware(updateProfileSchema), updateMyProfileController);
+topProfilesRouter.get("/me", authMiddleware, allowRole("admin", "user"), getMyProfileController);
+topProfilesRouter.get("/", authMiddleware, allowRole("admin"), getProfilesByUserIdsController);
 
 // --------------------------
 
@@ -34,8 +34,8 @@ topProfilesRouter.get("/", authMiddleware, allowRole(["admin"]), getProfilesByUs
 // GET   /users/:userId/profile
 // DEL   /users/:userId/profile
 
-userProfileRouter.post("/", authMiddleware, allowRole(["admin"]), validateMiddleware(createProfileSchema), createProfileByUserIdController);
-userProfileRouter.get("/", authMiddleware, allowRole(["admin"]), getProfileByUserIdController);
-userProfileRouter.delete("/", authMiddleware, allowRole(["admin"]), deleteProfileByUserIdController);
+userProfileRouter.post("/", authMiddleware, allowRole("admin"), validateMiddleware(createProfileSchema), createProfileByUserIdController);
+userProfileRouter.get("/", authMiddleware, allowRole("admin"), getProfileByUserIdController);
+userProfileRouter.delete("/", authMiddleware, allowRole("admin"), deleteProfileByUserIdController);
 
 // --------------------------

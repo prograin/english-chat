@@ -7,9 +7,9 @@ const router = Router();
 
 router.get("/", authMiddleware); // Get all posts
 router.get("/:id", authMiddleware); // Get single post
-router.post("/", authMiddleware, allowRole(["admin", "author"]));
-router.put("/:id", authMiddleware, allowRole(["admin", "author"]));
-router.delete("/:id", authMiddleware, allowRole(["admin"]));
+router.post("/", authMiddleware, allowRole("admin", "author"));
+router.put("/:id", authMiddleware, allowRole("admin", "author"));
+router.delete("/:id", authMiddleware, allowRole("admin"));
 
 // Mount nested comments router under /:postId/comments
 router.use(

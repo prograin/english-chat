@@ -1,9 +1,18 @@
 import { PROFILE_FIELDS } from "../constants/fields";
 
-export const formatProfileData = (data) =>
-  PROFILE_FIELDS.reduce((acc, { name, formatter }) => {
+export const formatInputProfileData = (data) =>
+  PROFILE_FIELDS.reduce((acc, { name, inputFormatter }) => {
+    if (!Object.keys(data).includes(name)) return acc;
+
     const raw = data[name];
-    if (raw == null) return acc; // skip null / undefined
-    acc[name] = formatter ? formatter(raw) : raw;
+    acc[name] = inputFormatter ? inputFormatter(raw) : raw;
+    return acc;
+  }, {});
+
+export const formatOutputProfileData = (data) =>
+  PROFILE_FIELDS.reduce((acc, { name, outputFormatter }) => {
+    const raw = data[name];
+    if (raw == null || (typeof raw === "string" && raw.trim() === "")) return acc; // skip null / undefined
+    acc[name] = outputFormatter ? outputFormatter(raw) : raw;
     return acc;
   }, {});

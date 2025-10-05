@@ -32,8 +32,12 @@ export const userMapping = {
       gender: { type: "keyword", normalizer: "lowercase_normalizer" },
       career: { type: "keyword", normalizer: "lowercase_normalizer" },
       interests: { type: "keyword", normalizer: "lowercase_normalizer" },
-      last_active: { type: "date" },
+      country: { type: "keyword", normalizer: "lowercase_normalizer" },
+      state: { type: "keyword", normalizer: "lowercase_normalizer" },
+      city: { type: "keyword", normalizer: "lowercase_normalizer" },
+      location: { type: "geo_point" },
       username: { type: "text", analyzer: "autocompletion_analyzer", search_analyzer: "standard" },
+      last_active: { type: "date" },
     },
   },
 };

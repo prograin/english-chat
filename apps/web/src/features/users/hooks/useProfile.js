@@ -17,20 +17,26 @@ export default function useProfile() {
   const [countriesOption, setCountriesOption] = useState([]);
 
   useEffect(() => {
-    fetchUserProfile()
-      .then((data) => {
-        const { id, user_id, latitude, longitude, ...cleaned } = data;
-        const normalized = { ...DEFAULT_PROFILE, ...cleaned };
-        setUser(normalized);
-        setOriginalUser(normalized);
-        setLoading(false);
-      })
-      .catch(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchUserProfile();
+        if (data["country"]) {
+          setStatesOption(getStates(data["country"]));
+        }
+        if (data["state"]) {
+          setCitiesOption(getCities(data["state"]));
+        }
+        setUser(data);
+        setOriginalUser(data);
+      } catch (err) {
         setError("Failed to load profile");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
 
     setCountriesOption(getCountries());
+    loadData();
   }, []);
 
   const handleChange = useCallback(
@@ -48,9 +54,7 @@ export default function useProfile() {
       handleChange({
         target: {
           name: "interests",
-          value: (user.interests || [])
-            .concat(checked ? [option] : [])
-            .filter((v) => checked || v !== option),
+          value: (user.interests || []).concat(checked ? [option] : []).filter((v) => checked || v !== option),
           type,
         },
       });
@@ -61,6 +65,7 @@ export default function useProfile() {
   const handleLocation = useCallback(
     async (e) => {
       const { name, value, type } = e.target;
+
       if (name === "country") {
         const states = getStates(value);
         setStatesOption(states);
@@ -99,7 +104,6 @@ export default function useProfile() {
 
   const isDirty = PROFILE_FIELDS.some((field) => {
     const key = field.name;
-    console.log(isEqual(user[key], originalUser[key]));
     return !isEqual(user[key], originalUser[key]);
   });
 

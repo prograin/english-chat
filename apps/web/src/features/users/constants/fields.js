@@ -3,6 +3,7 @@
 import { INTERESTS } from "../../../../../../shared/constants/interests.js";
 import { GENDERS } from "../../../../../../shared/constants/genders.js";
 import { CAREERS } from "../../../../../../shared/constants/careers.js";
+import { getCityBySource, getCountryBySource, getStateBySource } from "../services/locationService.js";
 
 export const PROFILE_FIELDS = [
   {
@@ -11,7 +12,7 @@ export const PROFILE_FIELDS = [
     type: "text",
     required: true,
     default: "",
-    formatter: (v) => v?.trim() || "",
+    outputFormatter: (v) => v?.trim() || "",
   },
   {
     name: "last_name",
@@ -19,7 +20,7 @@ export const PROFILE_FIELDS = [
     type: "text",
     required: true,
     default: "",
-    formatter: (v) => v?.trim() || "",
+    outputFormatter: (v) => v?.trim() || "",
   },
   {
     name: "age",
@@ -29,7 +30,7 @@ export const PROFILE_FIELDS = [
     default: 0,
     min: 0,
     max: 99,
-    formatter: (v) => {
+    outputFormatter: (v) => {
       const num = Number(v);
       if (Number.isNaN(num)) return null;
       if (num === 0) return null;
@@ -45,7 +46,7 @@ export const PROFILE_FIELDS = [
     required: true,
     options: GENDERS,
     default: "",
-    formatter: (v) => (v === "" ? null : v),
+    outputFormatter: (v) => (v === "" ? null : v),
   },
   {
     name: "career",
@@ -54,7 +55,7 @@ export const PROFILE_FIELDS = [
     required: false,
     options: CAREERS,
     default: "",
-    formatter: (v) => (v === "" ? null : v),
+    outputFormatter: (v) => (v === "" ? null : v),
   },
   {
     name: "interests",
@@ -71,7 +72,14 @@ export const PROFILE_FIELDS = [
     required: true,
     options: [],
     default: "",
-    formatter: (v) => (v === "" ? null : v),
+    inputFormatter: (v) => {
+      if (v === "") return "";
+      return getCountryBySource("label", v);
+    },
+    outputFormatter: (v) => {
+      if (v === "") return null;
+      return getCountryBySource("value", v);
+    },
   },
   {
     name: "state",
@@ -80,7 +88,14 @@ export const PROFILE_FIELDS = [
     required: true,
     options: [],
     default: "",
-    formatter: (v) => (v === "" ? null : v),
+    inputFormatter: (v) => {
+      if (v === "") return "";
+      return getStateBySource("label", v);
+    },
+    outputFormatter: (v) => {
+      if (v === "") return null;
+      return getStateBySource("value", v);
+    },
   },
   {
     name: "city",
@@ -89,7 +104,14 @@ export const PROFILE_FIELDS = [
     required: true,
     options: [],
     default: "",
-    formatter: (v) => (v === "" ? null : v),
+    inputFormatter: (v) => {
+      if (v === "") return "";
+      return getCityBySource("label", v);
+    },
+    outputFormatter: (v) => {
+      if (v === "") return null;
+      return getCityBySource("value", v);
+    },
   },
   {
     name: "description",
@@ -97,7 +119,7 @@ export const PROFILE_FIELDS = [
     type: "textarea",
     required: false,
     default: "",
-    formatter: (v) => {
+    outputFormatter: (v) => {
       const t = v?.trim();
       return t === "" ? null : t;
     },

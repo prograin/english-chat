@@ -42,7 +42,7 @@ export const getUserController = async (req, res, next) => {
 // Get user by external id
 export const getUserByTelegramIdController = async (req, res, next) => {
   try {
-    const { telegram_id } = req.params.id;
+    const { id: telegram_id } = req.params;
     const data = await getUserByTelegramIdService(telegram_id);
     return res.status(200).json(data);
   } catch (err) {

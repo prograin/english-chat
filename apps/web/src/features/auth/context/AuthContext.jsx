@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   //After run all child and dom , it will be runned
   useEffect(() => {
     if (token) {
-      fetch("/profile/me", {
+      fetch("/profiles/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => (res.ok ? res.json() : null))
@@ -34,9 +34,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
   };
 
-  return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, token, login, logout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {

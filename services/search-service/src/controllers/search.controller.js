@@ -1,4 +1,4 @@
-import { termsSearchService, rangeSearchService } from "../services/search.service";
+import { termsSearchService, rangeSearchService } from "../services/search.service.js";
 
 export const termsSearchController = async (req, res, next) => {
   try {

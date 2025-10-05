@@ -1,14 +1,17 @@
 import "module-alias/register.js";
 import dotenv from "dotenv";
+dotenv.config({ path: ".search.env" });
+
 import { initIndexes } from "./indexes/indexManager.js";
 import app from "./app.js";
-
-dotenv.config({ path: ".search.env" });
+import { profileConsumer } from "./event/consumers/profile.consumer.js";
 
 (async () => {
   try {
     await initIndexes();
     console.log("✅ Elasticsearch indexes initialized");
+
+    profileConsumer.init();
 
     const port = process.env.PORT || 3005;
     app.listen(port, () => {

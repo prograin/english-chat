@@ -7,6 +7,7 @@ import {
 } from "../repositories/profile.repository.js";
 import validateUtil from "../utils/validate.util.js";
 import { responseProfileSchema } from "../schemas/profile.schema.js";
+import profileProducer from "../events/producers/profile.producer.js";
 
 /**
  * Creates a new profile if one does not already exist for the user.
@@ -54,11 +55,7 @@ export const getProfilesByUserIdsService = async (user_ids, options = {}) => {
   const profiles = await getProfilesByUserIds(user_ids, options);
   if (!profiles || profiles.length === 0) return null;
 
-  const validatedProfiles = await Promise.all(
-    profiles.map((profile) =>
-      validateUtil(responseProfileSchema, profile.toJSON(), false, true, false)
-    )
-  );
+  const validatedProfiles = await Promise.all(profiles.map((profile) => validateUtil(responseProfileSchema, profile.toJSON(), false, true, false)));
 
   return validatedProfiles;
 };
@@ -77,6 +74,8 @@ export const updateProfileByUserIdService = async (user_id, data, options = {}) 
     error.status = 404;
     throw error;
   }
+
+  await profileProducer.publishProfileUpdated(user_id, data);
   const profile = await getProfileByUserIdService(user_id, options);
   return profile;
 };

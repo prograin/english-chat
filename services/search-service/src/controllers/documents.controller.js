@@ -1,4 +1,10 @@
-import { createDocService, createDocByIdService, getDocByIdService, updateDocService, bulkUpdateDocsService } from "../services/documents.service.js";
+import {
+  createDocService,
+  createDocByIdService,
+  getDocByIdService,
+  updateDocByIdService,
+  bulkUpdateDocsService,
+} from "../services/documents.service.js";
 
 export const createDocController = async (req, res, next) => {
   try {
@@ -13,8 +19,9 @@ export const createDocController = async (req, res, next) => {
 export const createSelfDocController = async (req, res, next) => {
   try {
     const { id } = req.user.user_id;
+    const { index } = req.params;
     const data = req.body;
-    const result = await createDocByIdService(id, data);
+    const result = await createDocByIdService(index, id, data);
     res.status(201).json({ result });
   } catch (err) {
     next(err);
@@ -42,11 +49,11 @@ export const getDocByIdController = async (req, res, next) => {
   }
 };
 
-export const updateDocController = async (req, res, next) => {
+export const updateDocByIdController = async (req, res, next) => {
   try {
     const { id, index } = req.params;
-    const fieldsToUpdate = req.body; // partial fields to update
-    const result = await updateDocService(index, id, fieldsToUpdate);
+    const fieldsToUpdate = req.body;
+    const result = await updateDocByIdService(index, id, fieldsToUpdate);
     res.status(200).json({ result });
   } catch (err) {
     next(err);

@@ -3,16 +3,23 @@ import {
   indexDocumentByIdRepository,
   getDocumentByIdRepository,
   deleteDocumentRepository,
-  updateDocumentRepository,
+  updateDocumentByIdRepository,
   bulkUpdateDocumentsRepository,
+  checkDocumentExistsRepository,
 } from "../repositories/documents.repository.js";
 
-export const createDocService = async (index, user) => {
-  return indexDocumentRepository(index, user);
+export const createDocService = async (index, document) => {
+  return await indexDocumentRepository(index, document);
 };
 
-export const createDocByIdService = async (index, id, user) => {
-  return indexDocumentByIdRepository(index, id, user);
+export const createDocByIdService = async (index, id, document) => {
+  const exists = await checkDocumentExistsRepository(index, id);
+  if (exists) {
+    const error = new Error();
+    error.status = 401;
+    throw error;
+  }
+  return await indexDocumentByIdRepository(index, id, document);
 };
 
 export const getDocByIdService = async (index, id) => {
@@ -21,15 +28,15 @@ export const getDocByIdService = async (index, id) => {
 };
 
 export const deleteDocService = async (index, id) => {
-  return deleteDocumentRepository(index, id);
+  return await deleteDocumentRepository(index, id);
 };
 
-export const updateDocService = async (index, id, fieldsToUpdate) => {
-  return updateDocumentRepository(index, id, fieldsToUpdate);
+export const updateDocByIdService = async (index, id, fieldsToUpdate) => {
+  return await updateDocumentByIdRepository(index, id, fieldsToUpdate);
 };
 
-export const bulkUpdateDocsService = async (index, users) => {
-  const result = await bulkUpdateDocumentsRepository(index, users);
+export const bulkUpdateDocsService = async (index, documents) => {
+  const result = await bulkUpdateDocumentsRepository(index, documents);
 
   if (result.errors) {
     const errors = result.items.filter((item) => item.update?.error).map((item) => ({ id: item.update._id, error: item.update.error }));

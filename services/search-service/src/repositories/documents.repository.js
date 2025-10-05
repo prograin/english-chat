@@ -1,17 +1,17 @@
-import { esClient } from "../config/elastic.js";
+import esClient from "../config/elastic.js";
 
 export const indexDocumentRepository = async (index, doc) => {
   return esClient.index({
     index: index,
-    document: doc,
+    body: doc || {},
   });
 };
 
-export const indexDocumentByIdRepository = async (index, id, document) => {
+export const indexDocumentByIdRepository = async (index, id, doc) => {
   return esClient.index({
     index,
     id,
-    document,
+    body: doc || {},
   });
 };
 
@@ -29,7 +29,7 @@ export const deleteDocumentRepository = async (index, id) => {
   });
 };
 
-export const updateDocumentRepository = async (index, id, fieldsToUpdate) => {
+export const updateDocumentByIdRepository = async (index, id, fieldsToUpdate) => {
   return esClient.update({
     index,
     id,
@@ -43,4 +43,12 @@ export const bulkUpdateDocumentsRepository = async (index, data) => {
   const body = data.flatMap((doc) => [{ update: { _index: index, _id: doc.id } }, { doc: doc.fields }]);
 
   return esClient.bulk({ refresh: true, body });
+};
+
+export const checkDocumentExistsRepository = async (index, id) => {
+  const exists = await esClient.exists({
+    index,
+    id,
+  });
+  return exists;
 };

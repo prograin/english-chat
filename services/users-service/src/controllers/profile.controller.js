@@ -21,7 +21,7 @@ export const createProfileByUserIdController = async (req, res, next) => {
 
 export const getMyProfileController = async (req, res, next) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.user_id;
     const profile = await getProfileByUserIdService(userId);
 
     if (!profile) {
@@ -74,7 +74,7 @@ export const getProfilesByUserIdsController = async (req, res, next) => {
 export const updateMyProfileController = async (req, res, next) => {
   try {
     const body = req.validatedBody;
-    const userId = req.user.userId;
+    const userId = req.user.user_id;
     const profile = await updateProfileByUserIdService(userId, body);
     await res.status(200).json({ status: "success", profile });
   } catch (error) {

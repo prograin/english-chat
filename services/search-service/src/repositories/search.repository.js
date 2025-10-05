@@ -1,4 +1,4 @@
-import { esClient } from "../config/elastic.js";
+import esClient from "../config/elastic.js";
 
 export const searchRepository = async (index, query) => {
   return esClient.search({
