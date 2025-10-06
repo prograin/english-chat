@@ -1,17 +1,32 @@
-import TelegramBot, { Message } from "node-telegram-bot-api";
-import { ma_search_in } from "./search.markup";
-import BotResponse from "src/types/bot-response.type";
-import { search_text } from "./search.text";
+import TelegramBot, { Message, CallbackQuery } from "node-telegram-bot-api";
+import BotResponse from "src/shared/types/bot-response.type";
+import { search_text, profile_not_found } from "./search.text";
+import { ProfileSelfController } from "src/bot/messages/profile/profile.controller";
+import { getUserTelegramSearch } from "./search.cache";
+import searchBaseReply from "./search-base.reply";
 
-export default async (bot: TelegramBot, message: Message, response: BotResponse) => {
+export default async (bot: TelegramBot, callbackQuery: CallbackQuery, response: BotResponse) => {
   try {
-    const chatId = message.chat.id;
+    const chatId = callbackQuery.message?.chat.id as number;
+    const token = response.user.token;
+    let telegramSearchData;
 
-    const options = {
-      reply_markup: ma_search_in,
-    };
+    const profile = await ProfileSelfController.getProfile(token as string);
+    if (profile.error) {
+      await bot.answerCallbackQuery(callbackQuery.id, { text: profile_not_found, show_alert: true });
+      await bot.sendMessage(chatId, "/start");
+    }
 
-    await bot.sendMessage(chatId, search_text, options);
+    response.user.profile = profile.data;
+    telegramSearchData = await getUserTelegramSearch(Number(response.user.id));
+
+    if (telegramSearchData === null) {
+      telegramSearchData = {
+        state: "search-base",
+      };
+    }
+
+    await searchBaseReply(bot, callbackQuery, telegramSearchData);
   } catch (error) {
     console.error("Error in main search:", error);
   }

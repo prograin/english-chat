@@ -20,3 +20,17 @@ export const REDIS_EVENTS = {
     },
   },
 };
+
+export const PREFIX_KEY = {
+  user: {
+    data: (value) => `user:${value}`,
+    profile: {
+      data: (value) => `user:profile:${value}`,
+    },
+    telegram: {
+      search: {
+        key: (value) => `user:telegram:search:${value}`,
+      },
+    },
+  },
+};

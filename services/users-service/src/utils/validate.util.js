@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { dropNullFields } from "./objects.util";
 
 /**
  * Validate `data` against a Joi schema and optionally strip unknown keys/nulls.
@@ -11,13 +12,7 @@ import Joi from "joi";
  * @returns {Promise<object>} - The validated and optionally cleaned value.
  * @throws {Error} - Error with `status` 400 when validation fails.
  */
-const validateUtil = async (
-  schema,
-  data,
-  allowUnknown = false,
-  stripUnknown = false,
-  allowNull = false
-) => {
+const validateUtil = async (schema, data, allowUnknown = false, stripUnknown = false, allowNull = false) => {
   const { error, value } = schema.validate(data, { allowUnknown, stripUnknown });
   if (error) {
     const err = new Error("Profile Return Validation Error");
@@ -26,14 +21,7 @@ const validateUtil = async (
     throw err;
   }
 
-  if (!allowNull) {
-    Object.keys(value).forEach((key) => {
-      if (value[key] === undefined || value[key] === null || value[key] === "") {
-        delete value[key];
-      }
-    });
-  }
-
+  if (!allowNull) return dropNullFields(value);
   return value;
 };
 

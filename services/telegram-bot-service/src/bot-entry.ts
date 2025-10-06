@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: ".telegram.env" });
 
-import { ManageHandlers } from "src/handlers/bot.handler";
+import { ManageHandlers } from "src/api/handlers/bot.handler";
 import TelegramBot from "node-telegram-bot-api";
 
 const proxy = process.env.PROXY;

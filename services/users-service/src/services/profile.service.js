@@ -8,6 +8,8 @@ import {
 import validateUtil from "../utils/validate.util.js";
 import { responseProfileSchema } from "../schemas/profile.schema.js";
 import profileProducer from "../events/producers/profile.producer.js";
+import { dropNullFields } from "../utils/objects.util.js";
+import usersProfilesCache from "../cache/users-profiles.cache.js";
 
 /**
  * Creates a new profile if one does not already exist for the user.
@@ -25,12 +27,13 @@ export const createProfileService = async (data, options = {}) => {
     throw error;
   }
 
-  Object.keys(data).forEach((key) => {
-    if (data[key] === undefined) delete data[key];
-  });
+  const cleaned = dropNullFields(data);
 
-  const profile = await createProfile(data);
-  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+  const profile = await createProfile(cleaned);
+  const value = await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+  await usersProfilesCache.addUserProfile(user.id, value);
+
+  return value;
 };
 
 /**
@@ -40,7 +43,10 @@ export const createProfileService = async (data, options = {}) => {
  * @returns {Promise<Object>}
  */
 export const getProfileByUserIdService = async (user_id, options = {}) => {
-  const profile = await getProfileByUserId(user_id, options);
+  let profile;
+
+  profile = usersProfilesCache.getUserProfile(user_id);
+  if (!profile) profile = await getProfileByUserId(user_id, options);
   if (!profile) return null;
   return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
 };

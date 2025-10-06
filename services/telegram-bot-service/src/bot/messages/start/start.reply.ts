@@ -1,12 +1,12 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 
 import { ma_main_in } from "./start.markup";
-import Response from "src/types/bot-response.type";
-import { AdminController } from "src/controllers/bot.user.controller";
+import Response from "src/shared/types/bot-response.type";
+import { UserAdminController } from "src/bot/messages/users/user.controller";
 import axios from "axios";
-import { BotEvent } from "src/types/bot-event.type";
-import { generateUserToken } from "src/utils/auth.util";
-import { setUserToken, setUserTelegramToken } from "src/cache/auth.cache";
+import { BotEvent } from "src/shared/types/bot-event.type";
+import { generateUserToken } from "src/shared/utils/auth.util";
+import { setUserToken, setUserTelegramToken } from "src/api/cache/auth.cache";
 
 export default async (bot: TelegramBot, event: BotEvent, response: Response) => {
   const message = event as Message;
@@ -25,7 +25,7 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
     if (response.user.exists) {
       await bot.sendMessage(chatId, `Welcome Back ${firstName}`, options);
     } else {
-      const user = await AdminController.createUser(usersTelegramData);
+      const user = await UserAdminController.createUser(usersTelegramData);
       console.log(`🆕 User created: ${user.data.id}`);
       await bot.sendMessage(chatId, `Welcome ${firstName}`, options);
       const token = await generateUserToken({

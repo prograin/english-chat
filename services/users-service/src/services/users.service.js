@@ -5,6 +5,7 @@ import validateUtil from "../utils/validate.util.js";
 import axios from "axios";
 import { createProfileService } from "./profile.service.js";
 import { AdminAxiosInstance } from "../utils/axios.util.js";
+import { dropNullFields } from "../utils/objects.util.js";
 
 // ------------------------------------------------------
 // SET
@@ -16,11 +17,8 @@ import { AdminAxiosInstance } from "../utils/axios.util.js";
  * @returns {Promise<Object>}
  */
 export const createUserService = async (data) => {
-  Object.keys(data).forEach((key) => {
-    if (data[key] === undefined) delete data[key];
-  });
-
   const existingUser = await getUser(data.id);
+
   if (existingUser) {
     const value = await validateUtil(usersResponseSchema, existingUser.toJSON(), false, true);
     await UsersCache.addUser(existingUser.id, value);
@@ -29,10 +27,12 @@ export const createUserService = async (data) => {
     throw error;
   }
 
+  const cleaned = dropNullFields(data);
+
   let user, presence, profile, search;
 
   try {
-    user = await createUser(data);
+    user = await createUser(cleaned);
     profile = await createProfileService({ user_id: Number(user.id) });
     presence = await AdminAxiosInstance.post(`http://localhost:3001/users/${user.id}/presence/`);
     search = await AdminAxiosInstance.post(`http://localhost:3005/documents/users/${user.id}`, { user_id: user.id });
