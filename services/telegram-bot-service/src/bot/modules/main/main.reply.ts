@@ -7,7 +7,7 @@ export const main = async (bot: TelegramBot, message: Message) => {
     const full_name = message.chat.first_name + " " + message.chat.last_name;
 
     const options = {
-      reply_markup: ma_main_in,
+      reply_markup: { inline_keyboard: ma_main_in },
     };
 
     await bot.sendMessage(chatId, "Welcome" + full_name, options);

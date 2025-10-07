@@ -1,13 +1,14 @@
-import BotResponse from "src/shared/types/bot-response.type";
-import { Next } from "src/shared/types/next.type";
-import { BotEvent } from "src/shared/types/bot-event.type";
-import { UserAdminController, UserSelfController } from "src/bot/messages/users/user.controller";
-import { generateUserToken } from "src/shared/utils/auth.util";
+import BotResponse from "src/bot/types/bot-response.type";
+import { Next } from "src/bot/types/next.type";
+import { BotEvent } from "src/bot/types/bot-event.type";
+import { UserAdminController, UserSelfController } from "src/bot/modules/users/user.controller";
+import { generateUserToken } from "src/api/utils/auth.util";
 import { setUserTelegramToken, setUserToken } from "src/api/cache/auth.cache";
 
 export const userValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   if (response.user.exists) {
     await next();
+    return;
   }
 
   const userTelegramId = event.from!.id;

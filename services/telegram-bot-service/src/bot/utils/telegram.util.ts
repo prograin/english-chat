@@ -1,4 +1,4 @@
-import { BotEvent } from "src/shared/types/bot-event.type";
+import { BotEvent } from "src/bot/types/bot-event.type";
 
 export const getMessageFromEvent = async (event: BotEvent) => {
   if ("message" in event && event.message?.chat?.id) {

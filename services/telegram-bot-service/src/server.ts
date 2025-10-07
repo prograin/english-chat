@@ -1,6 +1,7 @@
 import "module-alias/register";
 
 import app from "./app";
+// DEBUG
 import runBot from "./bot-entry";
 import dotenv from "dotenv";
 
@@ -14,7 +15,7 @@ const startServer = async () => {
       console.log(`Server is running on port ${port}`);
     });
 
-    await runBot();
+    runBot();
     console.log("Telegram bot started successfully");
   } catch (error) {
     console.error("Failed to start server or bot:", error);

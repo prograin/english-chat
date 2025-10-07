@@ -1,11 +1,11 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 
 import { ma_main_in } from "./start.markup";
-import Response from "src/shared/types/bot-response.type";
-import { UserAdminController } from "src/bot/messages/users/user.controller";
+import Response from "src/bot/types/bot-response.type";
+import { UserAdminController } from "src/bot/modules/users/user.controller";
 import axios from "axios";
-import { BotEvent } from "src/shared/types/bot-event.type";
-import { generateUserToken } from "src/shared/utils/auth.util";
+import { BotEvent } from "src/bot/types/bot-event.type";
+import { generateUserToken } from "src/api/utils/auth.util";
 import { setUserToken, setUserTelegramToken } from "src/api/cache/auth.cache";
 
 export default async (bot: TelegramBot, event: BotEvent, response: Response) => {

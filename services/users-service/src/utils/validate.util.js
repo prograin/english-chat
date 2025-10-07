@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { dropNullFields } from "./objects.util";
+import { dropNullFields } from "./objects.util.js";
 
 /**
  * Validate `data` against a Joi schema and optionally strip unknown keys/nulls.

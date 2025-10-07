@@ -1,7 +1,7 @@
-import BotResponse from "src/shared/types/bot-response.type";
+import BotResponse from "src/bot/types/bot-response.type";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Next } from "src/shared/types/next.type";
-import { BotEvent } from "src/shared/types/bot-event.type";
+import { Next } from "src/bot/types/next.type";
+import { BotEvent } from "src/bot/types/bot-event.type";
 import { getUserTelegramToken } from "src/api/cache/auth.cache";
 
 export const userTokenValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {

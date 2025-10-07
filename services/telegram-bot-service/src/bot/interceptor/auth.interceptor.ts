@@ -1,11 +1,11 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { getUserTelegramToken } from "src/api/cache/auth.cache";
-import { BotEvent } from "src/shared/types/bot-event.type";
-import BotResponse from "src/shared/types/bot-response.type";
-import { Next } from "src/shared/types/next.type";
+import { BotEvent } from "src/bot/types/bot-event.type";
+import BotResponse from "src/bot/types/bot-response.type";
+import { Next } from "src/bot/types/next.type";
 import { bot } from "src/bot-entry";
-import { getMessageFromEvent } from "src/shared/utils/telegram.util";
-import { verifyUserToken } from "src/shared/utils/auth.util";
+import { getMessageFromEvent } from "src/bot/utils/telegram.util";
+import { verifyUserToken } from "src/api/utils/auth.util";
 
 export const authInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   try {

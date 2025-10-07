@@ -45,10 +45,17 @@ export const createProfileService = async (data, options = {}) => {
 export const getProfileByUserIdService = async (user_id, options = {}) => {
   let profile;
 
-  profile = usersProfilesCache.getUserProfile(user_id);
+  profile = await usersProfilesCache.getUserProfile(user_id);
+  if (profile) return profile;
+
   if (!profile) profile = await getProfileByUserId(user_id, options);
   if (!profile) return null;
-  return await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+
+  profile = await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+
+  await usersProfilesCache.addUserProfile(user_id, profile);
+
+  return profile;
 };
 
 /**
@@ -81,6 +88,7 @@ export const updateProfileByUserIdService = async (user_id, data, options = {}) 
     throw error;
   }
 
+  await usersProfilesCache.updateUserProfile(user_id, data);
   await profileProducer.publishProfileUpdated(user_id, data);
   const profile = await getProfileByUserIdService(user_id, options);
   return profile;

@@ -1,9 +1,9 @@
 import crypto from "crypto";
 import dotenv from "dotenv";
 
-import { UserAdminController } from "src/bot/messages/users/user.controller";
+import { UserAdminController } from "src/bot/modules/users/user.controller";
 import { getUserToken } from "src/api/cache/auth.cache";
-import { generateUserToken, verifyUserToken } from "src/shared/utils/auth.util";
+import { generateUserToken, verifyUserToken } from "src/api/utils/auth.util";
 
 dotenv.config({ path: ".telegram.env" });
 

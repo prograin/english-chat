@@ -4,4 +4,5 @@ export default interface User {
   token?: string | null;
   exists: boolean;
   profile?: object;
+  permissions: { search: string[] | null };
 }

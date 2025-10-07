@@ -4,11 +4,11 @@ export default interface BotResponse {
   callback?: {
     data: {
       parts: string[];
-      raw?: string | null;
+      raw: string;
     };
   };
 }
 
-export const botResponseDefault = {
-  user: { exists: false, id: null },
-};
+export const botResponseDefault = structuredClone({
+  user: { exists: false, id: null, permissions: { search: [] } },
+});

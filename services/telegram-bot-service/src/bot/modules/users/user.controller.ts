@@ -1,4 +1,4 @@
-import { UserAdminService, UserSelfService } from "src/bot/messages/users/user.service";
+import { UserAdminService, UserSelfService } from "src/bot/modules/users/user.service";
 
 export class UserSelfController {
   static getUser = async (token: string) => {
