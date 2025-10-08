@@ -24,7 +24,7 @@ const schema = {
   interests: joi
     .array()
     .items(joi.string().valid(...INTEREST_VALUES))
-    .allow(null, "")
+    .allow(null)
     .optional(),
 
   description: joi.string().allow(null).optional(),

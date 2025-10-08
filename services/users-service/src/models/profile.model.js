@@ -34,16 +34,13 @@ const ProfileModel = sequelize.define(
     age: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      validate: { min: 0, max: 120 },
     },
     gender: {
       type: DataTypes.STRING,
-      validate: { isIn: [...GENDER_VALUES] },
       allowNull: true,
     },
     career: {
       type: DataTypes.STRING,
-      validate: { isIn: [...CAREER_VALUES] },
       allowNull: true,
     },
     interests: {
