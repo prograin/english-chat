@@ -31,7 +31,7 @@ export const createProfileService = async (data, options = {}) => {
 
   const profile = await createProfile(cleaned);
   const value = await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
-  await usersProfilesCache.addUserProfile(user.id, value);
+  await usersProfilesCache.addUserProfile(value.user_id, value);
 
   return value;
 };
