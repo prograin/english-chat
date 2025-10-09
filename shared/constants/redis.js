@@ -1,8 +1,15 @@
 export const REDIS_CHANNELS = {
   user: {
-    token: "user:token",
-    telegram: {
-      token: "user:telegram:token",
+    button: {
+      any: {
+        clicked: "user:button:clicked",
+        double_clicked: "user:button:double-clicked",
+      },
+    },
+  },
+  users: {
+    presence: {
+      updated: "users:presence:updated",
     },
   },
 };
@@ -21,13 +28,27 @@ export const REDIS_EVENTS = {
   },
 };
 
+export const KEYS = {
+  users: {
+    presence: {
+      last_active: `users:last_active`,
+    },
+  },
+};
+
 export const PREFIX_KEY = {
   user: {
     data: (value) => `user:${value}`,
     profile: {
       data: (value) => `user:profile:${value}`,
     },
+    token: {
+      key: (value) => `user:token:${value}`,
+    },
     telegram: {
+      token: {
+        key: (value) => `user:telegram:token:${value}`,
+      },
       search: {
         key: (value) => `user:telegram:search:${value}`,
       },

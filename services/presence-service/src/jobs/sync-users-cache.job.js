@@ -1,11 +1,14 @@
 import cron from "node-cron";
-import { publishSyncUsersPresenceCache } from "../events/publishers/sync-users-cache.publisher";
+import { bulkUpdatePresenceService } from "../services/presence.service.js";
+import { getUsersLastActive } from "../cache/users.cache.js";
 
-cron.schedule("*/5 * * * * *", async () => {
+export const syncUsersPresenceCacheJob = cron.schedule("*/5 * * * * *", async () => {
   try {
-    await publishSyncUsersPresenceCache();
-    console.log("Users presence cache synced ✅");
-  } catch (err) {
-    console.error("Failed to sync users presence cache:", err);
+    const users_last_active = await getUsersLastActive();
+    await bulkUpdatePresenceService(users_last_active);
+
+    console.log("🔔 Successfully synced and updated presence");
+  } catch (error) {
+    console.log("❌ Failed to sync presence cache with database:", error);
   }
 });

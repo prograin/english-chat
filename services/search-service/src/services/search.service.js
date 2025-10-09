@@ -42,3 +42,14 @@ export const rangeSearchService = async (index, field, gte, lte, pagination) => 
     throw error;
   }
 };
+
+export const advancedSearchService = async (query, pagination) => {
+  const result = await searchRepository(index, query);
+  if (result?.hits?.hits?.length) {
+    return result.hits.hits.map((hit) => hit._id);
+  } else {
+    const error = new Error("Search not found");
+    error.status = 404;
+    throw error;
+  }
+};

@@ -1,7 +1,6 @@
 import "module-alias/register";
 
 import app from "./app";
-// DEBUG
 import runBot from "./bot-entry";
 import dotenv from "dotenv";
 

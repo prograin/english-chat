@@ -1,4 +1,4 @@
-import { termsSearchService, rangeSearchService } from "../services/search.service.js";
+import { termsSearchService, rangeSearchService, advancedSearchService } from "../services/search.service.js";
 
 export const termsSearchController = async (req, res, next) => {
   try {
@@ -28,6 +28,19 @@ export const rangeSearchController = async (req, res, next) => {
     const pagination = req.pagination;
 
     const result = await rangeSearchService(index, field, gte, lte, pagination);
+
+    res.status(200).json({ result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const advancedSearchController = async (req, res, next) => {
+  try {
+    const { query } = req.query;
+    const pagination = req.pagination;
+
+    const result = await advancedSearchService(query, pagination);
 
     res.status(200).json({ result });
   } catch (error) {
