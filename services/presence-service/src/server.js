@@ -5,7 +5,7 @@ import app from "../src/app.js";
 import eventBus from "./events/bus/event.bus.js";
 import { initUserButtonClickedSubscriber } from "./events/subscribers/user-button-clicked.subscriber.js";
 import sequelize from "./config/postgres.js";
-import { clearInactiveUsersPresenceCacheJob, syncUsersPresenceCacheJob } from "./jobs/users-cache.job.js";
+import { clearInactiveUsersPresenceCacheJob, syncUsersPresenceCacheJob } from "./jobs/users.job.js";
 
 (async () => {
   try {

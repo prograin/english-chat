@@ -9,6 +9,6 @@ const router = Router();
 
 router.get("/terms", allowRole("admin"), paginationMiddleware, termsSearchController);
 router.get("/range", allowRole("admin"), paginationMiddleware, rangeSearchController);
-router.get("/advanced", allowRole("admin"), paginationMiddleware, advancedSearchController);
+router.get("/query", allowRole("admin"), paginationMiddleware, advancedSearchController);
 
 export default router;

@@ -5,7 +5,7 @@ dotenv.config({ path: ".search.env" });
 import { initIndexes } from "./indexes/indexManager.js";
 import app from "./app.js";
 import { profileConsumer } from "./event/consumers/profile.consumer.js";
-import { syncUsersPresenceCacheJob } from "./jobs/sync-users-presence.job.js";
+import { syncUsersPresenceCacheJob } from "./jobs/users.job.js";
 
 (async () => {
   try {
