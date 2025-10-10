@@ -1,3 +1,5 @@
+//LINK services\search-service\doc\examples\search.service.example.md
+
 import { searchRepository } from "../repositories/search.repository.js";
 
 export const termsSearchService = async (index, field, terms, pagination) => {

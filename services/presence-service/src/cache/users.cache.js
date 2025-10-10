@@ -24,3 +24,11 @@ export const getUsersLastActive = async () => {
   }
   return result;
 };
+
+export const clearInactiveUsers = async () => {
+  const now = new Date.now();
+  const five_min_ago = now - 5 * 60 * 100;
+
+  const removedCount = redis.zremrangebyscore(KEYS.users.presence.last_active, 0, five_min_ago);
+  return removedCount;
+};

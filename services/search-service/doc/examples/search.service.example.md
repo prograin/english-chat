@@ -1,5 +1,5 @@
 ```js
-{
+result = {
   "hits": {
     "total": 152,
     "hits": [
