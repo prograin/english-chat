@@ -1,3 +1,5 @@
+//LINK services\search-service\doc\examples\search.service.example.md
+
 import { searchRepository } from "../repositories/search.repository.js";
 
 export const termsSearchService = async (index, field, terms, pagination) => {
@@ -33,6 +35,17 @@ export const rangeSearchService = async (index, field, gte, lte, pagination) => 
     sort: [{ last_active: "asc" }],
   };
 
+  const result = await searchRepository(index, query);
+  if (result?.hits?.hits?.length) {
+    return result.hits.hits.map((hit) => hit._id);
+  } else {
+    const error = new Error("Search not found");
+    error.status = 404;
+    throw error;
+  }
+};
+
+export const advancedSearchService = async (query, pagination) => {
   const result = await searchRepository(index, query);
   if (result?.hits?.hits?.length) {
     return result.hits.hits.map((hit) => hit._id);

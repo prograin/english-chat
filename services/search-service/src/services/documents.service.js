@@ -1,3 +1,5 @@
+//LINK services\search-service\doc\examples\documents.service.example.md
+
 import {
   indexDocumentRepository,
   indexDocumentByIdRepository,

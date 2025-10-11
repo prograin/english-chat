@@ -4,8 +4,8 @@ dotenv.config({ path: ".presence.env" });
 import app from "../src/app.js";
 import eventBus from "./events/bus/event.bus.js";
 import { initUserButtonClickedSubscriber } from "./events/subscribers/user-button-clicked.subscriber.js";
-import { syncPresenceCacheJob } from "./jobs/sync-cache.job.js";
 import sequelize from "./config/postgres.js";
+import { clearInactiveUsersPresenceCacheJob, syncUsersPresenceCacheJob } from "./jobs/users.job.js";
 
 (async () => {
   try {
@@ -20,7 +20,8 @@ import sequelize from "./config/postgres.js";
     await initUserButtonClickedSubscriber();
 
     // Jobs
-    syncPresenceCacheJob.start();
+    syncUsersPresenceCacheJob.start();
+    clearInactiveUsersPresenceCacheJob.start();
 
     // Express
     const PORT = process.env.PORT || 3001;
