@@ -3,7 +3,7 @@ import BotResponse from "src/bot/types/bot-response.type";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { getUserTelegramSearch, setUserTelegramSearch } from "./search.cache";
 import searchBaseReply from "./search-base.reply";
-import searchStartReply from "./search.start";
+import searchStartReply from "./search-start.reply";
 
 const searchMainReply = async (bot: TelegramBot, callbackQuery: CallbackQuery, response: BotResponse) => {
   try {
