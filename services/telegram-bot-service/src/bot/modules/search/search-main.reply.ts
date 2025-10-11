@@ -32,6 +32,7 @@ const searchMainReply = async (bot: TelegramBot, callbackQuery: CallbackQuery, r
 
       case "start":
         await searchStartReply(bot, callbackQuery, telegramSearchData, userProfile);
+        break;
 
       default:
         if (telegramSearchData.selected_fields?.includes(lastPart)) {

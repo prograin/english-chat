@@ -1,9 +1,9 @@
 import esClient from "../config/elastic.js";
 
-export const searchRepository = async (index, query) => {
+export const searchRepository = async (index, body) => {
   return esClient.search({
     index: index,
-    source: false,
-    body: query,
+    _source: true,
+    body: body,
   });
 };

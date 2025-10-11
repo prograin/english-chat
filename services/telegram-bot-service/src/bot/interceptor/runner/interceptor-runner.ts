@@ -6,9 +6,8 @@ import { BotEvent } from "src/bot/types/bot-event.type";
 
 export const interceptorRunner = (bot: TelegramBot, middlewares: Interceptors, callback: BotCallback) => {
   return async (event: BotEvent) => {
-    console.log(event);
     let index = -1;
-    const response = botResponseDefault;
+    const response = structuredClone(botResponseDefault);
     const next = async () => {
       index++;
       if (index < middlewares.length) {

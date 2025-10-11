@@ -9,7 +9,7 @@ class UsersProfilesCache {
       const key = PREFIX_KEY.user.profile.data(id);
 
       if (!(await redis.exists(key))) {
-        await redis.hset(key, data);
+        await redis.set(key, JSON.stringify(data));
       }
       await redis.expire(key, this.PROFILE_TTL);
     } catch (error) {
@@ -17,15 +17,17 @@ class UsersProfilesCache {
     }
   }
 
-  async getUserProfile(id, fields = null) {
+  async getUserProfile(id) {
     try {
       const key = PREFIX_KEY.user.profile.data(id);
-      const cached = fields ? await redis.hmget(key, ...fields) : await redis.hgetall(key);
+      const cached = await redis.get(key);
 
-      if (!cached || Object.keys(cached).length === 0) return null;
+      if (!cached) return null;
+
+      const cachedParsed = JSON.parse(cached);
 
       await redis.expire(key, this.PROFILE_TTL);
-      return cached;
+      return cachedParsed;
     } catch (error) {
       console.error("❌ Error fetching profile from cache:", error);
       return null;
@@ -35,17 +37,16 @@ class UsersProfilesCache {
   async updateUserProfile(id, data) {
     try {
       const key = PREFIX_KEY.user.profile.data(id);
-      const profile = await redis.hgetall(key);
+      const profile = await redis.get(key);
 
-      if (!profile || Object.keys(profile).length === 0) {
+      if (!profile) {
         console.warn(`UserProfile ${id} not found in cache`);
         return null;
       }
 
-      const updated = { ...profile, ...data };
-      await redis.hset(key, updated);
+      await redis.set(key, JSON.stringify(data));
       await redis.expire(key, this.PROFILE_TTL);
-      return updated;
+      return data;
     } catch (error) {
       console.error("❌ Error updating profile in cache:", error);
       return null;

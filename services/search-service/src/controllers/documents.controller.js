@@ -19,7 +19,8 @@ export const createDocController = async (req, res, next) => {
 export const createSelfDocController = async (req, res, next) => {
   try {
     const { id } = req.user.user_id;
-    const { index } = req.params;
+    const { index } = req.index;
+
     const data = req.body;
     const result = await createDocByIdService(index, id, data);
     res.status(201).json({ result });
@@ -30,7 +31,9 @@ export const createSelfDocController = async (req, res, next) => {
 
 export const createDocByIdController = async (req, res, next) => {
   try {
-    const { id, index } = req.params;
+    const { id } = req.params;
+    const index = req.index;
+
     const data = req.body;
     const result = await createDocByIdService(index, id, data);
     res.status(201).json({ result });
@@ -41,7 +44,9 @@ export const createDocByIdController = async (req, res, next) => {
 
 export const getDocByIdController = async (req, res, next) => {
   try {
-    const { id, index } = req.params;
+    const { id } = req.params;
+    const { index } = req.index;
+
     const doc = await getDocByIdService(index, id);
     res.status(200).json({ doc });
   } catch (err) {
@@ -51,7 +56,8 @@ export const getDocByIdController = async (req, res, next) => {
 
 export const updateDocByIdController = async (req, res, next) => {
   try {
-    const { id, index } = req.params;
+    const { id } = req.params;
+    const { index } = req.index;
     const fieldsToUpdate = req.body;
     const result = await updateDocByIdService(index, id, fieldsToUpdate);
     res.status(200).json({ result });

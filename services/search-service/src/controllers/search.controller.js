@@ -1,8 +1,10 @@
-import { termsSearchService, rangeSearchService, advancedSearchService } from "../services/search.service.js";
+import { termsSearchService, rangeSearchService, querySearchService } from "../services/search.service.js";
 
 export const termsSearchController = async (req, res, next) => {
   try {
-    const { index, field, values } = req.query;
+    const { field, values } = req.query;
+    const index = req.reference;
+
     const pagination = req.pagination;
 
     if (!values) return res.status(400).json({ error: "values is required" });
@@ -24,7 +26,9 @@ export const termsSearchController = async (req, res, next) => {
 
 export const rangeSearchController = async (req, res, next) => {
   try {
-    const { index, field, gte, lte } = req.query;
+    const { field, gte, lte } = req.query;
+    const index = req.reference;
+
     const pagination = req.pagination;
 
     const result = await rangeSearchService(index, field, gte, lte, pagination);
@@ -35,12 +39,13 @@ export const rangeSearchController = async (req, res, next) => {
   }
 };
 
-export const advancedSearchController = async (req, res, next) => {
+export const querySearchController = async (req, res, next) => {
   try {
-    const { query } = req.query;
+    const query = req.body;
+    const index = req.reference;
     const pagination = req.pagination;
 
-    const result = await advancedSearchService(query, pagination);
+    const result = await querySearchService(index, query, pagination);
 
     res.status(200).json({ result });
   } catch (error) {

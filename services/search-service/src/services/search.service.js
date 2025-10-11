@@ -3,7 +3,7 @@
 import { searchRepository } from "../repositories/search.repository.js";
 
 export const termsSearchService = async (index, field, terms, pagination) => {
-  const query = {
+  const body = {
     query: {
       terms: { [field]: terms },
     },
@@ -12,7 +12,7 @@ export const termsSearchService = async (index, field, terms, pagination) => {
     sort: [{ last_active: "asc" }],
   };
 
-  const result = await searchRepository(index, query);
+  const result = await searchRepository(index, body);
   if (result?.hits?.hits?.length) {
     return result.hits.hits.map((hit) => hit._id);
     ``;
@@ -28,14 +28,14 @@ export const rangeSearchService = async (index, field, gte, lte, pagination) => 
   if (gte !== undefined) rangeFilter.gte = gte;
   if (lte !== undefined) rangeFilter.lte = lte;
 
-  const query = {
+  const body = {
     query: { range: { [field]: rangeFilter } },
     from: pagination.page * pagination.size,
     size: pagination.size,
     sort: [{ last_active: "asc" }],
   };
 
-  const result = await searchRepository(index, query);
+  const result = await searchRepository(index, body);
   if (result?.hits?.hits?.length) {
     return result.hits.hits.map((hit) => hit._id);
   } else {
@@ -45,10 +45,16 @@ export const rangeSearchService = async (index, field, gte, lte, pagination) => 
   }
 };
 
-export const advancedSearchService = async (query, pagination) => {
-  const result = await searchRepository(index, query);
+export const querySearchService = async (index, query, pagination) => {
+  const body = {
+    query,
+    from: pagination.page * pagination.size,
+    size: pagination.size,
+    sort: [{ last_active: "asc" }],
+  };
+  const result = await searchRepository(index, body);
   if (result?.hits?.hits?.length) {
-    return result.hits.hits.map((hit) => hit._id);
+    return result.hits.hits.map((hit) => hit._source);
   } else {
     const error = new Error("Search not found");
     error.status = 404;

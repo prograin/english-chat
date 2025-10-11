@@ -1,12 +1,11 @@
 import { RedisStreamConsumer } from "./base.consumer.js";
 import { REDIS_STREAMS, REDIS_EVENTS } from "../../../../../shared/constants/redis.js";
-// import { updateProfileIndex } from "../services/profileService.js";
+import { updateDocByIdService } from "../../services/documents.service.js";
 
 const handleProfile = async ({ event, userId, data }) => {
   switch (event) {
     case REDIS_EVENTS.user.profile.updated:
-      console.log("Profile updated:", userId, data);
-      // await updateProfileIndex(userId, data);
+      await updateDocByIdService("users", userId, data);
       break;
     default:
       console.warn("Unknown event:", event);

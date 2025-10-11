@@ -9,6 +9,6 @@ export default interface BotResponse {
   };
 }
 
-export const botResponseDefault = structuredClone({
+export const botResponseDefault = {
   user: { exists: false, id: null, permissions: { search: [] } },
-});
+};

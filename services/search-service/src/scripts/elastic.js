@@ -47,7 +47,7 @@ const getDocuments = async (index) => {
       match_all: {},
     },
   });
-  const documents = result.hits.hits.map((hit) => hit._id);
+  const documents = result.hits.hits.map((hit) => hit._source);
   console.log(documents);
 };
 
@@ -55,6 +55,7 @@ const bulkDeleteDocuments = async (index, ids) => {
   const body = ids.flatMap((id) => ({ delete: { _index: index, _id: id } }));
   await esClient.bulk({ body });
 };
+
 // deleteIndices(["users"]);
 // getIndices();
 getDocuments("users");

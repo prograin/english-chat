@@ -15,14 +15,14 @@ documentsUsersRouter.use(authMiddleware);
 topLevelUsersRouter.use(
   "/search",
   (req, res, next) => {
-    req.params.reference = "users"; // add the param manually
+    req.reference = "users"; // add the param manually
     next();
   },
   searchRouter
 );
 
-documentsUsersRouter.use("/", (req, res, next) => {
-  req.params.index = "users";
+documentsUsersRouter.use((req, res, next) => {
+  req.index = "users";
   next();
 });
 

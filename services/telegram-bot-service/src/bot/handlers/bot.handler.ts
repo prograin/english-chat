@@ -69,6 +69,7 @@ export class ManageHandlers {
             case InlineCallback.in_search_boys_c:
             case InlineCallback.in_search_girls_c:
             case InlineCallback.in_search_career_c:
+            case InlineCallback.in_search_interests_c:
             case InlineCallback.in_search_near_age_c:
             case InlineCallback.in_search_same_country_c:
             case InlineCallback.in_search_same_city_c:

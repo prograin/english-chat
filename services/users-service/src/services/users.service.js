@@ -35,7 +35,7 @@ export const createUserService = async (data) => {
     user = await createUser(cleaned);
     profile = await createProfileService({ user_id: Number(user.id) });
     presence = await AdminAxiosInstance.post(`http://localhost:3001/users/${user.id}/presence/`);
-    search = await AdminAxiosInstance.post(`http://localhost:3005/documents/users/${user.id}`, { user_id: user.id, username: user_id });
+    search = await AdminAxiosInstance.post(`http://localhost:3005/documents/users/${user.id}`, { user_id: user.id, username: user.id });
   } catch (err) {
     if (user) await deleteUser(user.id);
 
