@@ -3,6 +3,6 @@ export default interface User {
   telegram_id?: bigint | null;
   token?: string | null;
   exists: boolean;
-  profile?: object;
+  profile?: object | null;
   permissions: { search: string[] | null };
 }

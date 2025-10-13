@@ -27,4 +27,10 @@ export class UserAdminService {
       validateStatus: (status) => status < 500,
     });
   };
+
+  static searchUsersByQuery = async (page: number, query: object) => {
+    return await AdminAxiosInstance.post(`http://localhost:3005/users/search/query?page=${page}`, query, {
+      validateStatus: (status) => status < 500,
+    });
+  };
 }

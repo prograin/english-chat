@@ -32,6 +32,8 @@ export class InlineCallback {
   static in_search_near_age_c = 'SEARCH::{"field":"age","op":"range"}';
   static in_search_near_location_c = "SEARCH::location";
   static in_search_start_c = "SEARCH::start";
+  static in_search_next_page_c = "SEARCH::nextpage";
+  static in_search_previous_page_c = "SEARCH::previouspage";
 }
 
 export class InlineMeta {

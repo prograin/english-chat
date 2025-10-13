@@ -3,6 +3,8 @@ import {
   deleteProfileByUserIdService,
   getProfileByUserIdService,
   updateProfileByUserIdService,
+  getProfilesByUserIdsService,
+  getProfileByUsernameService,
 } from "../services/profile.service.js";
 
 export const createProfileByUserIdController = async (req, res, next) => {
@@ -68,6 +70,21 @@ export const getProfilesByUserIdsController = async (req, res, next) => {
     return res.json(profiles);
   } catch (err) {
     next(err);
+  }
+};
+
+export const getProfileByUsernameController = async (req, res, next) => {
+  try {
+    const username = req.params.username;
+    const profile = await getProfileByUsernameService(username);
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    res.status(200).json({ profile });
+  } catch (error) {
+    next(error);
   }
 };
 

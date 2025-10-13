@@ -38,6 +38,19 @@ export const getProfilesByUserIds = async (user_ids, options = {}) => {
 };
 
 /**
+ * Retrieves a user profile by Username.
+ * @param {string} username - The ID of the user.
+ * @param {object} [options] - Optional Sequelize options (e.g., transaction).
+ * @returns {Promise<ProfileModel|null>} The found profile instance or null.
+ */
+export const getProfileByUsername = async (username, options = {}) => {
+  return await ProfileModel.findOne({
+    where: { username },
+    ...options,
+  });
+};
+
+/**
  * Updates a user profile by user ID.
  * @param {number} user_id - The ID of the user.
  * @param {object} data - Data to update.

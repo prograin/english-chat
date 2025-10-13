@@ -5,28 +5,33 @@ import { getUserTelegramSearch, setUserTelegramSearch } from "./search.cache";
 import searchBaseReply from "./search-base.reply";
 import searchStartReply from "./search-start.reply";
 
-const searchMainReply = async (bot: TelegramBot, callbackQuery: CallbackQuery, response: BotResponse) => {
+const searchMainReplyMessage = async (
+  bot: TelegramBot,
+  message: Message,
+  response: BotResponse,
+  telegramSearchData: TelegramSearchData,
+  searchPermission: object | null
+) => {
+  await searchBaseReply(bot, message, telegramSearchData, searchPermission);
+  await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
+};
+
+const searchMainReplyCallback = async (
+  bot: TelegramBot,
+  callbackQuery: CallbackQuery,
+  response: BotResponse,
+  telegramSearchData: TelegramSearchData,
+  userProfile: object | null | undefined,
+  searchPermission: object | null
+) => {
   try {
-    const searchPermission = response.user.permissions.search;
-    const userProfile = response.user.profile;
     const callbackDataPart = response.callback!.data.parts;
     const callbackDataRaw = response.callback!.data.raw;
-
-    let telegramSearchData: TelegramSearchData = (await getUserTelegramSearch(Number(response.user.id))) as TelegramSearchData;
-
-    if (telegramSearchData === null) {
-      telegramSearchData = {
-        state: "search-base",
-        action: null,
-        selected_fields: [],
-        selected_fields_raw: [],
-      };
-    }
 
     const lastPart = callbackDataPart[callbackDataPart.length - 1];
     switch (lastPart) {
       case "":
-        await searchBaseReply(bot, callbackQuery, telegramSearchData, searchPermission);
+        await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
         await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
         break;
 
@@ -43,7 +48,7 @@ const searchMainReply = async (bot: TelegramBot, callbackQuery: CallbackQuery, r
           telegramSearchData.selected_fields_raw.push(callbackDataRaw);
         }
         await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
-        await searchBaseReply(bot, callbackQuery, telegramSearchData, searchPermission);
+        await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
         break;
     }
   } catch (error) {
@@ -51,4 +56,27 @@ const searchMainReply = async (bot: TelegramBot, callbackQuery: CallbackQuery, r
   }
 };
 
-export default searchMainReply;
+export const searchMainReplyInit = async (bot: TelegramBot, callback: CallbackQuery | Message, response: BotResponse) => {
+  const searchPermission = response.user.permissions.search;
+  const userProfile = response.user.profile;
+
+  let telegramSearchData: TelegramSearchData = (await getUserTelegramSearch(Number(response.user.id))) as TelegramSearchData;
+
+  if (telegramSearchData === null) {
+    telegramSearchData = {
+      state: "search-base",
+      action: null,
+      page: 0,
+      selected_fields: [],
+      selected_fields_raw: [],
+    };
+  }
+
+  if ("data" in callback) {
+    searchMainReplyCallback(bot, callback, response, telegramSearchData, userProfile, searchPermission);
+  } else if ("text" in callback) {
+    searchMainReplyMessage(bot, callback, response, telegramSearchData, searchPermission);
+  }
+};
+
+export default searchMainReplyInit;

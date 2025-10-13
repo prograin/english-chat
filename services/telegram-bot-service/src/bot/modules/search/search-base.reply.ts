@@ -1,10 +1,10 @@
-import TelegramBot, { CallbackQuery } from "node-telegram-bot-api";
+import TelegramBot, { CallbackQuery, Message } from "node-telegram-bot-api";
 import { ma_search_base_in } from "./search.markup";
 import { fix_ma_search_base_in } from "./search.markup";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { need_complete_profile, search_base } from "./search.text";
 
-async function searchBaseReply(bot: TelegramBot, callbackQuery: CallbackQuery, telegramSearchData: TelegramSearchData, searchPermission: any) {
+async function searchBaseReply(bot: TelegramBot, message: Message | undefined, telegramSearchData: TelegramSearchData, searchPermission: any) {
   const selectedFieldsRaw = telegramSearchData?.selected_fields_raw;
 
   const filteredReply = [];
@@ -27,16 +27,16 @@ async function searchBaseReply(bot: TelegramBot, callbackQuery: CallbackQuery, t
 
   if (filteredReply.length === 0) {
     await bot.editMessageText(need_complete_profile, {
-      chat_id: callbackQuery.message!.chat.id,
-      message_id: callbackQuery.message!.message_id,
+      chat_id: message!.chat.id,
+      message_id: message!.message_id,
     });
   }
 
   const finalReply = [...filteredReply, ...fix_ma_search_base_in];
 
   await bot.editMessageText(search_base, {
-    chat_id: callbackQuery.message!.chat.id,
-    message_id: callbackQuery.message!.message_id,
+    chat_id: message!.chat.id,
+    message_id: message!.message_id,
     reply_markup: {
       inline_keyboard: finalReply,
     },

@@ -37,6 +37,11 @@ export const KEYS = {
 };
 
 export const PREFIX_KEY = {
+  profile: {
+    username: {
+      key: (value) => `profile:username:${value}`,
+    },
+  },
   user: {
     data: (value) => `user:${value}`,
     profile: {

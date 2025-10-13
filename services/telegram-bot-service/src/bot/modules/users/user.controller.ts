@@ -38,4 +38,14 @@ export class UserAdminController {
       throw new Error(`❌ Unexpected response status when fetching user: ${user.status}`);
     }
   };
+
+  static searchUsersByQuery = async (page: number, query: object) => {
+    const response = await UserAdminService.searchUsersByQuery(page, query);
+
+    if (!response.data.result || response.data.result === 0) {
+      return null;
+    } else {
+      return response.data.result;
+    }
+  };
 }

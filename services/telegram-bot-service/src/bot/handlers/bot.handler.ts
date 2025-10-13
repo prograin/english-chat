@@ -34,6 +34,10 @@ export class ManageHandlers {
     );
   }
 
+  async messageHandler() {
+    this.bot.on("message", (message) => {});
+  }
+
   async callbackHandler() {
     this.bot.on(
       "callback_query",

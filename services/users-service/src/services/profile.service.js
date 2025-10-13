@@ -4,12 +4,14 @@ import {
   getProfileByUserId,
   updateProfileByUserId,
   getProfilesByUserIds,
+  getProfileByUsername,
 } from "../repositories/profile.repository.js";
 import validateUtil from "../utils/validate.util.js";
 import { responseProfileSchema } from "../schemas/profile.schema.js";
 import profileProducer from "../events/producers/profile.producer.js";
 import { dropNullFields } from "../utils/objects.util.js";
 import usersProfilesCache from "../cache/users-profiles.cache.js";
+import profilesCache from "../cache/profiles.cache.js";
 
 /**
  * Creates a new profile if one does not already exist for the user.
@@ -71,6 +73,22 @@ export const getProfilesByUserIdsService = async (user_ids, options = {}) => {
   const validatedProfiles = await Promise.all(profiles.map((profile) => validateUtil(responseProfileSchema, profile.toJSON(), false, true, false)));
 
   return validatedProfiles;
+};
+
+/**
+ * retrieve a profile by username
+ * @param {string} username
+ * @param {Object} options
+ * @returns {Promise<Object>}
+ */
+export const getProfileByUsernameService = async (username, options = {}) => {
+  let profile = profilesCache.getProfileByUsername(username);
+  if (!profile) profile = await getProfileByUsername(username, options);
+  if (!profile) return null;
+
+  profile = await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+  await profilesCache.addProfileByUsername(username, profile);
+  return profile;
 };
 
 /**

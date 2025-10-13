@@ -3,6 +3,9 @@ import { ma_search_base_in } from "./search.markup";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { QueryFilter } from "./search.type";
 import { AdminAxiosInstance } from "src/shared/utils/axios.util";
+import { no_search_found_text } from "./search.text";
+import { buildSearchQueryOptions, buildUserSearchMessage } from "./search.helper";
+import { UserAdminController } from "../users/user.controller";
 
 async function searchStartReply(
   bot: TelegramBot,
@@ -10,26 +13,33 @@ async function searchStartReply(
   telegramSearchData: TelegramSearchData,
   userProfile: Record<string, any> | any
 ) {
-  const selected_fields = telegramSearchData?.selected_fields;
-  const must_clauses = [];
+  const selectedFields = telegramSearchData?.selected_fields;
+  const page = telegramSearchData?.page as number;
 
-  for (const fieldData of selected_fields || []) {
-    const f: QueryFilter = JSON.parse(fieldData) as QueryFilter;
-    if (["term", "terms"].includes(f.op)) {
-      must_clauses.push({ [f.op]: { [f.field]: f.value ?? userProfile[f.field] } });
-    } else if (["gt", "gte", "lt", "lte", "eq"].includes(f.op)) {
-      if (f.op === "eq") {
-        must_clauses.push({ term: { [f.field]: f.value ?? userProfile[f.field] } });
-      } else {
-        must_clauses.push({ range: { [f.field]: { [f.op]: f.value ?? userProfile[f.field] } } });
-      }
-    } else {
-      return { error: `Unsupported operator: ${f.op}` };
+  const query = buildSearchQueryOptions(selectedFields || [], userProfile);
+
+  const users = await UserAdminController.searchUsersByQuery(page, query);
+  if (!users) {
+    await bot.editMessageText(no_search_found_text, {
+      chat_id: callbackQuery.message?.chat.id,
+      message_id: callbackQuery.message?.message_id,
+    });
+  } else {
+    let messageText = "🔎 <b>Search Results</b>\n\n";
+
+    for (const user of users) {
+      messageText += buildUserSearchMessage(user);
     }
-  }
-  const query = { bool: { must: must_clauses } };
 
-  await AdminAxiosInstance.post(`http://localhost:3005/users/search/query`, query);
+    const now = new Date();
+    messageText += `<i>Search performed on ${now.toLocaleDateString("en-US")} ${now.toLocaleTimeString("en-US")}</i>`;
+
+    await bot.editMessageText(messageText, {
+      chat_id: callbackQuery.message?.chat.id,
+      message_id: callbackQuery.message?.message_id,
+      parse_mode: "HTML",
+    });
+  }
 }
 
 export default searchStartReply;

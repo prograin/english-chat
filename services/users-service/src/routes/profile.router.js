@@ -6,6 +6,7 @@ import {
   getProfileByUserIdController,
   getProfilesByUserIdsController,
   deleteProfileByUserIdController,
+  getProfileByUsernameController,
 } from "../controllers/profile.controller.js";
 import validateMiddleware from "../middlewares/validate.middleware.js";
 import { updateProfileSchema, createProfileSchema } from "../schemas/profile.schema.js";
@@ -27,6 +28,7 @@ export const topProfilesRouter = express.Router();
 topProfilesRouter.put("/me", authMiddleware, allowRole("admin", "user"), validateMiddleware(updateProfileSchema), updateMyProfileController);
 topProfilesRouter.get("/me", authMiddleware, allowRole("admin", "user"), getMyProfileController);
 topProfilesRouter.get("/", authMiddleware, allowRole("admin"), getProfilesByUserIdsController);
+topProfilesRouter.get("/username/:username", authMiddleware, allowRole("admin"), getProfileByUsernameController);
 
 // --------------------------
 
