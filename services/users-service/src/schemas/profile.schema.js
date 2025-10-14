@@ -34,6 +34,8 @@ const schema = {
 
   latitude: joi.number().allow(null).optional(),
   longitude: joi.number().allow(null).optional(),
+
+  username: joi.string().allow(null).optional(),
 };
 
 export const createProfileSchema = joi.object(schema);

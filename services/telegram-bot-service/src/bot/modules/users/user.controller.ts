@@ -45,7 +45,7 @@ export class UserAdminController {
     if (!response.data.result || response.data.result === 0) {
       return null;
     } else {
-      return response.data.result;
+      return response.data;
     }
   };
 }

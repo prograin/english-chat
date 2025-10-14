@@ -4,7 +4,6 @@ const schema = {
   id: joi.number().optional(),
   telegram_id: joi.number().integer().required(),
 
-  username: joi.string().allow(null).optional(),
   email: joi.string().email().allow(null).optional(),
   password: joi.string().min(6).allow(null).optional(),
 };

@@ -4,6 +4,7 @@ export const indexDocumentRepository = async (index, doc) => {
   return esClient.index({
     index: index,
     body: doc || {},
+    refresh: true,
   });
 };
 
@@ -12,6 +13,7 @@ export const indexDocumentByIdRepository = async (index, id, doc) => {
     index,
     id,
     body: doc || {},
+    refresh: true,
   });
 };
 
@@ -34,6 +36,7 @@ export const updateDocumentByIdRepository = async (index, id, fieldsToUpdate) =>
     index,
     id,
     doc: fieldsToUpdate,
+    refresh: true,
   });
 };
 

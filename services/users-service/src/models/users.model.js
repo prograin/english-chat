@@ -16,11 +16,6 @@ const usersModel = sequelize.define(
       type: DataTypes.BIGINT,
       unique: true,
     },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      unique: true,
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -36,7 +31,6 @@ const usersModel = sequelize.define(
     tableName: "users",
     timestamps: true,
     indexes: [
-      { fields: ["username"], unique: true, name: "unique_username" },
       { fields: ["email"], unique: true, name: "unique_email" },
       { fields: ["telegram_id"], unique: true, name: "unique_telegram_id" },
     ],

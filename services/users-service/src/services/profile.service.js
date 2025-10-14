@@ -82,7 +82,7 @@ export const getProfilesByUserIdsService = async (user_ids, options = {}) => {
  * @returns {Promise<Object>}
  */
 export const getProfileByUsernameService = async (username, options = {}) => {
-  let profile = profilesCache.getProfileByUsername(username);
+  let profile = await profilesCache.getProfileByUsername(username);
   if (!profile) profile = await getProfileByUsername(username, options);
   if (!profile) return null;
 

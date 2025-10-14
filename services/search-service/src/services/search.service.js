@@ -46,15 +46,21 @@ export const rangeSearchService = async (index, field, gte, lte, pagination) => 
 };
 
 export const querySearchService = async (index, query, pagination) => {
+  const from = pagination.page * pagination.size;
+  const size = pagination.size;
+
   const body = {
     query,
-    from: pagination.page * pagination.size,
-    size: pagination.size,
+    from,
+    size,
     sort: [{ last_active: "asc" }],
   };
   const result = await searchRepository(index, body);
   if (result?.hits?.hits?.length) {
-    return result.hits.hits.map((hit) => hit._source);
+    return {
+      result: result?.hits?.hits?.map((hit) => hit._source) || [],
+      is_next_page: result?.hits?.total.value > from + size || false,
+    };
   } else {
     const error = new Error("Search not found");
     error.status = 404;

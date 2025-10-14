@@ -8,11 +8,14 @@ import { updateProfileByUserIdService } from "../../services/profile.service.js"
 export async function createDummyUsers() {
   try {
     for (const item of dummyUsersWithProfiles) {
-      // await createUserService({
-      //   id: item.id,
-      //   telegram_id: item.telegram_id,
-      //   username: item.username,
-      // });
+      try {
+        await createUserService({
+          id: item.id,
+          telegram_id: item.telegram_id,
+        });
+      } catch (err) {
+        console.log(err);
+      }
 
       await updateProfileByUserIdService(item.id, item.profile);
     }

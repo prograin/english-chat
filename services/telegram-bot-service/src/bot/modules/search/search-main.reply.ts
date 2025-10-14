@@ -4,6 +4,9 @@ import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { getUserTelegramSearch, setUserTelegramSearch } from "./search.cache";
 import searchBaseReply from "./search-base.reply";
 import searchStartReply from "./search-start.reply";
+import { CommandExpression } from "src/bot/buttons/command.button";
+import searchProfileReply from "./search-profile.reply";
+import { BotEvent } from "src/bot/types/bot-event.type";
 
 const searchMainReplyMessage = async (
   bot: TelegramBot,
@@ -12,8 +15,14 @@ const searchMainReplyMessage = async (
   telegramSearchData: TelegramSearchData,
   searchPermission: object | null
 ) => {
-  await searchBaseReply(bot, message, telegramSearchData, searchPermission);
-  await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
+  const usernameMatch = message.text?.match(CommandExpression.c_username_exp);
+
+  if (usernameMatch) {
+    await searchProfileReply(bot, message, usernameMatch[1]);
+  } else {
+    await searchBaseReply(bot, message, telegramSearchData, searchPermission);
+    await setUserTelegramSearch(Number(response.user.id), Number(message.message_id), telegramSearchData);
+  }
 };
 
 const searchMainReplyCallback = async (
@@ -32,11 +41,24 @@ const searchMainReplyCallback = async (
     switch (lastPart) {
       case "":
         await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
-        await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
+        await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
+        break;
+
+      case "nextpage":
+        telegramSearchData.page++;
+        await searchStartReply(bot, callbackQuery, telegramSearchData, userProfile);
+        await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
+        break;
+
+      case "previouspage":
+        telegramSearchData.page--;
+        await searchStartReply(bot, callbackQuery, telegramSearchData, userProfile);
+        await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
         break;
 
       case "start":
         await searchStartReply(bot, callbackQuery, telegramSearchData, userProfile);
+        await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
         break;
 
       default:
@@ -47,7 +69,7 @@ const searchMainReplyCallback = async (
           telegramSearchData.selected_fields?.push(lastPart);
           telegramSearchData.selected_fields_raw.push(callbackDataRaw);
         }
-        await setUserTelegramSearch(Number(response.user.id), telegramSearchData);
+        await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
         await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
         break;
     }
@@ -56,11 +78,12 @@ const searchMainReplyCallback = async (
   }
 };
 
-export const searchMainReplyInit = async (bot: TelegramBot, callback: CallbackQuery | Message, response: BotResponse) => {
+export const searchMainReplyInit = async (bot: TelegramBot, event: BotEvent, response: BotResponse) => {
   const searchPermission = response.user.permissions.search;
   const userProfile = response.user.profile;
+  const message_id = "data" in event ? event.message?.message_id : (event as Message).message_id;
 
-  let telegramSearchData: TelegramSearchData = (await getUserTelegramSearch(Number(response.user.id))) as TelegramSearchData;
+  let telegramSearchData: TelegramSearchData = (await getUserTelegramSearch(Number(response.user.id), Number(message_id))) as TelegramSearchData;
 
   if (telegramSearchData === null) {
     telegramSearchData = {
@@ -72,10 +95,10 @@ export const searchMainReplyInit = async (bot: TelegramBot, callback: CallbackQu
     };
   }
 
-  if ("data" in callback) {
-    searchMainReplyCallback(bot, callback, response, telegramSearchData, userProfile, searchPermission);
-  } else if ("text" in callback) {
-    searchMainReplyMessage(bot, callback, response, telegramSearchData, searchPermission);
+  if ("data" in event) {
+    searchMainReplyCallback(bot, event, response, telegramSearchData, userProfile, searchPermission);
+  } else if ("text" in event) {
+    searchMainReplyMessage(bot, event, response, telegramSearchData, searchPermission);
   }
 };
 

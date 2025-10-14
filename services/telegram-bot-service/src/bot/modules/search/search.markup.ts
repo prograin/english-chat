@@ -7,3 +7,7 @@ export const ma_search_base_in = [
 ];
 
 export const fix_ma_search_base_in = [[InlineButton.in_search_start_b]];
+
+export const ma_search_start_all_in = [[InlineButton.in_search_previous_page_b, InlineButton.in_search_next_page_b]];
+export const ma_search_start_next_in = [[InlineButton.in_search_next_page_b]];
+export const ma_search_start_previous_in = [[InlineButton.in_search_previous_page_b]];

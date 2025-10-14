@@ -4,6 +4,10 @@ dotenv.config({ path: ".search.env" });
 
 import esClient from "../config/elastic.js";
 
+const refresh = async () => {
+  await esClient.indices.refresh({ index: "users" });
+};
+
 const getIndices = async () => {
   const result = await esClient.cat.indices({
     format: "json",
@@ -43,11 +47,12 @@ const removeDocuments = async (index) => {
 const getDocuments = async (index) => {
   const result = await esClient.search({
     index,
+    size: 1000,
     query: {
       match_all: {},
     },
   });
-  const documents = result.hits.hits.map((hit) => hit._source);
+  const documents = result.hits.hits.map((hit) => hit._id);
   console.log(documents);
 };
 
@@ -58,6 +63,7 @@ const bulkDeleteDocuments = async (index, ids) => {
 
 // deleteIndices(["users"]);
 // getIndices();
+
 getDocuments("users");
 // removeDocuments("users");
 // bulkDeleteDocuments("users", ["31", "32"]);

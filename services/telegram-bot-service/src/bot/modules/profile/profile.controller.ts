@@ -1,5 +1,5 @@
-import { UserAdminService, UserSelfService } from "src/bot/modules/users/user.service";
-import { ProfileUserService } from "src/bot/modules/profile/profile.service";
+import { error, profile } from "console";
+import { ProfileUserService, ProfileAdminService } from "src/bot/modules/profile/profile.service";
 
 export class ProfileSelfController {
   static getProfile = async (token: string) => {
@@ -18,4 +18,18 @@ export class ProfileSelfController {
   };
 }
 
-export class UserAdminController {}
+export class ProfileAdminController {
+  static getProfileByUsername = async (username: string) => {
+    try {
+      const response = await ProfileAdminService.getProfileByUsername(username);
+      if (response.status === 200) {
+        return response.data.profile;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+}

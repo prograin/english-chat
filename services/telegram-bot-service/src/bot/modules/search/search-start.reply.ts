@@ -1,11 +1,9 @@
 import TelegramBot, { CallbackQuery } from "node-telegram-bot-api";
-import { ma_search_base_in } from "./search.markup";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
-import { QueryFilter } from "./search.type";
-import { AdminAxiosInstance } from "src/shared/utils/axios.util";
-import { no_search_found_text } from "./search.text";
+import { no_search_found_text, search_start_text } from "./search.text";
 import { buildSearchQueryOptions, buildUserSearchMessage } from "./search.helper";
 import { UserAdminController } from "../users/user.controller";
+import { ma_search_start_all_in, ma_search_start_next_in, ma_search_start_previous_in } from "./search.markup";
 
 async function searchStartReply(
   bot: TelegramBot,
@@ -17,26 +15,32 @@ async function searchStartReply(
   const page = telegramSearchData?.page as number;
 
   const query = buildSearchQueryOptions(selectedFields || [], userProfile);
+  const data = await UserAdminController.searchUsersByQuery(page, query);
 
-  const users = await UserAdminController.searchUsersByQuery(page, query);
-  if (!users) {
+  if (!data.result) {
     await bot.editMessageText(no_search_found_text, {
       chat_id: callbackQuery.message?.chat.id,
       message_id: callbackQuery.message?.message_id,
     });
   } else {
-    let messageText = "🔎 <b>Search Results</b>\n\n";
+    let reply_markup = [];
 
-    for (const user of users) {
-      messageText += buildUserSearchMessage(user);
+    if (page === 0) {
+      reply_markup = data.is_next_page ? ma_search_start_next_in : [];
+    } else {
+      reply_markup = data.is_next_page ? ma_search_start_all_in : ma_search_start_previous_in;
     }
 
-    const now = new Date();
-    messageText += `<i>Search performed on ${now.toLocaleDateString("en-US")} ${now.toLocaleTimeString("en-US")}</i>`;
+    let messageText = "🔎 <b>Search Results</b>\n\n";
+    for (const user of data.result) {
+      messageText += buildUserSearchMessage(user);
+    }
+    messageText += search_start_text;
 
     await bot.editMessageText(messageText, {
       chat_id: callbackQuery.message?.chat.id,
       message_id: callbackQuery.message?.message_id,
+      reply_markup: { inline_keyboard: reply_markup },
       parse_mode: "HTML",
     });
   }

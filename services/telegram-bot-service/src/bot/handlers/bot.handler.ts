@@ -1,7 +1,7 @@
 import TelegramBot, { CallbackQuery, Message } from "node-telegram-bot-api";
 import start from "src/bot/modules/start/start.reply";
 import search from "src/bot/modules/search/search-main.reply";
-import profile from "src/bot/modules/profile/profile.reply";
+import profile from "src/bot/modules/profile/profile-main.reply";
 import { CommandExpression } from "src/bot/buttons/command.button";
 import { InlineCallback } from "../../bot/buttons/inline.button";
 import { userButtonClickedInterceptor } from "src/bot/interceptor/user-button-clicked.interceptor";
@@ -13,6 +13,7 @@ import { BotEvent } from "src/bot/types/bot-event.type";
 import { userTokenValidateInterceptor } from "src/bot/interceptor/user-token-validate.interceptor";
 import { splitCallbackDataInterceptor } from "../interceptor/split-callback-data.interceptor";
 import { userPermissionsInterceptor } from "../interceptor/user-permissions.interceptor";
+import { inlineButtonValidateInterceptor } from "../interceptor/inline-button-validator.interceptor";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -32,6 +33,14 @@ export class ManageHandlers {
         start
       )
     );
+    this.bot.onText(
+      CommandExpression.c_username_exp,
+      interceptorRunner(
+        this.bot,
+        [messageValidateInterceptor, userTokenValidateInterceptor, userValidateInterceptor, userButtonClickedInterceptor],
+        search
+      )
+    );
   }
 
   async messageHandler() {
@@ -43,7 +52,14 @@ export class ManageHandlers {
       "callback_query",
       interceptorRunner(
         this.bot,
-        [messageValidateInterceptor, authInterceptor, userButtonClickedInterceptor, splitCallbackDataInterceptor, userPermissionsInterceptor],
+        [
+          messageValidateInterceptor,
+          authInterceptor,
+          userButtonClickedInterceptor,
+          splitCallbackDataInterceptor,
+          userPermissionsInterceptor,
+          inlineButtonValidateInterceptor,
+        ],
         async (bot, event: BotEvent, response) => {
           const callbackQuery = event as CallbackQuery;
 
@@ -57,7 +73,7 @@ export class ManageHandlers {
 
           switch (data) {
             case InlineCallback.in_profile_c:
-              await profile(this.bot, callbackQuery);
+              await profile(this.bot, callbackQuery, response);
               break;
 
             case InlineCallback.in_random_chat_c:
@@ -77,6 +93,8 @@ export class ManageHandlers {
             case InlineCallback.in_search_near_age_c:
             case InlineCallback.in_search_same_country_c:
             case InlineCallback.in_search_same_city_c:
+            case InlineCallback.in_search_next_page_c:
+            case InlineCallback.in_search_previous_page_c:
               await search(this.bot, callbackQuery, response);
               break;
           }

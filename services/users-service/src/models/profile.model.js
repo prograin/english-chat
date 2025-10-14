@@ -71,11 +71,17 @@ const ProfileModel = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
   },
   {
     tableName: "profiles",
     timestamps: true,
     indexes: [
+      { fields: ["username"], unique: true, name: "unique_username" },
       { fields: ["user_id"], name: "index_user_id" },
       { fields: ["career"], name: "index_career" },
       { fields: ["age"], name: "index_age" },

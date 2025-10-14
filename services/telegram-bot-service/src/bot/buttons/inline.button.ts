@@ -14,6 +14,8 @@ class InlineName {
   static in_search_interests_n = "By Interests";
   static in_search_career_n = "By Career";
   static in_search_start_n = "Start Search";
+  static in_search_next_page_n = "Next Page";
+  static in_search_previous_page_n = "Previous Page";
 }
 
 export class InlineCallback {
@@ -119,5 +121,15 @@ export class InlineButton {
   static in_search_start_b = {
     text: InlineName.in_search_start_n,
     callback_data: InlineCallback.in_search_start_c,
+  };
+
+  static in_search_next_page_b = {
+    text: InlineName.in_search_next_page_n,
+    callback_data: InlineCallback.in_search_next_page_c,
+  };
+
+  static in_search_previous_page_b = {
+    text: InlineName.in_search_previous_page_n,
+    callback_data: InlineCallback.in_search_previous_page_c,
   };
 }
