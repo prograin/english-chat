@@ -16,8 +16,8 @@ export class UserAdminService {
     });
   };
 
-  static getUser = async (userId: bigint) => {
-    return await AdminAxiosInstance.get(`/users/${userId}`, {
+  static getUser = async (id: number) => {
+    return await AdminAxiosInstance.get(`http://localhost:3004/users/${id}`, {
       validateStatus: (status) => status < 500,
     });
   };

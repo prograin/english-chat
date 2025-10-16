@@ -1,4 +1,3 @@
-import { error, profile } from "console";
 import { ProfileUserService, ProfileAdminService } from "src/bot/modules/profile/profile.service";
 
 export class ProfileSelfController {

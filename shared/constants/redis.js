@@ -43,6 +43,11 @@ export const PREFIX_KEY = {
     },
   },
   user: {
+    chat: {
+      requests: {
+        key: (sender, reciever) => `user:chat:requests:${sender}_to_${reciever}`,
+      },
+    },
     data: (value) => `user:${value}`,
     profile: {
       data: (value) => `user:profile:${value}`,

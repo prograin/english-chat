@@ -3,6 +3,7 @@ import joi from "joi";
 const schema = {
   id: joi.number().optional(),
   telegram_id: joi.number().integer().required(),
+  telegram_chat_id: joi.number().integer().required(),
 
   email: joi.string().email().allow(null).optional(),
   password: joi.string().min(6).allow(null).optional(),

@@ -1,8 +1,5 @@
 import sequelize from "../config/postgres.js";
 import { DataTypes } from "sequelize";
-import { GENDER_VALUES } from "../../../../shared/constants/genders.js";
-import { CAREER_VALUES } from "../../../../shared/constants/careers.js";
-import { INTEREST_VALUES } from "../../../../shared/constants/interests.js";
 
 const ProfileModel = sequelize.define(
   "Profiles",

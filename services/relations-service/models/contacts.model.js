@@ -1,8 +1,8 @@
 import sequelize from "../config/postgres.js";
 import { DataTypes } from "sequelize";
 
-const Blocks = sequelize.define(
-  "Blocks",
+const Contacts = sequelize.define(
+  "Contacts",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -19,18 +19,18 @@ const Blocks = sequelize.define(
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    block_user_id: {
+    contact_user_id: {
       type: DataTypes.BIGINT,
     },
   },
   {
-    tableName: "blocks",
+    tableName: "contacts",
     timestamps: true,
     indexes: [
       { fields: ["user_id"], name: "idx_user_id" },
-      { fields: ["user_id", "block_user_id"], unique: true, name: "idx_user_id_contact_user_id" }, // composite unique
+      { fields: ["user_id", "contact_user_id"], unique: true, name: "idx_user_id_contact_user_id" }, // composite unique
     ],
   }
 );
 
-export default Blocks;
+export default Contacts;

@@ -17,6 +17,7 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
 
   const usersTelegramData = {
     telegram_id: userTelegramId,
+    telegram_chat_id: chatId,
   };
 
   const options = { reply_markup: ma_main_in };

@@ -7,4 +7,4 @@ function generateUserToken(userId: Number, telegramId: Number) {
   console.log(jwt.sign({ user_id: userId, telegram_id: telegramId, role: "user" }, process.env.JWT_SECRET as Secret));
 }
 
-generateUserToken(40, 6608912631);
+generateUserToken(42, 6608912631);

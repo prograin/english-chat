@@ -16,6 +16,10 @@ const usersModel = sequelize.define(
       type: DataTypes.BIGINT,
       unique: true,
     },
+    telegram_chat_id: {
+      type: DataTypes.BIGINT,
+      unique: true,
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: true,

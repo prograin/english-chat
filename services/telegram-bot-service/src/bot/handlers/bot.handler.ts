@@ -14,6 +14,7 @@ import { userTokenValidateInterceptor } from "src/bot/interceptor/user-token-val
 import { splitCallbackDataInterceptor } from "../interceptor/split-callback-data.interceptor";
 import { userPermissionsInterceptor } from "../interceptor/user-permissions.interceptor";
 import { inlineButtonValidateInterceptor } from "../interceptor/inline-button-validator.interceptor";
+import chat from "../modules/chat/chat-main.reply";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -67,36 +68,40 @@ export class ManageHandlers {
           const data = callbackQuery.data;
           const chatId = message?.chat.id;
 
-          if (!chatId) {
+          if (!chatId || !data) {
             return;
           }
 
-          switch (data) {
-            case InlineCallback.in_profile_c:
-              await profile(this.bot, callbackQuery, response);
-              break;
+          if (data.startsWith("CHAT::") && data.endsWith("::send-request")) {
+            await chat(bot, callbackQuery, response);
+          } else {
+            switch (data) {
+              case InlineCallback.in_profile_c:
+                await profile(this.bot, callbackQuery, response);
+                break;
 
-            case InlineCallback.in_random_chat_c:
-              console.log("start search");
-              break;
+              case InlineCallback.in_random_chat_c:
+                console.log("start search");
+                break;
 
-            case InlineCallback.in_edit_c:
-              console.log("edit profile");
-              break;
+              case InlineCallback.in_edit_c:
+                console.log("edit profile");
+                break;
 
-            case InlineCallback.in_search_c:
-            case InlineCallback.in_search_start_c:
-            case InlineCallback.in_search_boys_c:
-            case InlineCallback.in_search_girls_c:
-            case InlineCallback.in_search_career_c:
-            case InlineCallback.in_search_interests_c:
-            case InlineCallback.in_search_near_age_c:
-            case InlineCallback.in_search_same_country_c:
-            case InlineCallback.in_search_same_city_c:
-            case InlineCallback.in_search_next_page_c:
-            case InlineCallback.in_search_previous_page_c:
-              await search(this.bot, callbackQuery, response);
-              break;
+              case InlineCallback.in_search_c:
+              case InlineCallback.in_search_start_c:
+              case InlineCallback.in_search_boys_c:
+              case InlineCallback.in_search_girls_c:
+              case InlineCallback.in_search_career_c:
+              case InlineCallback.in_search_interests_c:
+              case InlineCallback.in_search_near_age_c:
+              case InlineCallback.in_search_same_country_c:
+              case InlineCallback.in_search_same_city_c:
+              case InlineCallback.in_search_next_page_c:
+              case InlineCallback.in_search_previous_page_c:
+                await search(this.bot, callbackQuery, response);
+                break;
+            }
           }
         }
       )

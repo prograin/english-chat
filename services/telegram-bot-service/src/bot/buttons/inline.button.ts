@@ -16,6 +16,8 @@ class InlineName {
   static in_search_start_n = "Start Search";
   static in_search_next_page_n = "Next Page";
   static in_search_previous_page_n = "Previous Page";
+  static in_chat_send_request_n = "Request To Chat";
+  static in_contact_add_n = "Add To Contact";
 }
 
 export class InlineCallback {
@@ -36,6 +38,8 @@ export class InlineCallback {
   static in_search_start_c = "SEARCH::start";
   static in_search_next_page_c = "SEARCH::nextpage";
   static in_search_previous_page_c = "SEARCH::previouspage";
+  static in_chat_send_request_c = "CHAT::{userId}::send-request";
+  static in_contact_add_c = "CONTACT::{userId}::add";
 }
 
 export class InlineMeta {
@@ -131,5 +135,15 @@ export class InlineButton {
   static in_search_previous_page_b = {
     text: InlineName.in_search_previous_page_n,
     callback_data: InlineCallback.in_search_previous_page_c,
+  };
+
+  static in_chat_send_request_b = {
+    text: InlineName.in_chat_send_request_n,
+    callback_data: InlineCallback.in_chat_send_request_c,
+  };
+
+  static in_contact_add_b = {
+    text: InlineName.in_contact_add_n,
+    callback_data: InlineCallback.in_contact_add_c,
   };
 }

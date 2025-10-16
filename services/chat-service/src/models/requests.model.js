@@ -1,15 +1,16 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/postgres.js";
+import { CHAT_REQUEST_STATUS } from "../../../../shared/constants/status.js";
 
-export default sersRequestsModel = sequelize.define(
-  "UsersRequests",
+const RequestsModel = sequelize.define(
+  "Requests",
   {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true,
     },
-    sender_id: {
+    sender_user_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
@@ -19,7 +20,7 @@ export default sersRequestsModel = sequelize.define(
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
     },
-    receiver_id: {
+    reciever_user_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
@@ -37,19 +38,42 @@ export default sersRequestsModel = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    rejected_count: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     status: {
-      type: DataTypes.ENUM("pending", "accepted", "rejected", "blocked"),
+      type: DataTypes.ENUM(...CHAT_REQUEST_STATUS),
       defaultValue: "pending",
     },
   },
   {
-    tableName: "users_requests",
+    tableName: "requests",
     timestamps: true,
     indexes: [
       {
         unique: true,
-        fields: ["sender_id", "receiver_id"],
+        fields: ["sender_user_id", "reciever_user_id"],
+        name: "idx_sender_receiver",
       },
     ],
   }
 );
+
+RequestsModel.beforeUpdate((request) => {
+  if (request.changed("status")) {
+    switch (request.status) {
+      case "accepted":
+        request.answered_count += 1;
+        break;
+      case "pending":
+        request.request_count += 1;
+        break;
+      case "rejected":
+        request.rejected_count += 1;
+        break;
+    }
+  }
+});
+
+export default RequestsModel;
