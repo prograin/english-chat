@@ -1,5 +1,5 @@
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
-import { setUserToken, setUserTelegramToken } from "src/api/cache/auth.cache";
+import { setUserToken } from "src/api/cache/auth.cache";
 import { PayloadType } from "src/shared/types/payload.type";
 
 import dotenv from "dotenv";
@@ -12,7 +12,6 @@ export const generateUserToken = async (payload: PayloadType) => {
 
   const token = jwt.sign(payload, secret, { expiresIn: "30d" });
   await setUserToken(payload.user_id, token);
-  await setUserTelegramToken(payload.telegram_id, token);
 
   console.log(token);
   return token;

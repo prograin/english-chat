@@ -13,7 +13,7 @@ const handleProfile = async ({ event, userId, data }) => {
 };
 
 export const profileConsumer = new RedisStreamConsumer({
-  stream: REDIS_STREAMS.user.profile,
+  stream: REDIS_STREAMS.user.profile.name,
   group: "search-service-group",
   consumerName: `search-worker-${process.pid}`,
   handleMessage: handleProfile,

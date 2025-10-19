@@ -6,6 +6,7 @@ import { initIndexes } from "./indexes/indexManager.js";
 import app from "./app.js";
 import { profileConsumer } from "./event/consumers/profile.consumer.js";
 import { syncUsersPresenceCacheJob } from "./jobs/users.job.js";
+import { userConsumer } from "./event/consumers/user.consumer.js";
 
 (async () => {
   try {
@@ -14,7 +15,9 @@ import { syncUsersPresenceCacheJob } from "./jobs/users.job.js";
     console.log("✅ Elasticsearch indexes initialized");
 
     //Consumer
-    profileConsumer.init();
+
+    await profileConsumer.init();
+    await userConsumer.init();
 
     //Jobs
     syncUsersPresenceCacheJob.start();

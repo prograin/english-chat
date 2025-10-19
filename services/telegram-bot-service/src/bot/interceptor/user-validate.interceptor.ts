@@ -3,7 +3,8 @@ import { Next } from "src/bot/types/next.type";
 import { BotEvent } from "src/bot/types/bot-event.type";
 import { UserAdminController, UserSelfController } from "src/bot/modules/users/user.controller";
 import { generateUserToken } from "src/api/utils/auth.util";
-import { setUserTelegramToken, setUserToken } from "src/api/cache/auth.cache";
+import { setUserToken } from "src/api/cache/auth.cache";
+import { setMapTelegramToUser, setMapUserToTelegram } from "../modules/users/user.cache";
 
 export const userValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   if (response.user.exists) {
@@ -24,8 +25,9 @@ export const userValidateInterceptor = async (event: BotEvent, response: BotResp
         telegram_id: userTelegramId,
         role: "user",
       });
+      await setMapTelegramToUser(userTelegramId, Number(response.user.id));
+      await setMapUserToTelegram(userTelegramId, Number(response.user.id));
       await setUserToken(Number(response.user.id), token);
-      await setUserTelegramToken(userTelegramId, token);
 
       console.log(`✅ User exists : ${result.data.id}`);
     } else if (result.error) {

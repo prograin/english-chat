@@ -18,7 +18,7 @@ export const createDocByIdService = async (index, id, document) => {
   const exists = await checkDocumentExistsRepository(index, id);
   if (exists) {
     const error = new Error();
-    error.status = 401;
+    error.status = 409;
     throw error;
   }
   return await indexDocumentByIdRepository(index, id, document);
@@ -30,7 +30,14 @@ export const getDocByIdService = async (index, id) => {
 };
 
 export const deleteDocService = async (index, id) => {
-  return await deleteDocumentRepository(index, id);
+  const exists = await checkDocumentExistsRepository(index, id);
+  if (exists) {
+    return await deleteDocumentRepository(index, id);
+  } else {
+    error = new Error("Doc does not exist .");
+    error.status = 404;
+    throw error;
+  }
 };
 
 export const updateDocByIdService = async (index, id, fieldsToUpdate) => {

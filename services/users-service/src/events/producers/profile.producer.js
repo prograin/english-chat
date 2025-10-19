@@ -6,7 +6,7 @@ class ProfileProducer {
   async publishProfileUpdated(userId, data) {
     try {
       const messageId = await redis.xadd(
-        REDIS_STREAMS.user.profile,
+        REDIS_STREAMS.user.profile.name,
         "*",
         "event",
         REDIS_EVENTS.user.profile.updated,

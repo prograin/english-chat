@@ -56,5 +56,12 @@ export const getPresenceByUserIdService = async (data) => {
  * @returns {Promise<number>} The number of deleted rows.
  */
 export const deletePresenceByUserIdService = async (user_id) => {
-  return await deletePresenceByUserIdRepository(user_id);
+  const existing = getPresenceByUserIdRepository(user_id);
+  if (existing) {
+    return await deletePresenceByUserIdRepository(user_id);
+  } else {
+    const error = new Error("Presence does not exist for this user");
+    error.status = 404;
+    throw error;
+  }
 };

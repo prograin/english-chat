@@ -18,4 +18,5 @@ export const newConfig = () => {
   return redis.duplicate();
 };
 
+export const consumer = redis.duplicate();
 export default redis;

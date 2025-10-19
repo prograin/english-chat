@@ -36,11 +36,7 @@ export class ManageHandlers {
     );
     this.bot.onText(
       CommandExpression.c_username_exp,
-      interceptorRunner(
-        this.bot,
-        [messageValidateInterceptor, userTokenValidateInterceptor, userValidateInterceptor, userButtonClickedInterceptor],
-        search
-      )
+      interceptorRunner(this.bot, [messageValidateInterceptor, authInterceptor, userButtonClickedInterceptor], search)
     );
   }
 

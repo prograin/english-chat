@@ -12,7 +12,7 @@ const RequestsModel = sequelize.define(
     },
     sender_user_id: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "users",
         key: "id",
@@ -22,7 +22,7 @@ const RequestsModel = sequelize.define(
     },
     reciever_user_id: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "users",
         key: "id",

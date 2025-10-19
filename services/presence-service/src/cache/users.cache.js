@@ -25,6 +25,15 @@ export const getUsersLastActive = async () => {
   return result;
 };
 
+export const deleteUserCache = async (userId) => {
+  try {
+    await redis.zrem(KEYS.users.presence.last_active, userId.toString());
+    console.log(`Deleted user ${userId} from presence tracking`);
+  } catch (error) {
+    console.error("Redis ZREM error:", error);
+  }
+};
+
 export const clearInactiveUsers = async () => {
   const now = Date.now();
   const five_min_ago = now - 5 * 60 * 100;

@@ -64,6 +64,6 @@ const bulkDeleteDocuments = async (index, ids) => {
 // deleteIndices(["users"]);
 // getIndices();
 
-// getDocuments("users");
-removeDocuments("users");
+getDocuments("users");
+// removeDocuments("users");
 // bulkDeleteDocuments("users", ["31", "32"]);

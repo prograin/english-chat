@@ -119,5 +119,12 @@ export const updateProfileByUserIdService = async (user_id, data, options = {}) 
  * @returns {Promise<Number>}
  */
 export const deleteProfileByUserIdService = async (user_id, options = {}) => {
-  return await deleteProfileByUserId(user_id, options);
+  const profile = await getProfileByUserId(user_id);
+  if (profile) {
+    return await deleteProfileByUserId(user_id, options);
+  } else {
+    const error = new Error(`Profile ${user_id} was not found`);
+    error.status = 404;
+    throw error;
+  }
 };

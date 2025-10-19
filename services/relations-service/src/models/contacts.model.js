@@ -27,8 +27,8 @@ const Contacts = sequelize.define(
     tableName: "contacts",
     timestamps: true,
     indexes: [
-      { fields: ["user_id"], name: "idx_user_id" },
-      { fields: ["user_id", "contact_user_id"], unique: true, name: "idx_user_id_contact_user_id" }, // composite unique
+      { fields: ["user_id"], name: "idx_contacts_user_id" },
+      { fields: ["user_id", "contact_user_id"], unique: true, name: "idx_contacts_user_id_contact_user_id" }, // composite unique
     ],
   }
 );

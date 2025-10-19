@@ -1,16 +1,18 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { getUserTelegramToken } from "src/api/cache/auth.cache";
+import { getUserToken } from "src/api/cache/auth.cache";
 import { BotEvent } from "src/bot/types/bot-event.type";
 import BotResponse from "src/bot/types/bot-response.type";
 import { Next } from "src/bot/types/next.type";
 import { bot } from "src/bot-entry";
 import { getMessageFromEvent } from "src/bot/utils/telegram.util";
 import { verifyUserToken } from "src/api/utils/auth.util";
+import { getMapTelegramToUser } from "../modules/users/user.cache";
 
 export const authInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   try {
     const telegram_id = Number(event.from?.id);
-    const token = await getUserTelegramToken(telegram_id);
+    const user_id = await getMapTelegramToUser(telegram_id);
+    const token = await getUserToken(Number(user_id));
 
     if (token) {
       const decoded = await verifyUserToken(token);
@@ -21,6 +23,9 @@ export const authInterceptor = async (event: BotEvent, response: BotResponse, ne
       response.user.exists = true;
 
       return next();
+    } else {
+      const chatId = "chat" in event ? event.chat.id : event.message?.chat.id;
+      await bot.sendMessage(chatId as number, "Please /start and try again");
     }
   } catch (err: any) {
     const chat_id = await getMessageFromEvent(event);

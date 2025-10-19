@@ -2,10 +2,9 @@ import UsersCache from "../cache/users.cache.js";
 import { createUser, deleteUser, getUser, getUserByTelegramId } from "../repositories/users.repository.js";
 import { usersResponseSchema } from "../schemas/users.schema.js";
 import validateUtil from "../utils/validate.util.js";
-import axios from "axios";
 import { createProfileService } from "./profile.service.js";
-import { AdminAxiosInstance } from "../utils/axios.util.js";
 import { dropNullFields } from "../utils/objects.util.js";
+import userProducer from "../events/producers/user.producer.js";
 
 // ------------------------------------------------------
 // SET
@@ -34,8 +33,7 @@ export const createUserService = async (data) => {
   try {
     user = await createUser(cleaned);
     profile = await createProfileService({ user_id: Number(user.id), username: user.id });
-    presence = await AdminAxiosInstance.post(`http://localhost:3001/users/${user.id}/presence/`);
-    search = await AdminAxiosInstance.post(`http://localhost:3005/documents/users/${user.id}`, { user_id: user.id, username: user.id });
+    await userProducer.publishUserAdded(user.id, { user_id: user.id, username: user.id });
   } catch (err) {
     if (user) await deleteUser(user.id);
     throw err;

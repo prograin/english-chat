@@ -11,7 +11,7 @@ const SessionsModel = sequelize.define(
     },
     user_1: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "users",
         key: "id",
@@ -21,7 +21,7 @@ const SessionsModel = sequelize.define(
     },
     user_2: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "users",
         key: "id",

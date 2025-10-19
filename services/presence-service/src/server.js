@@ -6,6 +6,7 @@ import eventBus from "./events/bus/event.bus.js";
 import { initUserButtonClickedSubscriber } from "./events/subscribers/user-button-clicked.subscriber.js";
 import sequelize from "./config/postgres.js";
 import { clearInactiveUsersPresenceCacheJob, syncUsersPresenceCacheJob } from "./jobs/users.job.js";
+import { userConsumer } from "./events/consumers/user.consumer.js";
 
 (async () => {
   try {
@@ -18,6 +19,9 @@ import { clearInactiveUsersPresenceCacheJob, syncUsersPresenceCacheJob } from ".
     // Pub/Sub
     await eventBus.init();
     await initUserButtonClickedSubscriber();
+
+    // Events
+    await userConsumer.init();
 
     // Jobs
     syncUsersPresenceCacheJob.start();

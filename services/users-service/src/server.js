@@ -1,6 +1,7 @@
 import "module-alias/register.js";
 import sequelize from "./config/postgres.js";
 import app from "./app.js";
+import { userConsumer } from "./events/consumers/user.consumer.js";
 
 console.log("Database connected!");
 
@@ -11,6 +12,8 @@ console.log("Database connected!");
 
     await sequelize.sync({ alter: true });
     console.log("✅ Database synchronized!");
+
+    await userConsumer.init();
 
     const port = process.env.PORT || 3004;
     app.listen(port, () => {

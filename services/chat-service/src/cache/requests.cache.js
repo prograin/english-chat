@@ -6,7 +6,7 @@ class RequestsCache {
 
   async addNewRequest(userId, receiverId, data) {
     try {
-      const key = PREFIX_KEY.user.chat.requests.key(userId, receiverId);
+      const key = PREFIX_KEY.chats.requests.key(userId, receiverId);
       await redis.set(key, JSON.stringify(data));
       await redis.expire(key, this.REQUESTTTL);
     } catch (error) {
@@ -16,7 +16,7 @@ class RequestsCache {
 
   async getRequestByTarget(userId, receiverId) {
     try {
-      const key = PREFIX_KEY.user.chat.requests.key(userId, receiverId);
+      const key = PREFIX_KEY.chats.requests.key(userId, receiverId);
       const cached = await redis.get(key);
 
       if (!cached) return null;
@@ -24,7 +24,7 @@ class RequestsCache {
       await redis.expire(key, this.REQUESTTTL);
       return JSON.parse(cached);
     } catch (error) {
-      console.error(`Error fetching user from cache:`, error);
+      console.error(`Error fetching request from cache:`, error);
       return null;
     }
   }

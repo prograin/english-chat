@@ -15,8 +15,9 @@ const logKeys = async () => {
 };
 
 const main = async () => {
-  await flushCache();
+  // await logKeys();
+  await logKeys();
   process.exit(0);
 };
 
-flushCache();
+main();

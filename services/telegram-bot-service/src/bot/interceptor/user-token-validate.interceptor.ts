@@ -2,11 +2,13 @@ import BotResponse from "src/bot/types/bot-response.type";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Next } from "src/bot/types/next.type";
 import { BotEvent } from "src/bot/types/bot-event.type";
-import { getUserTelegramToken } from "src/api/cache/auth.cache";
+import { getUserToken } from "src/api/cache/auth.cache";
 import { bot } from "src/bot-entry";
+import { getMapTelegramToUser } from "../modules/users/user.cache";
 
 export const userTokenValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
-  const token = await getUserTelegramToken(Number(event.from?.id));
+  const user_id = getMapTelegramToUser(Number(event.from?.id));
+  const token = await getUserToken(Number(user_id));
   const chatId = "chat" in event ? event.chat.id : event.message?.chat.id;
 
   if (token) {
@@ -18,16 +20,14 @@ export const userTokenValidateInterceptor = async (event: BotEvent, response: Bo
       response.user.telegram_id = decoded.telegram_id;
       response.user.exists = true;
     } catch (err: any) {
-      // await bot.sendMessage(chatId as number, "Please /start and try again");
+      await bot.sendMessage(chatId as number, "Please /start and try again");
       if (err.name === "TokenExpiredError") {
       } else {
       }
-      // return;
+      return;
     }
   } else {
     // await bot.sendMessage(chatId as number, "Please /start in bot and try again");
-    // return;
   }
-
   next();
 };

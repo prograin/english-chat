@@ -1,6 +1,4 @@
-import { newConfig } from "../../config/redis.js";
-
-const redis = newConfig();
+import { consumer } from "../../config/redis.js";
 
 export class RedisStreamConsumer {
   constructor({ stream, group, consumerName, handleMessage }) {
@@ -13,7 +11,7 @@ export class RedisStreamConsumer {
 
   async init() {
     try {
-      await redis.xgroup("CREATE", this.stream, this.group, "$", "MKSTREAM");
+      await consumer.xgroup("CREATE", this.stream, this.group, "$", "MKSTREAM");
     } catch (err) {
       if (!err.message.includes("BUSYGROUP")) throw err;
     }
@@ -23,10 +21,17 @@ export class RedisStreamConsumer {
   async consumeLoop() {
     while (this.running) {
       try {
-        const messages = await redis.xreadgroup("GROUP", this.group, this.consumer, "BLOCK", 5000, "COUNT", 10, "STREAMS", this.stream, ">");
+        const [nextId, pendingMessages] = await consumer.xautoclaim(this.stream, this.group, this.consumer, 6, "0-0", "COUNT", 10);
+        const messagesToProcess = pendingMessages || [];
+        if (messagesToProcess.length) {
+          await this.processMessages([[this.stream, messagesToProcess]]);
+        }
 
-        if (messages) await this.processMessages(messages);
-        await this.checkPending();
+        const newMessages = await consumer.xreadgroup("GROUP", this.group, this.consumer, "BLOCK", 5000, "COUNT", 10, "STREAMS", this.stream, ">");
+
+        if (newMessages) {
+          await this.processMessages(newMessages);
+        }
       } catch (err) {
         console.error("Error consuming:", err);
         await new Promise((r) => setTimeout(r, 2000));
@@ -53,7 +58,7 @@ export class RedisStreamConsumer {
         const parsed = this.parseFields(fields);
         try {
           await this.handleMessage(parsed);
-          await redis.xack(this.stream, this.group, id);
+          await consumer.xack(this.stream, this.group, id);
         } catch (err) {
           console.error("Failed to process message:", id, err);
         }
@@ -62,19 +67,19 @@ export class RedisStreamConsumer {
   }
 
   async checkPending() {
-    const pending = await redis.xpending(this.stream, this.group, "-", "+", 10);
+    const pending = await consumer.xpending(this.stream, this.group, "-", "+", 10);
     for (const [id] of pending) {
-      const entries = await redis.xrange(this.stream, id, id);
+      const entries = await consumer.xrange(this.stream, id, id);
       for (const [entryId, fields] of entries) {
         const parsed = this.parseFields(fields);
         await this.handleMessage(parsed);
-        await redis.xack(this.stream, this.group, entryId);
+        await consumer.xack(this.stream, this.group, entryId);
       }
     }
   }
 
   async shutdown() {
     this.running = false;
-    await redis.quit();
+    await consumer.quit();
   }
 }

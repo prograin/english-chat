@@ -6,7 +6,8 @@ import { UserAdminController } from "src/bot/modules/users/user.controller";
 import axios from "axios";
 import { BotEvent } from "src/bot/types/bot-event.type";
 import { generateUserToken } from "src/api/utils/auth.util";
-import { setUserToken, setUserTelegramToken } from "src/api/cache/auth.cache";
+import { setUserToken } from "src/api/cache/auth.cache";
+import { setMapTelegramToUser, setMapUserToTelegram } from "../users/user.cache";
 
 export default async (bot: TelegramBot, event: BotEvent, response: Response) => {
   const message = event as Message;
@@ -34,8 +35,9 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
         telegram_id: userTelegramId,
         role: "user",
       });
+      await setMapTelegramToUser(userTelegramId, Number(response.user.id));
+      await setMapUserToTelegram(userTelegramId, Number(response.user.id));
       await setUserToken(user.data.id, token);
-      await setUserTelegramToken(userTelegramId, token);
     }
   } catch (error: any) {
     console.error(error);

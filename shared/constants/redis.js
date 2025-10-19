@@ -16,12 +16,15 @@ export const REDIS_CHANNELS = {
 
 export const REDIS_STREAMS = {
   user: {
-    profile: "user:profile",
+    name: "user",
+    profile: { name: "user:profile" },
   },
 };
 
 export const REDIS_EVENTS = {
   user: {
+    added: "USER_ADDED",
+    deleted: "USER_DELETED",
     profile: {
       updated: "USER_PROFILE_UPDATED",
     },
@@ -37,18 +40,36 @@ export const KEYS = {
 };
 
 export const PREFIX_KEY = {
+  chats: {
+    requests: {
+      key: (sender, reciever) => `chats:requests:${sender}_to_${reciever}`,
+    },
+  },
+  relations: {
+    blocks: {
+      key: (blocker, blocked) => `rlations:blocks:${blocker}:${blocked}`,
+    },
+    contacts: {
+      key: (user, contact) => `relations:contacts:${user}:${contact}`,
+    },
+  },
   profile: {
     username: {
       key: (value) => `profile:username:${value}`,
     },
   },
   user: {
-    chat: {
+    data: (value) => `user:${value}`,
+    chats: {
       requests: {
-        key: (sender, reciever) => `user:chat:requests:${sender}_to_${reciever}`,
+        key: (value) => `user:chats:requests:${value}`,
       },
     },
-    data: (value) => `user:${value}`,
+    relations: {
+      blocks: {
+        key: (value) => `user:realtions:blocks:${value}`,
+      },
+    },
     profile: {
       data: (value) => `user:profile:${value}`,
     },
@@ -61,6 +82,16 @@ export const PREFIX_KEY = {
       },
       search: {
         key: (value1, value2) => `user:telegram:search:${value1}:${value2}`,
+      },
+    },
+  },
+  map: {
+    telegram: {
+      user: { key: (value) => `map:telegram:user:${value}` },
+    },
+    user: {
+      telegram: {
+        key: (value) => `map:user:telegram:${value}`,
       },
     },
   },
