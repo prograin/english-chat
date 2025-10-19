@@ -16,4 +16,4 @@ topLevelRequestsRouter.post(
   createOrUpdateController
 );
 topLevelRequestsRouter.get("/target/:targetId", authMiddleware, allowRole("admin", "user"), getRequestByTargetController);
-topLevelRequestsRouter.get("/all", authMiddleware, allowRole("admin", "user"), getRequestsController);
+topLevelRequestsRouter.get("/me", authMiddleware, allowRole("admin", "user"), getRequestsController);

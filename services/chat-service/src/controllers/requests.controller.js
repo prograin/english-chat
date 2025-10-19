@@ -1,4 +1,4 @@
-import { createOrUpdateService, getRequestByTargetService } from "../services/requests.service.js";
+import { createOrUpdateService, getRequestByTargetService, getRequestsBySenderIdService } from "../services/requests.service.js";
 import requestsCache from "../cache/requests.cache.js";
 
 export const createOrUpdateController = async (req, res, next) => {
@@ -22,7 +22,19 @@ export const createOrUpdateController = async (req, res, next) => {
   }
 };
 
-export const getRequestsController = async () => {}; // result is a list
+export const getRequestsController = async (req, res, next) => {
+  try {
+    const userId = req.params.user_id || req.user?.user_id;
+    if (!userId) {
+      return res.status(400).json({ message: "Missing user ID" });
+    }
+
+    const requests = await getRequestsBySenderIdService(userId);
+    res.status(200).json({ data: requests });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getRequestByTargetController = async (req, res, next) => {
   try {

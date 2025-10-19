@@ -1,5 +1,6 @@
 import requestsCache from "../cache/requests.cache.js";
-import { getRequestByTarget, updateRequestStatus, createRequest } from "../repositories/requests.repository.js";
+import { ErrorUtil } from "../utils/error.util.js";
+import { getRequestByTarget, updateRequestStatus, createRequest, getRequestsBySenderId } from "../repositories/requests.repository.js";
 
 export const createOrUpdateService = async (sender_user_id, reciever_user_id, status) => {
   let request;
@@ -24,4 +25,10 @@ export const getRequestByTargetService = async (userId, targetId) => {
   return request || null;
 };
 
-export const getRequestsService = async () => {}; // return list, we have to set another cahce
+export const getRequestsBySenderIdService = async (senderId) => {
+  const requests = await getRequestsBySenderId(senderId);
+  if (!requests || requests.length == 0) {
+    throw new ErrorUtil("No requests found", 404);
+  }
+  return requests;
+}; // return list, we have to set another cahce

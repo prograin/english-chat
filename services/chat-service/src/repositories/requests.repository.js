@@ -32,3 +32,11 @@ export const getRequestByTarget = async (sender_user_id, reciever_user_id) => {
     },
   });
 };
+
+export const getRequestsBySenderId = async (sender_user_id) => {
+  return await RequestsModel.findAll({
+    where: {
+      sender_user_id,
+    },
+  });
+};
