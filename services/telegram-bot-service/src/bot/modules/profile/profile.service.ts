@@ -8,6 +8,15 @@ export class ProfileUserService {
     });
     return profile;
   }
+
+  static async getProfiles(token: string, userIds: string[]) {
+    const profile = await UserAxiosInstance.get(`http://localhost:3004/profiles`, {
+      headers: { token: token },
+      params: { userIds: userIds.join(",") },
+      validateStatus: (status) => status < 500,
+    });
+    return profile;
+  }
 }
 
 export class ProfileAdminService {

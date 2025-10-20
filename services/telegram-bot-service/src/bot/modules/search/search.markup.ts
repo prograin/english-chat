@@ -12,16 +12,26 @@ export const ma_search_start_all_in = [[InlineButton.in_search_previous_page_b, 
 export const ma_search_start_next_in = [[InlineButton.in_search_next_page_b]];
 export const ma_search_start_previous_in = [[InlineButton.in_search_previous_page_b]];
 
-export const ma_search_profile_in = (toUserId: string) => {
+export const ma_search_profile_in = (toUserId: string, isBlocked: boolean, isContact: boolean) => {
   return [
     [
       {
         text: InlineButton.in_chat_send_request_b.text,
         callback_data: InlineButton.in_chat_send_request_b.callback_data.replace("{userId}", toUserId),
       },
+    ],
+    [
       {
-        text: InlineButton.in_contact_add_b.text,
-        callback_data: InlineButton.in_contact_add_b.callback_data.replace("{userId}", toUserId),
+        text: isBlocked ? InlineButton.in_unblock_b.text : InlineButton.in_block_b.text,
+        callback_data: isBlocked
+          ? InlineButton.in_unblock_b.callback_data.replace("{userId}", toUserId)
+          : InlineButton.in_block_b.callback_data.replace("{userId}", toUserId),
+      },
+      {
+        text: isContact ? InlineButton.in_contact_remove_b.text : InlineButton.in_contact_add_b.text,
+        callback_data: isContact
+          ? InlineButton.in_contact_remove_b.callback_data.replace("{userId}", toUserId)
+          : InlineButton.in_contact_add_b.callback_data.replace("{userId}", toUserId),
       },
     ],
   ];

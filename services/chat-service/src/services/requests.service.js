@@ -19,7 +19,7 @@ export const getRequestByTargetService = async (userId, targetId) => {
   request = await requestsCache.getRequestByTarget(userId, targetId);
   if (!request) {
     request = await getRequestByTarget(userId, targetId);
-    request = request.toJSON();
+    request = request ? request.toJSON() : null;
   }
 
   return request || null;

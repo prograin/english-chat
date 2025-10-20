@@ -17,12 +17,17 @@ class InlineName {
   static in_search_next_page_n = "Next Page";
   static in_search_previous_page_n = "Previous Page";
   static in_chat_send_request_n = "Request To Chat";
+  static in_contacts_list_n = "Contatcs";
+  static in_blocks_list_n = "Blocks";
   static in_contact_add_n = "Add To Contact";
+  static in_contact_remove_n = "Remove From Contact";
+  static in_block_n = "Block";
+  static in_unblock_n = "Unblock";
 }
 
 export class InlineCallback {
   static in_random_chat_c = "RANDOMCHAT::";
-  static in_profile_c = "PROFILE::";
+  static in_profile_c = "PROFILE::me";
   static in_coin_c = "COIN::";
   static in_register_c = "REGISTER::";
   static in_edit_c = "EDIT::";
@@ -39,7 +44,12 @@ export class InlineCallback {
   static in_search_next_page_c = "SEARCH::nextpage";
   static in_search_previous_page_c = "SEARCH::previouspage";
   static in_chat_send_request_c = "CHAT::{userId}::send-request";
-  static in_contact_add_c = "CONTACT::{userId}::add";
+  static in_contacts_list_c = "RELATIONS::listContacts";
+  static in_blocks_list_c = "RELATIONS::listBlocks";
+  static in_contact_add_c = "RELATIONS::{userId}::addContact";
+  static in_contact_remove_c = "RELATIONS::{userId}::removeContact";
+  static in_block_c = "RELATIONS::{userId}::block";
+  static in_unblock_c = "RELATIONS::{userId}::unblock";
 }
 
 export class InlineMeta {
@@ -142,8 +152,33 @@ export class InlineButton {
     callback_data: InlineCallback.in_chat_send_request_c,
   };
 
+  static in_contacts_list_b = {
+    text: InlineName.in_contacts_list_n,
+    callback_data: InlineCallback.in_contacts_list_c,
+  };
+
   static in_contact_add_b = {
     text: InlineName.in_contact_add_n,
     callback_data: InlineCallback.in_contact_add_c,
+  };
+
+  static in_contact_remove_b = {
+    text: InlineName.in_contact_remove_n,
+    callback_data: InlineCallback.in_contact_remove_c,
+  };
+
+  static in_blocks_list_b = {
+    text: InlineName.in_blocks_list_n,
+    callback_data: InlineCallback.in_blocks_list_c,
+  };
+
+  static in_block_b = {
+    text: InlineName.in_block_n,
+    callback_data: InlineCallback.in_block_c,
+  };
+
+  static in_unblock_b = {
+    text: InlineName.in_unblock_n,
+    callback_data: InlineCallback.in_unblock_c,
   };
 }

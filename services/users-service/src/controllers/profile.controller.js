@@ -54,21 +54,29 @@ export const getProfileByUserIdController = async (req, res, next) => {
 
 export const getProfilesByUserIdsController = async (req, res, next) => {
   try {
-    const userIds = req.query.userIds;
+    const userIdsQuery = req.query.userIds;
 
-    if (!userIds) {
+    if (!userIdsQuery || typeof userIdsQuery !== "string") {
       return res.status(400).json({ message: "userIds query parameter is required" });
     }
 
-    const idsArray = userIds.split(",").map((id) => Number(id.trim()));
-    if (idsArray.some(isNaN)) {
-      return res.status(400).json({ message: "All userIds must be valid numbers" });
+    const idsArray = userIdsQuery
+      .split(",")
+      .map((id) => Number(id.trim()))
+      .filter((id) => !isNaN(id));
+
+    if (idsArray.length === 0) {
+      return res.status(400).json({ message: "No valid userIds provided" });
     }
 
     const profiles = await getProfilesByUserIdsService(idsArray);
 
-    return res.json(profiles);
+    return res.status(200).json({
+      message: "Profiles fetched successfully",
+      data: profiles,
+    });
   } catch (err) {
+    console.error("Error in getProfilesByUserIdsController:", err);
     next(err);
   }
 };

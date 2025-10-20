@@ -6,12 +6,12 @@ import { Next } from "src/bot/types/next.type";
 import { bot } from "src/bot-entry";
 import { getMessageFromEvent } from "src/bot/utils/telegram.util";
 import { verifyUserToken } from "src/api/utils/auth.util";
-import { getMapTelegramToUser } from "../modules/users/user.cache";
+import { getMapUserToTelegram } from "../modules/users/user.cache";
 
 export const authInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   try {
     const telegram_id = Number(event.from?.id);
-    const user_id = await getMapTelegramToUser(telegram_id);
+    const user_id = await getMapUserToTelegram(telegram_id);
     const token = await getUserToken(Number(user_id));
 
     if (token) {

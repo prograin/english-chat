@@ -27,7 +27,7 @@ export const topProfilesRouter = express.Router();
 
 topProfilesRouter.put("/me", authMiddleware, allowRole("admin", "user"), validateMiddleware(updateProfileSchema), updateMyProfileController);
 topProfilesRouter.get("/me", authMiddleware, allowRole("admin", "user"), getMyProfileController);
-topProfilesRouter.get("/", authMiddleware, allowRole("admin"), getProfilesByUserIdsController);
+topProfilesRouter.get("/", authMiddleware, allowRole("admin", "user"), getProfilesByUserIdsController);
 topProfilesRouter.get("/username/:username", authMiddleware, allowRole("admin"), getProfileByUsernameController);
 
 // --------------------------

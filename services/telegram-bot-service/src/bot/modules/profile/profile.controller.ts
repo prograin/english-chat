@@ -15,6 +15,19 @@ export class ProfileSelfController {
       throw error;
     }
   };
+
+  static getProfiles = async (token: string, userIds: string[]) => {
+    try {
+      const profiles = await ProfileUserService.getProfiles(token, userIds);
+      if (profiles.status === 200) {
+        return { error: false, data: profiles.data, status: 200 };
+      } else if (profiles.status === 404) {
+        return { error: true, status: 404 };
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 export class ProfileAdminController {

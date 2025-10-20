@@ -4,10 +4,10 @@ import { Next } from "src/bot/types/next.type";
 import { BotEvent } from "src/bot/types/bot-event.type";
 import { getUserToken } from "src/api/cache/auth.cache";
 import { bot } from "src/bot-entry";
-import { getMapTelegramToUser } from "../modules/users/user.cache";
+import { getMapUserToTelegram } from "../modules/users/user.cache";
 
 export const userTokenValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
-  const user_id = getMapTelegramToUser(Number(event.from?.id));
+  const user_id = getMapUserToTelegram(Number(event.from?.id));
   const token = await getUserToken(Number(user_id));
   const chatId = "chat" in event ? event.chat.id : event.message?.chat.id;
 

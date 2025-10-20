@@ -1,5 +1,5 @@
 import { ErrorUtil } from "../utils/error.util.js";
-import { createContact, getContact, deleteContact } from "../repositories/contacts.repository.js";
+import { createContact, getContact, deleteContact, getUserContacts } from "../repositories/contacts.repository.js";
 import contactsCache from "../cache/contacts.cache.js";
 /**
  * Create a new Contact relationship
@@ -9,7 +9,7 @@ export async function createContactService(requesterId, targetId) {
     throw new ErrorUtil("Missing user or target ID", 400);
   }
 
-  if (requesterId === targetId) {
+  if (requesterId == targetId) {
     throw new ErrorUtil("You cannot add yourself to contact", 400);
   }
 
@@ -24,6 +24,17 @@ export async function createContactService(requesterId, targetId) {
 }
 
 /**
+ * Get all user contacts
+ */
+export async function getUserContactsService(userId) {
+  if (!userId) {
+    throw new ErrorUtil("Missing user ID", 400);
+  }
+
+  return await getUserContacts(userId);
+}
+
+/**
  * Remove a Contact relationship
  */
 export async function deleteContactByTargetIdService(requesterId, targetId) {
@@ -31,7 +42,7 @@ export async function deleteContactByTargetIdService(requesterId, targetId) {
     throw new ErrorUtil("Missing user or target ID", 400);
   }
 
-  if (requesterId === targetId) {
+  if (requesterId == targetId) {
     throw new ErrorUtil("You cannot removed yourself from contact", 400);
   }
 

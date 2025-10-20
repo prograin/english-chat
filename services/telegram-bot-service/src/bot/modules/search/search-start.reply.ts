@@ -33,7 +33,7 @@ async function searchStartReply(
 
     let messageText = "🔎 <b>Search Results</b>\n\n";
     for (const user of data.result) {
-      messageText += buildUserSearchMessage(user);
+      if (user.user_id != userProfile.user_id) messageText += buildUserSearchMessage(user);
     }
     messageText += search_start_text;
 

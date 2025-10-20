@@ -16,7 +16,7 @@ export function buildUserSearchMessage(user: any) {
 
   const location = [country, state, city].filter(Boolean).join(", ");
 
-  return `🔗 <b>Username:</b> /username_${username} ${genderSticker} ${gender}
+  return `🔗 <b>Username:</b> /username_${username} ${genderSticker}
 <pre>
 <b>Name</b>       : <b>${firstName} ${age}</b>
 <b>Location</b>   : <b>${location}</b>
@@ -50,7 +50,7 @@ export function buildProfileSearch(profile: any) {
   if (career.toLowerCase().includes("teacher")) careerSticker = "📚";
   else if (career.toLowerCase().includes("developer")) careerSticker = "💻";
 
-  const profileText = `<b>🔹 Username:</b> ${profile.username || missing}
+  const profileText = `<b>🔹 Username:</b>/username_${profile.username || missing}
 ${genderSticker} <b>Name:</b> ${firstName} ${lastName}
 🎂 <b>Age:</b> ${age}
 ${careerSticker} <b>Career:</b> ${career}

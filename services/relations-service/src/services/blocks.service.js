@@ -1,5 +1,5 @@
 import { ErrorUtil } from "../utils/error.util.js";
-import { createBlock, getBlock, deleteBlock } from "../repositories/blocks.repository.js";
+import { createBlock, getBlock, deleteBlock, getUserBlocks } from "../repositories/blocks.repository.js";
 import blocksCache from "../cache/blocks.cache.js";
 
 /**
@@ -10,7 +10,7 @@ export async function createBlockService(requesterId, targetId) {
     throw new ErrorUtil("Missing user or target ID", 400);
   }
 
-  if (requesterId === targetId) {
+  if (requesterId == targetId) {
     throw new ErrorUtil("You cannot block yourself", 400);
   }
 
@@ -25,6 +25,17 @@ export async function createBlockService(requesterId, targetId) {
 }
 
 /**
+ * Get all user contacts
+ */
+export async function getUserBlocksService(userId) {
+  if (!userId) {
+    throw new ErrorUtil("Missing user ID", 400);
+  }
+
+  return await getUserBlocks(userId);
+}
+
+/**
  * Remove a block relationship
  */
 export async function deleteBlockByTargetIdService(requesterId, targetId) {
@@ -32,7 +43,7 @@ export async function deleteBlockByTargetIdService(requesterId, targetId) {
     throw new ErrorUtil("Missing user or target ID", 400);
   }
 
-  if (requesterId === targetId) {
+  if (requesterId == targetId) {
     throw new ErrorUtil("You cannot unblock yourself", 400);
   }
 

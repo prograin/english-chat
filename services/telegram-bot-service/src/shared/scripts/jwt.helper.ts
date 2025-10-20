@@ -8,3 +8,4 @@ function generateUserToken(userId: Number, telegramId: Number) {
 }
 
 generateUserToken(59, 6608912631);
+generateUserToken(60, 1221951839);

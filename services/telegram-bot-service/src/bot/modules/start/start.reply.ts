@@ -26,6 +26,8 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
   try {
     if (response.user.exists) {
       await bot.sendMessage(chatId, `Welcome Back ${firstName}`, options);
+      await setMapTelegramToUser(userTelegramId, Number(response.user.id));
+      await setMapUserToTelegram(userTelegramId, Number(response.user.id));
     } else {
       const user = await UserAdminController.createUser(usersTelegramData);
       console.log(`🆕 User created: ${user.data.id}`);
@@ -35,8 +37,8 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
         telegram_id: userTelegramId,
         role: "user",
       });
-      await setMapTelegramToUser(userTelegramId, Number(response.user.id));
-      await setMapUserToTelegram(userTelegramId, Number(response.user.id));
+      await setMapTelegramToUser(userTelegramId, Number(user.data.id));
+      await setMapUserToTelegram(userTelegramId, Number(user.data.id));
       await setUserToken(user.data.id, token);
     }
   } catch (error: any) {

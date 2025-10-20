@@ -15,6 +15,7 @@ import { splitCallbackDataInterceptor } from "../interceptor/split-callback-data
 import { userPermissionsInterceptor } from "../interceptor/user-permissions.interceptor";
 import { inlineButtonValidateInterceptor } from "../interceptor/inline-button-validator.interceptor";
 import chat from "../modules/chat/chat-main.reply";
+import relations from "../modules/relations/relations-main.reply";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -70,6 +71,8 @@ export class ManageHandlers {
 
           if (data.startsWith("CHAT::") && data.endsWith("::send-request")) {
             await chat(bot, callbackQuery, response);
+          } else if (data.startsWith("RELATIONS::")) {
+            await relations(bot, callbackQuery, response);
           } else {
             switch (data) {
               case InlineCallback.in_profile_c:

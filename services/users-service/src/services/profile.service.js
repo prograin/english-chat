@@ -67,12 +67,27 @@ export const getProfileByUserIdService = async (user_id, options = {}) => {
  * @returns {Promise<Object>}
  */
 export const getProfilesByUserIdsService = async (user_ids, options = {}) => {
-  const profiles = await getProfilesByUserIds(user_ids, options);
-  if (!profiles || profiles.length === 0) return null;
+  if (!user_ids?.length) return [];
 
-  const validatedProfiles = await Promise.all(profiles.map((profile) => validateUtil(responseProfileSchema, profile.toJSON(), false, true, false)));
+  const profilesFromCache = await Promise.all(user_ids.map((id) => usersProfilesCache.getUserProfile(id)));
 
-  return validatedProfiles;
+  const missingIds = user_ids.filter((_, i) => !profilesFromCache[i]);
+
+  let profilesFromDb = [];
+  if (missingIds.length > 0) {
+    profilesFromDb = await getProfilesByUserIds(missingIds, options);
+    profilesFromDb = await Promise.all(
+      profilesFromDb.map(async (profile) => {
+        const validated = await validateUtil(responseProfileSchema, profile.toJSON(), false, true, false);
+        await usersProfilesCache.addUserProfile(validated.user_id, validated);
+        return validated;
+      })
+    );
+  }
+
+  const result = user_ids.map((id, i) => profilesFromCache[i] || profilesFromDb.find((p) => p.user_id === id)).filter(Boolean);
+
+  return result;
 };
 
 /**

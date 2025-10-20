@@ -2,7 +2,7 @@ import { createBlockService, deleteBlockByTargetIdService, checkBlockByTargetIdS
 
 /**
  * POST /users/:userId/relations/blocks
- * POST /relations/blocks/:targetId
+ * POST /relations/blocks
  */
 export async function createBlockController(req, res, next) {
   try {
@@ -13,6 +13,24 @@ export async function createBlockController(req, res, next) {
     return res.status(201).json({
       message: "Block created successfully",
       data: newBlock,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * GET /users/:userId/relations/blocks
+ * GET /relations/blocks
+ */
+export async function getUserBlocksController(req, res, next) {
+  try {
+    const userId = req.params.user_id || req.user?.user_id;
+
+    const contacts = await getUserBlocksController(userId);
+    return res.status(200).json({
+      message: "Blocks fetched successfully",
+      data: contacts,
     });
   } catch (error) {
     next(error);
@@ -47,7 +65,7 @@ export async function checkBlockByTargetIdController(req, res, next) {
     const isBlocked = await checkBlockByTargetIdService(requesterId, targetId);
 
     return res.status(200).json({
-      blocked: isBlocked,
+      isBlocked: isBlocked,
       message: isBlocked ? "User is blocked" : "User is not blocked",
     });
   } catch (error) {
