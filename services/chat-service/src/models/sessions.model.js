@@ -9,7 +9,7 @@ const SessionsModel = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    user_1: {
+    user_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
       references: {
@@ -19,7 +19,7 @@ const SessionsModel = sequelize.define(
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
     },
-    user_2: {
+    partner_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
       references: {
@@ -47,8 +47,8 @@ const SessionsModel = sequelize.define(
     timestamps: true,
 
     indexes: [
-      { fields: ["user_1"], name: "idx_user_1" },
-      { fields: ["user_2"], name: "idx_user_2" },
+      { fields: ["user_id"], name: "idx_user_id" },
+      { fields: ["partner_id"], name: "idx_partner_id" },
       { fields: ["status"], name: "idx_status" },
     ],
   }

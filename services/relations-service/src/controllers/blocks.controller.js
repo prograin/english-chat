@@ -1,4 +1,4 @@
-import { createBlockService, deleteBlockByTargetIdService, checkBlockByTargetIdService } from "../services/blocks.service.js";
+import { createBlockService, deleteBlockByTargetIdService, checkBlockByTargetIdService, getUserBlocksService } from "../services/blocks.service.js";
 
 /**
  * POST /users/:userId/relations/blocks
@@ -27,7 +27,7 @@ export async function getUserBlocksController(req, res, next) {
   try {
     const userId = req.params.user_id || req.user?.user_id;
 
-    const contacts = await getUserBlocksController(userId);
+    const contacts = await getUserBlocksService(userId);
     return res.status(200).json({
       message: "Blocks fetched successfully",
       data: contacts,

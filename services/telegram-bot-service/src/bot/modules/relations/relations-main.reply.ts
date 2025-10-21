@@ -24,11 +24,11 @@ const relationsMainReplyCallback = async (bot: TelegramBot, callbackQuery: Callb
       break;
 
     case "listContacts":
-      await relationsListContactsReply(bot, callbackQuery, response);
+      await relationsListContactsReply(bot, callbackQuery.message as Message, response);
       break;
 
     case "listBlocks":
-      await relationsListBlocksReply(bot, callbackQuery, response);
+      await relationsListBlocksReply(bot, callbackQuery.message as Message, response);
       break;
   }
 };

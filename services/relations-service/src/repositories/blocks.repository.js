@@ -8,7 +8,7 @@ export async function createBlock(userId, targetId) {
 }
 
 export async function getUserBlocks(userId) {
-  return await contactsModel.findAll({
+  return await BlocksModel.findAll({
     where: {
       user_id: userId,
     },

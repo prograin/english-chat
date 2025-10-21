@@ -59,7 +59,7 @@ export class RelationSelfController {
     try {
       const response = await RelationsSelfService.userBlocks(token);
       if (response.status === 200) {
-        return { error: false, block: response.data.data, status: 201 };
+        return { error: false, blocks: response.data.data, status: 201 };
       } else {
         throw new Error(`❌ Unexpected response status when getting user blocks: ${response.status}`);
       }
