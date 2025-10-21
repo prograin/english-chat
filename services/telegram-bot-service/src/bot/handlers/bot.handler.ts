@@ -16,6 +16,8 @@ import { userPermissionsInterceptor } from "../interceptor/user-permissions.inte
 import { inlineButtonValidateInterceptor } from "../interceptor/inline-button-validator.interceptor";
 import chat from "../modules/chat/chat-main.reply";
 import relations from "../modules/relations/relations-main.reply";
+import { KeyboardName } from "../buttons/keyboard.button";
+import { response } from "express";
 
 export class ManageHandlers {
   private bot: TelegramBot;
@@ -23,6 +25,7 @@ export class ManageHandlers {
   constructor(bot: TelegramBot) {
     this.bot = bot;
     this.commandHandler();
+    this.messageHandler();
     this.callbackHandler();
   }
 
@@ -42,7 +45,30 @@ export class ManageHandlers {
   }
 
   async messageHandler() {
-    this.bot.on("message", (message) => {});
+    this.bot.on(
+      "message",
+      interceptorRunner(
+        this.bot,
+        [messageValidateInterceptor, authInterceptor, userButtonClickedInterceptor, userPermissionsInterceptor],
+        async (bot, event: BotEvent, response) => {
+          const message = event as Message;
+
+          const text = message.text?.trim();
+
+          if (!text) return;
+
+          switch (text) {
+            case KeyboardName.ke_profile_n:
+              await profile(this.bot, message, response);
+              break;
+
+            case KeyboardName.ke_search_n:
+              await search(this.bot, message, response);
+              break;
+          }
+        }
+      )
+    );
   }
 
   async callbackHandler() {

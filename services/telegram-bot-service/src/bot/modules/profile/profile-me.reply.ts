@@ -1,11 +1,11 @@
-import TelegramBot, { CallbackQuery, ParseMode } from "node-telegram-bot-api";
+import TelegramBot, { CallbackQuery, Message, ParseMode } from "node-telegram-bot-api";
 import BotResponse from "src/bot/types/bot-response.type";
 import { ProfileSelfController } from "./profile.controller";
 import { buildProfileText } from "./profile.helper";
 import { ma_profile_in } from "./profile.markup";
 
-async function profileMe(bot: TelegramBot, callbackQuery: CallbackQuery, response: BotResponse) {
-  const chatId = callbackQuery.message?.chat.id as number;
+async function profileMe(bot: TelegramBot, message: Message, response: BotResponse) {
+  const chatId = message?.chat.id as number;
   const profileResponse = await ProfileSelfController.getProfile(response.user.token || "");
   const text = buildProfileText(profileResponse.data.profile);
   const options = {

@@ -4,7 +4,13 @@ import { fix_ma_search_base_in } from "./search.markup";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { need_complete_profile, search_base } from "./search.text";
 
-async function searchBaseReply(bot: TelegramBot, message: Message | undefined, telegramSearchData: TelegramSearchData, searchPermission: any) {
+async function searchBaseReply(
+  bot: TelegramBot,
+  message: Message | undefined,
+  editable = true,
+  telegramSearchData: TelegramSearchData,
+  searchPermission: any
+) {
   const selectedFieldsRaw = telegramSearchData?.selected_fields_raw;
 
   const filteredReply = [];
@@ -26,21 +32,33 @@ async function searchBaseReply(bot: TelegramBot, message: Message | undefined, t
   }
 
   if (filteredReply.length === 0) {
-    await bot.editMessageText(need_complete_profile, {
-      chat_id: message!.chat.id,
-      message_id: message!.message_id,
-    });
+    if (editable) {
+      await bot.editMessageText(need_complete_profile, {
+        chat_id: message!.chat.id,
+        message_id: message!.message_id,
+      });
+    } else {
+      await bot.sendMessage(message!.chat.id, need_complete_profile);
+    }
   }
 
   const finalReply = [...filteredReply, ...fix_ma_search_base_in];
 
-  await bot.editMessageText(search_base, {
-    chat_id: message!.chat.id,
-    message_id: message!.message_id,
-    reply_markup: {
-      inline_keyboard: finalReply,
-    },
-  });
+  if (editable) {
+    await bot.editMessageText(search_base, {
+      chat_id: message!.chat.id,
+      message_id: message!.message_id,
+      reply_markup: {
+        inline_keyboard: finalReply,
+      },
+    });
+  } else {
+    await bot.sendMessage(message!.chat.id, search_base, {
+      reply_markup: {
+        inline_keyboard: finalReply,
+      },
+    });
+  }
 }
 
 export default searchBaseReply;

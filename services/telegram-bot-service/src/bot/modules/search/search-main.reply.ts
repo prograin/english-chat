@@ -20,7 +20,7 @@ const searchMainReplyMessage = async (
   if (usernameMatch) {
     await searchProfileReply(bot, message, response.user, usernameMatch[1]);
   } else {
-    await searchBaseReply(bot, message, telegramSearchData, searchPermission);
+    await searchBaseReply(bot, message, false, telegramSearchData, searchPermission);
     await setUserTelegramSearch(Number(response.user.id), Number(message.message_id), telegramSearchData);
   }
 };
@@ -39,7 +39,7 @@ const searchMainReplyCallback = async (
   const lastPart = callbackDataPart[callbackDataPart.length - 1];
   switch (lastPart) {
     case "":
-      await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
+      await searchBaseReply(bot, callbackQuery.message, true, telegramSearchData, searchPermission);
       await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
       break;
 
@@ -69,7 +69,7 @@ const searchMainReplyCallback = async (
         telegramSearchData.selected_fields_raw.push(callbackDataRaw);
       }
       await setUserTelegramSearch(Number(response.user.id), Number(callbackQuery.message?.message_id), telegramSearchData);
-      await searchBaseReply(bot, callbackQuery.message, telegramSearchData, searchPermission);
+      await searchBaseReply(bot, callbackQuery.message, true, telegramSearchData, searchPermission);
       break;
   }
 };

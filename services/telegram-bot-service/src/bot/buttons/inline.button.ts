@@ -1,4 +1,4 @@
-class InlineName {
+export class InlineName {
   static in_random_chat_n = "Random Chat";
   static in_profile_n = "Profile";
   static in_coin_n = "Coin";
