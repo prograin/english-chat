@@ -1,10 +1,14 @@
-import "module-alias/register";
+import dotenv from "dotenv";
+dotenv.config({ path: ".telegram.env" });
+
+if (process.env.NODE_ENV === "production") {
+  require("module-alias/register");
+} else {
+  require("tsconfig-paths/register");
+}
 
 import app from "./app";
 import runBot from "./bot-entry";
-import dotenv from "dotenv";
-
-dotenv.config({ path: ".telegram.env" });
 
 const startServer = async () => {
   try {

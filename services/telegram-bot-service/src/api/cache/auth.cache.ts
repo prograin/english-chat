@@ -1,5 +1,5 @@
 import redis from "../../shared/config/redis";
-import { PREFIX_KEY } from "../../../../../shared/constants/redis.js";
+import { PREFIX_KEY } from "../../../../../shared/constants/redis";
 
 const TTL_30_DAYS = 30 * 24 * 60 * 60; // 2592000 seconds
 
