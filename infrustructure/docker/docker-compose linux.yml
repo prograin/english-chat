@@ -7,13 +7,12 @@ services:
       context: ../..
       dockerfile: frontends/web/Dockerfile
     container_name: front-web
-    ports:
-      - "4173:4173"
+    network_mode: host
     env_file:
       - ../../frontends/web/.env
     environment:
       NODE_ENV: production
-      API_URL: host.docker.internal
+      API_URL: localhost
 
   # --------------------
   # Chat Service
@@ -23,8 +22,7 @@ services:
       context: ../..
       dockerfile: services/chat-service/Dockerfile
     container_name: chat-service
-    ports:
-      - "3006:3006"
+    network_mode: host
     env_file:
       - ../../services/chat-service/.chat.env
     environment:
@@ -32,7 +30,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       db:
         condition: service_healthy
@@ -51,8 +49,7 @@ services:
       context: ../..
       dockerfile: services/presence-service/Dockerfile
     container_name: presence-service
-    ports:
-      - "3001:3001"
+    network_mode: host
     env_file:
       - ../../services/presence-service/.presence.env
     environment:
@@ -60,7 +57,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       db:
         condition: service_healthy
@@ -77,8 +74,7 @@ services:
       context: ../..
       dockerfile: services/telegram-bot-service/Dockerfile
     container_name: telegram-bot-service
-    ports:
-      - "3003:3003"
+    network_mode: host
     env_file:
       - ../../services/telegram-bot-service/.telegram.env
     environment:
@@ -86,7 +82,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       db:
         condition: service_healthy
@@ -103,8 +99,7 @@ services:
       context: ../..
       dockerfile: services/search-service/Dockerfile
     container_name: search-service
-    ports:
-      - "3005:3005"
+    network_mode: host
     env_file:
       - ../../services/search-service/.search.env
     environment:
@@ -112,7 +107,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -129,8 +124,7 @@ services:
       context: ../..
       dockerfile: services/relations-service/Dockerfile
     container_name: relations-service
-    ports:
-      - "3007:3007"
+    network_mode: host
     env_file:
       - ../../services/relations-service/.relation.env
     environment:
@@ -138,7 +132,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -157,8 +151,7 @@ services:
       context: ../..
       dockerfile: services/users-service/Dockerfile
     container_name: users-service
-    ports:
-      - "3004:3004"
+    network_mode: host
     env_file:
       - ../../services/users-service/.users.env
     environment:
@@ -166,7 +159,7 @@ services:
       DB_HOST: db
       REDIS_HOST: redis
       ELASTIC_HOST: elasticsearch
-      API_URL: host.docker.internal
+      API_URL: localhost
     depends_on:
       elasticsearch:
         condition: service_healthy

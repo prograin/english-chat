@@ -35,8 +35,9 @@ EXPOSE 3003
 # -------------------------------
 # 7. Set environment variables
 # -------------------------------
-ENV PROXY='socks5://host.docker.internal:10808';
+# ENV PROXY='socks5://host.docker.internal:10808';
 ENV NODE_ENV=production
+ENV API_URL=host.docker.internal
 ENV DB_HOST=host.docker.internal
 ENV REDIS_HOST=host.docker.internal
 

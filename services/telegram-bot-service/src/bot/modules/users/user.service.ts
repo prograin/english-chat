@@ -11,25 +11,25 @@ export class UserSelfService {
 
 export class UserAdminService {
   static createUser = async (data: object) => {
-    return await AdminAxiosInstance.post("http://localhost:3004/users/", data, {
+    return await AdminAxiosInstance.post(`http://${process.env.API_URL}:3004/users/`, data, {
       validateStatus: (status) => status < 500,
     });
   };
 
   static getUser = async (id: number) => {
-    return await AdminAxiosInstance.get(`http://localhost:3004/users/${id}`, {
+    return await AdminAxiosInstance.get(`http://${process.env.API_URL}:3004/users/${id}`, {
       validateStatus: (status) => status < 500,
     });
   };
 
   static getUserByTelegramId = async (telegramId: bigint) => {
-    return await AdminAxiosInstance.get(`http://localhost:3004/users/telegram/${telegramId}`, {
+    return await AdminAxiosInstance.get(`http://${process.env.API_URL}:3004/users/telegram/${telegramId}`, {
       validateStatus: (status) => status < 500,
     });
   };
 
   static searchUsersByQuery = async (page: number, query: object) => {
-    return await AdminAxiosInstance.post(`http://localhost:3005/users/search/query?page=${page}`, query, {
+    return await AdminAxiosInstance.post(`http://${process.env.API_URL}:3005/users/search/query?page=${page}`, query, {
       validateStatus: (status) => status < 500,
     });
   };

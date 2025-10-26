@@ -2,7 +2,7 @@ import { AdminAxiosInstance, UserAxiosInstance } from "src/shared/utils/axios.ut
 
 export class ChatSelfService {
   static async getRequestByTarget(token: string, targetId: number) {
-    const request = await UserAxiosInstance.get(`http://localhost:3006/chat/requests/target/${targetId}`, {
+    const request = await UserAxiosInstance.get(`http://${process.env.API_URL}:3006/chat/requests/target/${targetId}`, {
       headers: { token: token },
       validateStatus: (status) => status < 500,
     });
@@ -11,7 +11,7 @@ export class ChatSelfService {
 
   static async createRequest(token: string, senderId: number, recieverId: number) {
     const request = await UserAxiosInstance.post(
-      `http://localhost:3006/chat/requests`,
+      `http://${process.env.API_URL}:3006/chat/requests`,
       { sender_user_id: senderId, reciever_user_id: recieverId, status: "pending" },
       {
         headers: { token: token },

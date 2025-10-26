@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: ".chat.env" });
 
-const BASE_URL = "http://localhost:3006/chat/sessions";
+const BASE_URL = `http://${process.env.API_URL}:3006/chat/sessions`;
 const TOKEN = process.env.USER_TOKEN;
 
 const headers = {

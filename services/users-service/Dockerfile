@@ -38,6 +38,7 @@ EXPOSE 3004
 ENV NODE_ENV=production
 ENV DB_HOST=host.docker.internal
 ENV REDIS_HOST=host.docker.internal
+ENV API_URL=host.docker.internal
 
 # -------------------------------
 # 6. Run the application

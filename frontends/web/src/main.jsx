@@ -8,7 +8,7 @@ import "./shared/styles/variables.css";
 import "./shared/styles/theme.css";
 import "./shared/styles/animations.css";
 
-localStorage.setItem("token", import.meta.env.VITE_USER_TEST_TOKEN);
+// localStorage.setItem("token", import.meta.env.VITE_USER_TEST_TOKEN);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>

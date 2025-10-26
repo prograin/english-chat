@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
@@ -9,12 +12,12 @@ export default defineConfig({
     allowedHosts: ["silver-ducks-smoke.loca.lt"],
     proxy: {
       "/auth": {
-        target: "http://localhost:3003",
+        target: `http://${process.env.API_URL}:3003`,
         changeOrigin: true,
         secure: false,
       },
       "/profiles": {
-        target: "http://localhost:3004",
+        target: `http://${process.env.API_URL}:3004`,
         changeOrigin: true,
         secure: false,
       },
