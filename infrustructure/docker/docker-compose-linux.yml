@@ -27,9 +27,9 @@ services:
       - ../../services/chat-service/.chat.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       db:
@@ -54,9 +54,9 @@ services:
       - ../../services/presence-service/.presence.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       db:
@@ -79,9 +79,9 @@ services:
       - ../../services/telegram-bot-service/.telegram.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       db:
@@ -104,9 +104,9 @@ services:
       - ../../services/search-service/.search.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       elasticsearch:
@@ -129,9 +129,9 @@ services:
       - ../../services/relations-service/.relation.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       elasticsearch:
@@ -156,9 +156,9 @@ services:
       - ../../services/users-service/.users.env
     environment:
       NODE_ENV: production
-      DB_HOST: db
-      REDIS_HOST: redis
-      ELASTIC_HOST: elasticsearch
+      DB_HOST: localhost
+      REDIS_HOST: localhost
+      ELASTIC_HOST: localhost
       API_URL: localhost
     depends_on:
       elasticsearch:
@@ -232,9 +232,8 @@ services:
       - elasticsearch:/usr/share/elasticsearch/data
     restart: unless-stopped
     healthcheck:
-      test: curl -s http://elasticsearch:9200 >/dev/null || exit 1
+      test: curl -s -u elastic:${ELASTIC_PASSWORD} -o /dev/null -w "%{http_code}" http://localhost:9200/
       interval: 30s
-      timeout: 10s
       retries: 50
 
   # --------------------
