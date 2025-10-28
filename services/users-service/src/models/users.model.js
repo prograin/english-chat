@@ -1,8 +1,11 @@
 import { DataTypes } from "sequelize";
 import dotenv from "dotenv";
 import sequelize from "../config/postgres.js";
+import { removeAllContraints } from "../utils/sequelize.util.js";
 
 dotenv.config({ path: ".users.env" });
+
+removeAllContraints("users");
 
 const usersModel = sequelize.define(
   "Users",
@@ -18,7 +21,6 @@ const usersModel = sequelize.define(
     },
     telegram_chat_id: {
       type: DataTypes.BIGINT,
-      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -29,6 +31,11 @@ const usersModel = sequelize.define(
     password: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    is_bot: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
     },
   },
   {

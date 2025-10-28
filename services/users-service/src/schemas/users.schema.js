@@ -7,6 +7,7 @@ const schema = {
 
   email: joi.string().email().allow(null).optional(),
   password: joi.string().min(6).allow(null).optional(),
+  is_bot: joi.boolean().allow(null).optional(),
 };
 
 const usersSchema = joi.object(schema);

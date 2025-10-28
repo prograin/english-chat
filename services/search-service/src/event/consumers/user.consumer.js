@@ -19,7 +19,7 @@ const handleUser = async ({ event, userId, data }) => {
       try {
         await deleteDocService("users", userId);
       } catch (error) {
-        if (error !== 404) {
+        if (error.status !== 404) {
           throw error;
         }
       }

@@ -5,7 +5,7 @@ import { updateDocByIdService } from "../../services/documents.service.js";
 const handleProfile = async ({ event, userId, data }) => {
   switch (event) {
     case REDIS_EVENTS.user.profile.updated:
-      await updateDocByIdService("users", userId, data);
+      await updateDocByIdService("users", userId, data, true);
       break;
     default:
       console.warn("Unknown event:", event);

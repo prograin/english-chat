@@ -21,13 +21,13 @@ export class RedisStreamConsumer {
   async consumeLoop() {
     while (this.running) {
       try {
-        const [nextId, pendingMessages] = await consumer.xautoclaim(this.stream, this.group, this.consumer, 6, "0-0", "COUNT", 10);
+        const [nextId, pendingMessages] = await consumer.xautoclaim(this.stream, this.group, this.consumer, 60000, "0-0", "COUNT", 10);
         const messagesToProcess = pendingMessages || [];
         if (messagesToProcess.length) {
           await this.processMessages([[this.stream, messagesToProcess]]);
         }
 
-        const newMessages = await consumer.xreadgroup("GROUP", this.group, this.consumer, "BLOCK", 5000, "COUNT", 10, "STREAMS", this.stream, ">");
+        const newMessages = await consumer.xreadgroup("GROUP", this.group, this.consumer, "BLOCK", 1000, "COUNT", 50, "STREAMS", this.stream, ">");
 
         if (newMessages) {
           await this.processMessages(newMessages);

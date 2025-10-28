@@ -44,9 +44,10 @@ class UsersProfilesCache {
         return null;
       }
 
-      await redis.set(key, JSON.stringify(data));
+      const newProfile = { ...JSON.parse(profile), ...data };
+      await redis.set(key, JSON.stringify(newProfile));
       await redis.expire(key, this.PROFILE_TTL);
-      return data;
+      return newProfile;
     } catch (error) {
       console.error("❌ Error updating profile in cache:", error);
       return null;

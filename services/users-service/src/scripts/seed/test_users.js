@@ -2,29 +2,43 @@ import dotenv from "dotenv";
 dotenv.config({ path: "users.env" });
 
 import { createUserService } from "../../services/users.service.js";
-import { dummyUsersWithProfiles } from "../../../../../shared/dummy/users.js";
 import { updateProfileByUserIdService } from "../../services/profile.service.js";
+import fs from "fs";
+
+const dummyUsersWithProfiles = JSON.parse(fs.readFileSync("../../shared/data/dummy-data.json", "utf-8"));
 
 export async function createDummyUsers() {
   try {
-    for (const item of dummyUsersWithProfiles) {
+    // Wrap each user creation in a promise
+    const userPromises = dummyUsersWithProfiles.map(async (item) => {
       try {
-        await createUserService({
-          id: item.id,
-          telegram_id: item.telegram_id,
-        });
+        // Create user
+        try {
+          await createUserService(item.user);
+          await updateProfileByUserIdService(item.user.id, item.profile);
+        } catch (error) {
+          console.log(error);
+          if (error.status == 409) {
+            await updateProfileByUserIdService(item.id, item.profile);
+          }
+        }
+
+        return { id: item.id, status: "success" };
       } catch (err) {
-        console.log(err);
+        console.error(`Error creating user ${item.id}:`, err);
+        return { id: item.id, status: "failed", error: err };
       }
+    });
 
-      await updateProfileByUserIdService(item.id, item.profile);
-    }
+    // Wait for all promises to complete
+    const results = await Promise.all(userPromises);
 
-    console.log("All dummy users and profiles created!");
-    process.exit(); // <--- exit after script finishes
+    console.log("All dummy users processed!");
+    console.log(results); // shows success/failed for each user
+    process.exit(); // exit after script finishes
   } catch (error) {
-    console.error("Error creating dummy users:", error);
-    process.exit(1); // <--- exit with error code
+    console.error("Unexpected error:", error);
+    process.exit(1); // exit with error code
   }
 }
 

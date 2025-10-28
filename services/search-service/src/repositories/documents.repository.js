@@ -31,12 +31,13 @@ export const deleteDocumentRepository = async (index, id) => {
   });
 };
 
-export const updateDocumentByIdRepository = async (index, id, fieldsToUpdate) => {
+export const updateDocumentByIdRepository = async (index, id, fieldsToUpdate, force) => {
   return esClient.update({
     index,
     id,
     doc: fieldsToUpdate,
     refresh: true,
+    ...(force ? { doc_as_upsert: true } : {}),
   });
 };
 

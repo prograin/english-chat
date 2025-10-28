@@ -1,457 +1,128 @@
-export const dummyUsersWithProfiles = [
-  // Original 10 users
-  {
-    id: 1001,
-    telegram_id: 1001,
-    profile: {
-      username: "ahmadreza1",
-      first_name: "Ahmadreza",
-      last_name: "Rezaei",
-      age: 26,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "music", "gaming"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1002,
-    telegram_id: 1002,
-    profile: {
-      username: "sara_j",
-      first_name: "Sara",
-      last_name: "Jafari",
-      age: 24,
-      gender: "female",
-      career: "designer",
-      interests: ["art", "travel", "reading"],
-      country: "Iran",
-      state: "Isfahan",
-      city: "Isfahan",
-      latitude: 32.6546,
-      longitude: 51.668,
-    },
-  },
-  {
-    id: 1003,
-    telegram_id: 1003,
-    profile: {
-      username: "omid_82",
-      first_name: "Omid",
-      last_name: "Taheri",
-      age: 28,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "gaming"],
-      country: "Iran",
-      state: "Shiraz",
-      city: "Shiraz",
-      latitude: 29.5918,
-      longitude: 52.5836,
-    },
-  },
-  {
-    id: 1004,
-    telegram_id: 1004,
-    profile: {
-      username: "leila_m",
-      first_name: "Leila",
-      last_name: "Mansouri",
-      age: 25,
-      gender: "female",
-      career: "teacher",
-      interests: ["reading", "travel", "music"],
-      country: "Iran",
-      state: "Tabriz",
-      city: "Tabriz",
-      latitude: 38.0962,
-      longitude: 46.2738,
-    },
-  },
-  {
-    id: 1005,
-    telegram_id: 1005,
-    profile: {
-      username: "navid_t",
-      first_name: "Navid",
-      last_name: "Tahmasebi",
-      age: 27,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "gaming", "music"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1006,
-    telegram_id: 1006,
-    profile: {
-      username: "mina.r",
-      first_name: "Mina",
-      last_name: "Ramezani",
-      age: 23,
-      gender: "female",
-      career: "designer",
-      interests: ["art", "travel", "music"],
-      country: "Iran",
-      state: "Mashhad",
-      city: "Mashhad",
-      latitude: 36.2605,
-      longitude: 59.6168,
-    },
-  },
-  {
-    id: 1007,
-    telegram_id: 1007,
-    profile: {
-      username: "ali_s",
-      first_name: "Ali",
-      last_name: "Shirazi",
-      age: 29,
-      gender: "male",
-      career: "manager",
-      interests: ["sports", "reading", "coding"],
-      country: "Iran",
-      state: "Esfahan",
-      city: "Isfahan",
-      latitude: 32.6546,
-      longitude: 51.668,
-    },
-  },
-  {
-    id: 1008,
-    telegram_id: 1008,
-    profile: {
-      username: "neda_k",
-      first_name: "Neda",
-      last_name: "Karimi",
-      age: 26,
-      gender: "female",
-      career: "developer",
-      interests: ["coding", "music", "travel"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1009,
-    telegram_id: 1009,
-    profile: {
-      username: "reza_h",
-      first_name: "Reza",
-      last_name: "Hosseini",
-      age: 30,
-      gender: "male",
-      career: "manager",
-      interests: ["sports", "reading", "travel"],
-      country: "Iran",
-      state: "Shiraz",
-      city: "Shiraz",
-      latitude: 29.5918,
-      longitude: 52.5836,
-    },
-  },
-  {
-    id: 1010,
-    telegram_id: 1010,
-    profile: {
-      username: "fatemeh_91",
-      first_name: "Fatemeh",
-      last_name: "Hosseini",
-      age: 24,
-      gender: "female",
-      career: "student",
-      interests: ["coding", "music", "reading"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
+import { CAREERS } from "../constants/careers.js";
+import { INTERESTS } from "../constants/interests.js";
 
-  // New 50 users (IDs 1011–1060)
-  {
-    id: 1011,
-    telegram_id: 1011,
-    profile: {
-      username: "amir_r",
-      first_name: "Amir",
-      last_name: "Rahimi",
-      age: 31,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "sports", "gaming"],
-      country: "Iran",
-      state: "Mashhad",
-      city: "Mashhad",
-      latitude: 36.2605,
-      longitude: 59.6168,
-    },
-  },
-  {
-    id: 1012,
-    telegram_id: 1012,
-    profile: {
-      username: "shirin_m",
-      first_name: "Shirin",
-      last_name: "Moradi",
-      age: 27,
-      gender: "female",
-      career: "teacher",
-      interests: ["reading", "travel", "yoga"],
-      country: "Iran",
-      state: "Tabriz",
-      city: "Tabriz",
-      latitude: 38.0962,
-      longitude: 46.2738,
-    },
-  },
-  {
-    id: 1013,
-    telegram_id: 1013,
-    profile: {
-      username: "reza_a",
-      first_name: "Reza",
-      last_name: "Azizi",
-      age: 28,
-      gender: "male",
-      career: "manager",
-      interests: ["sports", "reading", "coding"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1014,
-    telegram_id: 1014,
-    profile: {
-      username: "parisa_s",
-      first_name: "Parisa",
-      last_name: "Shahbazi",
-      age: 25,
-      gender: "female",
-      career: "designer",
-      interests: ["art", "music", "travel"],
-      country: "Iran",
-      state: "Isfahan",
-      city: "Isfahan",
-      latitude: 32.6546,
-      longitude: 51.668,
-    },
-  },
-  {
-    id: 1015,
-    telegram_id: 1015,
-    profile: {
-      username: "hamed_m",
-      first_name: "Hamed",
-      last_name: "Mahdavi",
-      age: 29,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "gaming", "reading"],
-      country: "Iran",
-      state: "Shiraz",
-      city: "Shiraz",
-      latitude: 29.5918,
-      longitude: 52.5836,
-    },
-  },
-  {
-    id: 1016,
-    telegram_id: 1016,
-    profile: {
-      username: "niloofar_t",
-      first_name: "Niloofar",
-      last_name: "Tabatabaei",
-      age: 26,
-      gender: "female",
-      career: "student",
-      interests: ["reading", "music", "travel"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1017,
-    telegram_id: 1017,
-    profile: {
-      username: "kamran_s",
-      first_name: "Kamran",
-      last_name: "Sadri",
-      age: 32,
-      gender: "male",
-      career: "manager",
-      interests: ["sports", "coding", "travel"],
-      country: "Iran",
-      state: "Tabriz",
-      city: "Tabriz",
-      latitude: 38.0962,
-      longitude: 46.2738,
-    },
-  },
-  {
-    id: 1018,
-    telegram_id: 1018,
-    profile: {
-      username: "mahtab_r",
-      first_name: "Mahtab",
-      last_name: "Rostami",
-      age: 28,
-      gender: "female",
-      career: "teacher",
-      interests: ["reading", "music", "art"],
-      country: "Iran",
-      state: "Mashhad",
-      city: "Mashhad",
-      latitude: 36.2605,
-      longitude: 59.6168,
-    },
-  },
-  {
-    id: 1019,
-    telegram_id: 1019,
-    profile: {
-      username: "soheil_h",
-      first_name: "Soheil",
-      last_name: "Hosseini",
-      age: 27,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "music", "gaming"],
-      country: "Iran",
-      state: "Shiraz",
-      city: "Shiraz",
-      latitude: 29.5918,
-      longitude: 52.5836,
-    },
-  },
-  {
-    id: 1020,
-    telegram_id: 1020,
-    profile: {
-      username: "elan_m",
-      first_name: "Elan",
-      last_name: "Mousavi",
-      age: 24,
-      gender: "female",
-      career: "designer",
-      interests: ["art", "travel", "reading"],
-      country: "Iran",
-      state: "Esfahan",
-      city: "Isfahan",
-      latitude: 32.6546,
-      longitude: 51.668,
-    },
-  },
-
-  // IDs 1021–1060 continue similarly
-  {
-    id: 1021,
-    telegram_id: 1021,
-    profile: {
-      username: "reza_n",
-      first_name: "Reza",
-      last_name: "Norouzi",
-      age: 29,
-      gender: "male",
-      career: "teacher",
-      interests: ["reading", "sports", "coding"],
-      country: "Iran",
-      state: "Tabriz",
-      city: "Tabriz",
-      latitude: 38.0962,
-      longitude: 46.2738,
-    },
-  },
-  {
-    id: 1022,
-    telegram_id: 1022,
-    profile: {
-      username: "sahar_k",
-      first_name: "Sahar",
-      last_name: "Khosravi",
-      age: 25,
-      gender: "female",
-      career: "student",
-      interests: ["art", "reading", "travel"],
-      country: "Iran",
-      state: "Mashhad",
-      city: "Mashhad",
-      latitude: 36.2605,
-      longitude: 59.6168,
-    },
-  },
-  {
-    id: 1023,
-    telegram_id: 1023,
-    profile: {
-      username: "navid_r",
-      first_name: "Navid",
-      last_name: "Ranjbar",
-      age: 30,
-      gender: "male",
-      career: "manager",
-      interests: ["sports", "gaming", "travel"],
-      country: "Iran",
-      state: "Tehran",
-      city: "Tehran",
-      latitude: 35.6892,
-      longitude: 51.389,
-    },
-  },
-  {
-    id: 1024,
-    telegram_id: 1024,
-    profile: {
-      username: "tara_s",
-      first_name: "Tara",
-      last_name: "Safavi",
-      age: 28,
-      gender: "female",
-      career: "teacher",
-      interests: ["reading", "music", "yoga"],
-      country: "Iran",
-      state: "Isfahan",
-      city: "Isfahan",
-      latitude: 32.6546,
-      longitude: 51.668,
-    },
-  },
-  {
-    id: 1025,
-    telegram_id: 1025,
-    profile: {
-      username: "pouya_d",
-      first_name: "Pouya",
-      last_name: "Davoodi",
-      age: 26,
-      gender: "male",
-      career: "developer",
-      interests: ["coding", "music", "sports"],
-      country: "Iran",
-      state: "Shiraz",
-      city: "Shiraz",
-      latitude: 29.5918,
-      longitude: 52.5836,
-    },
-  },
+const STATES_CITIES = [
+  { state: "Tehran", city: "Tehran", lat: 35.6892, lng: 51.389 },
+  { state: "Isfahan", city: "Isfahan", lat: 32.6572, lng: 51.6776 },
+  { state: "Shiraz", city: "Shiraz", lat: 29.5918, lng: 52.5836 },
+  { state: "Mashhad", city: "Mashhad", lat: 36.2605, lng: 59.6168 },
+  { state: "Tabriz", city: "Tabriz", lat: 38.0962, lng: 46.2738 },
+  { state: "Markazi", city: "Arak", lat: 34.0918, lng: 49.689 },
 ];
+
+const FIRST_NAMES = [
+  "Ahmadreza",
+  "Ali",
+  "Reza",
+  "Mohammad",
+  "Sina",
+  "Navid",
+  "Amir", // male
+  "Sara",
+  "Fatemeh",
+  "Maryam",
+  "Neda",
+  "Shirin",
+  "Parisa",
+  "Leila",
+  "Zahra",
+  "Elham",
+  "Atena",
+  "Zyra",
+  "Luma",
+  "Tara",
+  "Kia", // unusual
+];
+
+const LAST_NAMES = ["Rezaei", "Mohammadi", "Hosseini", "Karimi", "Ahmadi", "Rahimi", "Najafi", "Taheri", "Farhadi", "Ghasemi"];
+
+function getRandomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getRandomItems(arr, count) {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+// 70% Tehran, 30% other cities including Arak
+function getRandomLocation() {
+  const r = Math.random();
+  if (r < 0.7) return STATES_CITIES[0];
+  return getRandomItem(STATES_CITIES.slice(1));
+}
+
+// Bias towards more females (~65% female)
+function getRandomGender() {
+  return Math.random() < 0.65 ? "female" : "male";
+}
+
+// ~15% users have no last name
+function getRandomLastName() {
+  return Math.random() < 0.15 ? null : getRandomItem(LAST_NAMES);
+}
+
+// Get random career label
+function getRandomCareerLabel() {
+  return getRandomItem(CAREERS).label;
+}
+
+// Get random interest labels
+function getRandomInterestLabels() {
+  const count = Math.floor(Math.random() * 7) + 1; // 1 to 7
+  const shuffled = [...INTERESTS].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, INTERESTS.length)).map((i) => i.label);
+}
+
+export const USERS = Array.from({ length: 70 }, (_, i) => {
+  const id = 1001 + i;
+  const gender = getRandomGender();
+
+  let firstName;
+  if (Math.random() < 0.2) {
+    firstName = getRandomItem(FIRST_NAMES.slice(18));
+  } else {
+    firstName = gender === "male" ? getRandomItem(FIRST_NAMES.slice(0, 7)) : getRandomItem(FIRST_NAMES.slice(7, 18));
+  }
+
+  const location = getRandomLocation();
+
+  return {
+    user: {
+      is_bot: true,
+      id,
+      telegram_id: id,
+      telegram_chat_id: 6608912631,
+    },
+    profile: {
+      username: `user${id}`,
+      first_name: firstName,
+      last_name: getRandomLastName(),
+      age: Math.floor(Math.random() * 30) + 18,
+      gender: gender,
+      career: getRandomCareerLabel(),
+      interests: getRandomInterestLabels(), // variable length
+      country: "Iran",
+      state: location.state,
+      city: location.city,
+      latitude: location.lat,
+      longitude: location.lng,
+    },
+  };
+});
+
+import fs from "fs";
+
+// Ensure the directory exists
+const dir = "shared/data";
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
+}
+
+// Path for the JSON file
+const filePath = `${dir}/dummy-data.json`;
+
+// Write the USERS array to JSON file
+fs.writeFileSync(filePath, JSON.stringify(USERS, null, 2), "utf-8");
+
+console.log(`Saved ${USERS.length} users to ${filePath}`);

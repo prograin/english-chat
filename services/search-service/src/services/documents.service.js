@@ -34,14 +34,14 @@ export const deleteDocService = async (index, id) => {
   if (exists) {
     return await deleteDocumentRepository(index, id);
   } else {
-    error = new Error("Doc does not exist .");
+    const error = new Error("Doc does not exist .");
     error.status = 404;
     throw error;
   }
 };
 
-export const updateDocByIdService = async (index, id, fieldsToUpdate) => {
-  return await updateDocumentByIdRepository(index, id, fieldsToUpdate);
+export const updateDocByIdService = async (index, id, fieldsToUpdate, force = false) => {
+  return await updateDocumentByIdRepository(index, id, fieldsToUpdate, force);
 };
 
 export const bulkUpdateDocsService = async (index, documents) => {

@@ -7,7 +7,7 @@ import { bot } from "src/bot-entry";
 import { getMapUserToTelegram } from "../modules/users/user.cache";
 
 export const userTokenValidateInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
-  const user_id = getMapUserToTelegram(Number(event.from?.id));
+  const user_id = await getMapUserToTelegram(Number(event.from?.id));
   const token = await getUserToken(Number(user_id));
   const chatId = "chat" in event ? event.chat.id : event.message?.chat.id;
 

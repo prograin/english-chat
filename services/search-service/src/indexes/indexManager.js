@@ -31,6 +31,5 @@ export async function deleteIndex(indexName) {
 }
 
 export async function initIndexes() {
-  console.log("---------------");
   await createIndex("users", userMapping);
 }

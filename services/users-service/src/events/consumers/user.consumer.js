@@ -10,7 +10,7 @@ const handleUser = async ({ event, userId, data }) => {
       try {
         await usersCache.deleteUser(userId);
         await usersProfilesCache.deleteUserProfile(userId);
-        await deleteUserService(userId);
+        await deleteUserService(userId, "event");
       } catch (error) {
         if (error.status !== 404) {
           throw error;

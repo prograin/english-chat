@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { bulkUpdatePresenceService } from "../services/presence.service.js";
 import { getUsersLastActive, clearInactiveUsers } from "../cache/users.cache.js";
 
-export const syncUsersPresenceCacheJob = cron.schedule("*/5 * * * * *", async () => {
+export const syncUsersPresenceCacheJob = cron.schedule("0 */5 * * * *", async () => {
   try {
     const users_last_active = await getUsersLastActive();
     await bulkUpdatePresenceService(users_last_active);
@@ -13,7 +13,7 @@ export const syncUsersPresenceCacheJob = cron.schedule("*/5 * * * * *", async ()
   }
 });
 
-export const clearInactiveUsersPresenceCacheJob = cron.schedule("*/5 * * * * *", async () => {
+export const clearInactiveUsersPresenceCacheJob = cron.schedule("0 */30 * * * *", async () => {
   try {
     const removedCount = await clearInactiveUsers();
     if (removedCount > 0) {

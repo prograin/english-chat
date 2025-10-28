@@ -11,6 +11,7 @@ const flushCache = async () => {
 
 const logKeys = async () => {
   const keys = await redis.keys("*");
+  console.log("---------");
   console.log(keys);
 };
 

@@ -52,7 +52,7 @@ const getDocuments = async (index) => {
       match_all: {},
     },
   });
-  const documents = result.hits.hits.map((hit) => hit._id);
+  const documents = result.hits.hits.map((hit) => hit._source);
   console.log(documents);
 };
 
@@ -63,7 +63,7 @@ const bulkDeleteDocuments = async (index, ids) => {
 
 // deleteIndices(["users"]);
 // getIndices();
-
+refresh("users");
 getDocuments("users");
 // removeDocuments("users");
 // bulkDeleteDocuments("users", ["31", "32"]);

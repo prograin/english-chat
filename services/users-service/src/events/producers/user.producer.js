@@ -17,9 +17,9 @@ class UserProducer {
         JSON.stringify(data)
       );
       return messageId;
-    } catch {
-      console.error("❌ Failed to publish user added:", err);
-      throw err;
+    } catch (error) {
+      console.error("❌ Failed to publish user added:", error);
+      throw error;
     }
   }
 
@@ -37,9 +37,9 @@ class UserProducer {
         JSON.stringify(data)
       );
       return messageId;
-    } catch {
-      console.error("❌ Failed to publish user deleted:", err);
-      throw err;
+    } catch (error) {
+      console.error("❌ Failed to publish user deleted:", error);
+      throw error;
     }
   }
 }
