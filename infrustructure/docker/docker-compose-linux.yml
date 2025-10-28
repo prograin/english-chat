@@ -169,7 +169,7 @@ services:
         condition: service_healthy
 
     healthcheck:
-      test: ["CMD-SHELL", "psql -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'SELECT 1 FROM ${POSTGRES_USERS_DB} LIMIT 1;' || exit 1"]
+      test: ["CMD-SHELL", "node /usr/hey-app/services/users-service/src/check-db.js"]
       interval: 5s
       retries: 5
 
