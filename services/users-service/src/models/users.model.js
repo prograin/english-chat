@@ -5,7 +5,7 @@ import { removeAllContraints } from "../utils/sequelize.util.js";
 
 dotenv.config({ path: ".users.env" });
 
-removeAllContraints("users");
+// removeAllContraints("users");
 
 const usersModel = sequelize.define(
   "Users",

@@ -246,8 +246,8 @@ services:
     image: nginx:latest
     container_name: nginx-proxy
     ports:
-      - "80:80" # HTTP
-      - "443:443" # HTTPS
+      - "8080:80" # HTTP
+      - "8443:443" # HTTPS
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/certs:/etc/nginx/certs:ro

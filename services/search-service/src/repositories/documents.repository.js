@@ -46,7 +46,7 @@ export const bulkUpdateDocumentsRepository = async (index, data) => {
 
   const body = data.flatMap((doc) => [{ update: { _index: index, _id: doc.id } }, { doc: doc.fields }]);
 
-  return esClient.bulk({ refresh: true, body });
+  return esClient.bulk({ refresh: true, body, ignore_unavailable: true });
 };
 
 export const checkDocumentExistsRepository = async (index, id) => {
