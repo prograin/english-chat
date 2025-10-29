@@ -1,0 +1,15 @@
+sudo ls /var/named/
+
+sudo rm -f /var/named/heychat.info.db
+sudo rm -f /var/named/heychat.info.db.jnl
+
+sudo rm -f /var/cpanel/dns/records/heychat.info.yaml
+
+
+— Rebuild cPanel DNS cache
+sudo /scripts/updateuserdomains
+sudo /scripts/updateuserdns
+sudo /scripts/fixeverything
+
+and in 
+etc/userdomains -- remove -- noname
