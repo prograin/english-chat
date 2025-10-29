@@ -1,0 +1,17 @@
+sudo mkdir -p /var/www/heychat
+sudo chmod -R 755 /var/www/heychat
+
+# Create the folder if it doesn't exist
+sudo mkdir -p /var/www/heychat
+
+# Change ownership to Apache user
+sudo chown -R nobody:nobody /var/www/heychat
+
+# Set proper permissions
+sudo chmod -R 755 /var/www/heychat
+
+----------
+
+sudo mkdir -p /var/log/httpd
+sudo chown -R nobody:nobody /var/log/httpd
+sudo chmod 755 /var/log/httpd
