@@ -9,6 +9,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    host: true,
     port: 4173,
     strictPort: true,
     allowedHosts: ["heychat.info", "localhost", "127.0.0.1"],
