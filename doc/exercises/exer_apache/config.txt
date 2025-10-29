@@ -15,3 +15,8 @@ sudo chmod -R 755 /var/www/heychat
 sudo mkdir -p /var/log/httpd
 sudo chown -R nobody:nobody /var/log/httpd
 sudo chmod 755 /var/log/httpd
+
+-------------------
+
+sudo systemctl stop httpd
+sudo systemctl stop httpd

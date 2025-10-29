@@ -53,5 +53,5 @@ export default function TelegramLoginWidget() {
     };
   }, []);
 
-  return <div ref={containerRef}></div>;
+  return <div ref={containerRef} className="flex justify-center items-center"></div>;
 }
