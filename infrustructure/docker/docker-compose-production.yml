@@ -239,23 +239,23 @@ services:
       interval: 30s
       retries: 50
 
-  # # --------------------
-  # # nginx
-  # # --------------------
-  # nginx-proxy:
-  #   image: nginx:latest
-  #   container_name: nginx-proxy
-  #   network_mode: host
-  #   # ports:
-  #   #   - "8080:80" # HTTP
-  #   #   - "8443:443" # HTTPS
-  #   volumes:
-  #     - ./nginx/conf.d:/etc/nginx/conf.d:ro
-  #     - ./nginx/certs:/etc/nginx/certs:ro
-  #   depends_on:
-  #     - front-web
-  #     - chat-service
-  #     - presence-service
+  # --------------------
+  # nginx
+  # --------------------
+  nginx-proxy:
+    image: nginx:latest
+    container_name: nginx-proxy
+    network_mode: host
+    # ports:
+    #   - "8080:80" # HTTP
+    #   - "8443:443" # HTTPS
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - front-web
+      - chat-service
+      - presence-service
 
 volumes:
   postgres_data:

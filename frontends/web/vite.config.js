@@ -9,7 +9,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    allowedHosts: ["silver-ducks-smoke.loca.lt"],
+    port: 4173,
+    strictPort: true,
+    allowedHosts: ["heychat.info", "localhost", "127.0.0.1"],
     proxy: {
       "/auth": {
         target: `http://${process.env.API_URL}:3003`,

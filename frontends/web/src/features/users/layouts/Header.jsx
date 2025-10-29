@@ -11,7 +11,7 @@ export default function ModernHeader() {
         className="text-3xl font-extrabold text-[var(--text-accent)] tracking-widest font-sans 
                transition-transform duration-300 hover:scale-105 hover:text-secondary"
       >
-        MyApp
+        Heychat
       </h1>
     </header>
   );
