@@ -7,6 +7,7 @@ import { bot } from "src/bot-entry";
 import { getMessageFromEvent } from "src/bot/utils/telegram.util";
 import { verifyUserToken } from "src/api/utils/auth.util";
 import { getMapUserToTelegram } from "../modules/users/user.cache";
+import { CommandName } from "../buttons/command.button";
 
 export const authInterceptor = async (event: BotEvent, response: BotResponse, next: Next) => {
   try {
@@ -25,7 +26,8 @@ export const authInterceptor = async (event: BotEvent, response: BotResponse, ne
       return next();
     } else {
       const chatId = "chat" in event ? event.chat.id : event.message?.chat.id;
-      await bot.sendMessage(chatId as number, "Please /start and try again");
+      const text = "chat" in event ? event.text : event.message?.text;
+      if (text != CommandName.c_start_na) await bot.sendMessage(chatId as number, "Please /start and try again");
     }
   } catch (err: any) {
     const chat_id = await getMessageFromEvent(event);
