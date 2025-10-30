@@ -62,7 +62,7 @@ export const authService = async (data: Record<string, string | number>) => {
 const verifyTelegramAuth = (data: Record<string, string | number>) => {
   const bot_token = process.env.BOT_TOKEN;
   if (!bot_token) {
-    const error = new Error("Server misconfiguration: Unable to verify Telegram login.") as Error & { statusCode?: number };
+    const error = new Error("Telegram login verification failed due to server issues") as Error & { statusCode?: number };
     error.statusCode = 500;
     throw error;
   }

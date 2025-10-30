@@ -30,8 +30,7 @@ export default function TelegramLoginWidget() {
       login(token, userData);
       navigate("/user/profile");
     } catch (err) {
-      console.error("Telegram login failed", err);
-      setError("Network or server error. Please try again.");
+      setError(err.message);
       setShowModal(true);
     }
   };
