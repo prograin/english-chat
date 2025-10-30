@@ -14,7 +14,7 @@ export async function relationsListBlocksReply(bot: TelegramBot, message: Messag
   const profilesData = userBlocks ? await ProfileSelfController.getProfiles(response.user.token || "", userBlocksIds) : null;
   const profiles = profilesData?.data?.data || [];
 
-  let messageText = "🔎 <b>Blocks</b>\n";
+  let messageText = "🔎 <b>Your Blocks</b>\n";
   if (profiles.length === 0) {
     messageText += "<blockquote>No blocks found.</blockquote>";
   } else {

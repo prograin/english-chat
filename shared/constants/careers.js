@@ -70,3 +70,4 @@ export const CAREERS = [
 ];
 
 export const CAREER_VALUES = CAREERS.map((g) => g.value);
+export const CAREER_LABELS = CAREERS.map((g) => g.label);

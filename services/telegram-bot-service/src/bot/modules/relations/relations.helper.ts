@@ -26,12 +26,8 @@ export function buildProfileRelation(profile: any) {
 ━━━━━━━━━━━━━━━━━━━━
 👤 <b>${firstName} ${lastName}</b>  ${genderSticker}
 🆔 <b>Username:</b> /username_${username}
-🎂 <b>Age:</b> ${age}
-${careerSticker} <b>Career:</b> ${career}
-⭐ <b>Interests:</b> ${interestsStr}
 📍 <b>Location:</b> ${city}, ${state}, ${country}
 ━━━━━━━━━━━━━━━━━━━━
-
 `;
 
   return profileText;

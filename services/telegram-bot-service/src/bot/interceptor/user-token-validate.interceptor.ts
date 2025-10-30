@@ -20,8 +20,8 @@ export const userTokenValidateInterceptor = async (event: BotEvent, response: Bo
       response.user.telegram_id = decoded.telegram_id;
       response.user.exists = true;
     } catch (err: any) {
-      await bot.sendMessage(chatId as number, "Please /start and try again");
       if (err.name === "TokenExpiredError") {
+        await bot.sendMessage(chatId as number, "Please /start and try again");
       } else {
       }
       return;

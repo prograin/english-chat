@@ -64,14 +64,14 @@ function getRandomLastName() {
 
 // Get random career label
 function getRandomCareerLabel() {
-  return getRandomItem(CAREERS).label;
+  return getRandomItem(CAREERS).value;
 }
 
 // Get random interest labels
-function getRandomInterestLabels() {
+function getRandomInterestValues() {
   const count = Math.floor(Math.random() * 7) + 1; // 1 to 7
   const shuffled = [...INTERESTS].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, Math.min(count, INTERESTS.length)).map((i) => i.label);
+  return shuffled.slice(0, Math.min(count, INTERESTS.length)).map((i) => i.value);
 }
 
 export const USERS = Array.from({ length: 70 }, (_, i) => {
@@ -101,7 +101,7 @@ export const USERS = Array.from({ length: 70 }, (_, i) => {
       age: Math.floor(Math.random() * 30) + 18,
       gender: gender,
       career: getRandomCareerLabel(),
-      interests: getRandomInterestLabels(), // variable length
+      interests: getRandomInterestValues(), // variable length
       country: "Iran",
       state: location.state,
       city: location.city,

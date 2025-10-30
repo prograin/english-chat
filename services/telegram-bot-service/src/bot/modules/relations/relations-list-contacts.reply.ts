@@ -14,7 +14,7 @@ export async function relationsListContactsReply(bot: TelegramBot, message: Mess
   const profilesData = userContactsIds ? await ProfileSelfController.getProfiles(response.user.token || "", userContactsIds) : null;
   const profiles = profilesData?.data?.data || [];
 
-  let messageText = "🔎 <b>Contacts</b>\n";
+  let messageText = "🔎 <b>Your Contacts</b>\n";
   if (profiles.length === 0) {
     messageText += "<blockquote>No contacts found.</blockquote>";
   } else {

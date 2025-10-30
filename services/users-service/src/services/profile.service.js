@@ -122,7 +122,10 @@ export const updateProfileByUserIdService = async (user_id, data, options = {}) 
   }
 
   await usersProfilesCache.updateUserProfile(user_id, data);
-  await profileProducer.publishProfileUpdated(user_id, data);
+
+  const { description, ...publishData } = data || {};
+  await profileProducer.publishProfileUpdated(user_id, publishData);
+
   const profile = await getProfileByUserIdService(user_id, options);
   return profile;
 };

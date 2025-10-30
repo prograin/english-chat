@@ -1,5 +1,5 @@
 import TelegramBot, { CallbackQuery, Message } from "node-telegram-bot-api";
-import { ma_search_base_in } from "./search.markup";
+import { ma_search_base_in, ma_search_start_profile_in } from "./search.markup";
 import { fix_ma_search_base_in } from "./search.markup";
 import { TelegramSearchData } from "src/bot/types/bot-telgram-search-data.type";
 import { need_complete_profile, search_base } from "./search.text";
@@ -21,7 +21,7 @@ async function searchBaseReply(
     for (const field of row) {
       if (searchPermission.includes(field.meta.value)) {
         if (selectedFieldsRaw?.includes(field.callback_data)) {
-          field.text = `Selected :${field.text}`;
+          field.text = `✅ ${field.text}`;
         }
         fliteredRow.push(field);
       }
@@ -36,10 +36,14 @@ async function searchBaseReply(
       await bot.editMessageText(need_complete_profile, {
         chat_id: message!.chat.id,
         message_id: message!.message_id,
+        reply_markup: { inline_keyboard: ma_search_start_profile_in },
       });
     } else {
-      await bot.sendMessage(message!.chat.id, need_complete_profile);
+      await bot.sendMessage(message!.chat.id, need_complete_profile, {
+        reply_markup: { inline_keyboard: ma_search_start_profile_in },
+      });
     }
+    return;
   }
 
   const finalReply = [...filteredReply, ...fix_ma_search_base_in];

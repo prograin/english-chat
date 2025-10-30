@@ -1,13 +1,6 @@
 import React from "react";
 
-export default function Select({
-  name,
-  value,
-  onChange,
-  options,
-  noSelection = true,
-  className = "",
-}) {
+export default function Select({ name, value, onChange, options, noSelection = true, className = "" }) {
   return (
     <select name={name} value={value} onChange={onChange} className={className}>
       {noSelection && <option value="">None</option>}

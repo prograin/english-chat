@@ -12,7 +12,10 @@ export const PROFILE_FIELDS = [
     type: "text",
     required: true,
     default: "",
-    outputFormatter: (v) => v?.trim() || "",
+    outputFormatter: (v) => {
+      const trimmed = v?.trim();
+      return trimmed === "" ? null : trimmed;
+    },
   },
   {
     name: "last_name",
@@ -20,7 +23,10 @@ export const PROFILE_FIELDS = [
     type: "text",
     required: true,
     default: "",
-    outputFormatter: (v) => v?.trim() || "",
+    outputFormatter: (v) => {
+      const trimmed = v?.trim();
+      return trimmed === "" ? null : trimmed;
+    },
   },
   {
     name: "age",
@@ -31,6 +37,7 @@ export const PROFILE_FIELDS = [
     min: 0,
     max: 99,
     outputFormatter: (v) => {
+      if ((v == null) | undefined) return null;
       const num = Number(v);
       if (Number.isNaN(num)) return null;
       if (num === 0) return null;

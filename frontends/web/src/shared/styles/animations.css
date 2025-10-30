@@ -3,6 +3,7 @@
 @import "tw-animate-css";
 
 @layer utilities {
+  /* Existing gradient animation */
   @keyframes gradientMove {
     0% {
       background-position: 0% 50%;
@@ -24,5 +25,57 @@
   .animate-gradient {
     background-size: 400% 400%;
     animation: gradientMove 30s ease-in-out infinite;
+  }
+
+  /* Modal pop-in animation */
+  @keyframes modalPopIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .modal-pop-in {
+    animation: modalPopIn 0.5s ease forwards;
+  }
+
+  /* Modal fade-out animation */
+  @keyframes modalFadeOut {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  .modal-fade-out {
+    animation: modalFadeOut 0.3s ease forwards;
+  }
+
+  /* Button pulse animation */
+  @keyframes pulseButton {
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .button-pulse {
+    animation: pulseButton 1.5s infinite;
   }
 }

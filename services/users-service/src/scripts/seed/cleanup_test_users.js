@@ -13,7 +13,7 @@ export async function removeDummyUsers() {
         await deleteUserService(item.user.id);
       } catch (err) {
         console.error(`Error removing user ${item.id}:`, err);
-        return { id: item.user.configid, status: "failed", error: err };
+        return { id: item.user.id, status: "failed", error: err };
       }
     });
 

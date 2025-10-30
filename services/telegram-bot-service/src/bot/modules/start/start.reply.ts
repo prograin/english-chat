@@ -8,6 +8,7 @@ import { BotEvent } from "src/bot/types/bot-event.type";
 import { generateUserToken } from "src/api/utils/auth.util";
 import { setUserToken } from "src/api/cache/auth.cache";
 import { setMapTelegramToUser, setMapUserToTelegram } from "../users/user.cache";
+import { welcome_back_text, welcome_text } from "./start.text";
 
 export default async (bot: TelegramBot, event: BotEvent, response: Response) => {
   const message = event as Message;
@@ -25,13 +26,13 @@ export default async (bot: TelegramBot, event: BotEvent, response: Response) => 
 
   try {
     if (response.user.exists) {
-      await bot.sendMessage(chatId, `Welcome Back ${firstName}`, options);
+      await bot.sendMessage(chatId, welcome_back_text(firstName), options);
       await setMapTelegramToUser(userTelegramId, Number(response.user.id));
       await setMapUserToTelegram(userTelegramId, Number(response.user.id));
     } else {
       const user = await UserAdminController.createUser(usersTelegramData);
       console.log(`🆕 User created: ${user.data.id}`);
-      await bot.sendMessage(chatId, `Welcome ${firstName}`, options);
+      await bot.sendMessage(chatId, welcome_back_text(firstName), options);
       const token = await generateUserToken({
         user_id: user.data.id,
         telegram_id: userTelegramId,

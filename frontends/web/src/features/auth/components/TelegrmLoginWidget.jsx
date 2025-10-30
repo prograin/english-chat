@@ -61,13 +61,13 @@ export default function TelegramLoginWidget() {
 
       {/* Glass-Style Error Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
-          <div className="bg-[var(--color-surface)]/80 backdrop-blur-md rounded-2xl shadow-[var(--color-shadow-heavy)] max-w-sm w-full p-6 text-center border border-white/20">
-            <h2 className="text-lg font-bold text-[var(--color-error)] mb-3">Login Error</h2>
-            <p className="text-[var(--color-text-primary)] mb-6">{error}</p>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 p-4">
+          <div className="bg-[var(--color-surface)]/80 backdrop-blur-md rounded-2xl shadow-[var(--color-shadow-heavy)] w-full max-w-sm sm:max-w-md p-4 sm:p-6 text-center border border-white/20 mx-auto">
+            <h2 className="text-base sm:text-lg font-bold text-[var(--color-error)] mb-2 sm:mb-3">Login Error</h2>
+            <p className="text-sm sm:text-base text-[var(--color-text-primary)] mb-4 sm:mb-6 break-words">{error}</p>
             <button
               onClick={() => setShowModal(false)}
-              className="button-glass px-6 py-2 font-bold text-[var(--color-text-primary)] hover:bg-white/25"
+              className="button-glass px-4 py-2 sm:px-6 font-bold text-[var(--color-text-primary)] hover:bg-white/25"
             >
               Close
             </button>

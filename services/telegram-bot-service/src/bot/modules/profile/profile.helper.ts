@@ -9,6 +9,7 @@ export function buildProfileText(profile: any) {
   const city = profile.city || missing;
   const state = profile.state || missing;
   const country = profile.country || missing;
+  const description = profile.description || null;
 
   const interestsStr = Array.isArray(profile.interests) && profile.interests.length > 0 ? profile.interests.join(", ") : missing;
 
@@ -21,12 +22,15 @@ export function buildProfileText(profile: any) {
   if (career.toLowerCase().includes("teacher")) careerSticker = "📚";
   else if (career.toLowerCase().includes("developer")) careerSticker = "💻";
 
-  const profileText = `<b>🔹 Username:</b>/username_${profile.username || missing}
+  let profileText = `<b>🆔 Username:</b>/username_${profile.username || missing}
 ${genderSticker} <b>Name:</b> ${firstName} ${lastName}
 🎂 <b>Age:</b> ${age}
 ${careerSticker} <b>Career:</b> ${career}
 ⭐ <b>Interests:</b> ${interestsStr}
-🌍 <b>Location:</b> ${city}, ${state}, ${country}`;
+📍 <b>Location:</b> ${city}, ${state}, ${country}`;
+  if (description) {
+    profileText += `\n<b>💬 Description:</b> <blockquote>${description}"</blockquote>`;
+  }
 
   return profileText;
 }

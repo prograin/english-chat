@@ -15,6 +15,9 @@ export default function useProfile() {
   const [statesOption, setStatesOption] = useState([]);
   const [citiesOption, setCitiesOption] = useState([]);
   const [countriesOption, setCountriesOption] = useState([]);
+  const [modal, setModal] = useState(null);
+
+  const closeModal = () => setModal(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -42,7 +45,7 @@ export default function useProfile() {
   const handleChange = useCallback(
     (e) => {
       const { name, value, type } = e.target;
-      const parsed = type === "number" ? Number(value) : value;
+      const parsed = type === "number" ? (value === null ? value : Number(value)) : value;
       setUser((prev) => ({ ...prev, [name]: parsed }));
     },
     [user]
@@ -85,20 +88,20 @@ export default function useProfile() {
   const handleSave = useCallback(async () => {
     setSaving(true);
     const changedFields = Object.keys(user).reduce((acc, key) => {
-      if (!isEqual(user[key], originalUser[key])) {
-        acc[key] = user[key];
-      }
+      if (!isEqual(user[key], originalUser[key])) acc[key] = user[key];
       return acc;
     }, {});
+
     try {
       await updateUserProfile(changedFields);
       setOriginalUser(user);
+      setModal({ open: true, message: "Profile saved successfully!", type: "success" });
     } catch {
-      setError("Failed to update profile");
+      setModal({ open: true, message: "Failed to update profile", type: "error" });
     } finally {
       setSaving(false);
     }
-  }, [user]);
+  }, [user, originalUser]);
 
   const handleDiscard = useCallback(() => setUser(originalUser), [originalUser]);
 
@@ -113,6 +116,8 @@ export default function useProfile() {
     saving,
     error,
     isDirty,
+    modal,
+    closeModal,
     handleChange,
     handleSave,
     handleDiscard,

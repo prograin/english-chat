@@ -12,7 +12,7 @@ export const formatInputProfileData = (data) =>
 export const formatOutputProfileData = (data) =>
   PROFILE_FIELDS.reduce((acc, { name, outputFormatter }) => {
     const raw = data[name];
-    if (raw == null || (typeof raw === "string" && raw.trim() === "")) return acc; // skip null / undefined
+    if (raw === undefined) return acc;
     acc[name] = outputFormatter ? outputFormatter(raw) : raw;
     return acc;
   }, {});

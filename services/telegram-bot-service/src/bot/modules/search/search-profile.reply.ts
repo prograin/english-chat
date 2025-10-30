@@ -5,6 +5,7 @@ import { buildProfileSearch } from "./search.helper";
 import { ma_search_profile_in } from "./search.markup";
 import User from "src/bot/types/user.type";
 import { RelationSelfController } from "../relations/relations.controller";
+import { ma_profile_in } from "../profile/profile.markup";
 
 async function searchProfileReply(bot: TelegramBot, message: Message | undefined, fromUser: User, username: string) {
   const toProfile = await ProfileAdminController.getProfileByUsername(username);
@@ -15,10 +16,15 @@ async function searchProfileReply(bot: TelegramBot, message: Message | undefined
     const contactResponse = await RelationSelfController.checkContactByTargetId(fromUser.token || "", toProfile.user_id);
 
     const profileText = buildProfileSearch(toProfile);
-    bot.sendMessage(message!.chat.id, profileText, {
-      reply_markup: {
-        inline_keyboard: ma_search_profile_in(String(toProfile.user_id), blockResponse.isBlocked, contactResponse.isContact),
-      },
+    const replyMarkup =
+      toProfile.user_id != fromUser.id
+        ? {
+            inline_keyboard: ma_search_profile_in(String(toProfile.user_id), blockResponse.isBlocked, contactResponse.isContact),
+          }
+        : ma_profile_in;
+
+    await bot.sendMessage(message!.chat.id, profileText, {
+      reply_markup: replyMarkup,
       parse_mode: "HTML",
     });
   }

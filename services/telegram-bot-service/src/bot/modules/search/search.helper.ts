@@ -12,18 +12,18 @@ export function buildUserSearchMessage(user: any) {
   const career = user.career || "Not provided";
   const interests = Array.isArray(user.interests) ? user.interests.join(", ") : "Not provided";
 
-  const genderSticker = gender.toLowerCase() === "female" ? "🙍‍♀️" : gender.toLowerCase() === "male" ? "🙍‍♂️" : "❓";
+  const genderSticker = gender.toLowerCase() === "female" ? "🙍‍♀️" : gender.toLowerCase() === "male" ? "🙍‍♂️" : "⚧";
 
   const location = [country, state, city].filter(Boolean).join(", ");
 
   return `🔗 <b>Username:</b> /username_${username} ${genderSticker}
-<pre>
+<blockquote>
 <b>Name</b>       : <b>${firstName} ${age}</b>
 <b>Location</b>   : <b>${location}</b>
 <b>Career</b>     : <b>${career}</b>
 <b>Interests</b>  : <b>${interests}</b>
 <b>Last Seen</b>  : <b>${lastActive}</b>
-</pre>\n
+</blockquote>\n
 `;
 }
 
@@ -38,6 +38,7 @@ export function buildProfileSearch(profile: any) {
   const city = profile.city || missing;
   const state = profile.state || missing;
   const country = profile.country || missing;
+  const description = profile.description || null;
 
   const interestsStr = Array.isArray(profile.interests) && profile.interests.length > 0 ? profile.interests.join(", ") : missing;
 
@@ -50,12 +51,16 @@ export function buildProfileSearch(profile: any) {
   if (career.toLowerCase().includes("teacher")) careerSticker = "📚";
   else if (career.toLowerCase().includes("developer")) careerSticker = "💻";
 
-  const profileText = `<b>🔹 Username:</b>/username_${profile.username || missing}
+  let profileText = `<b>🆔 Username:</b>/username_${profile.username || missing}
 ${genderSticker} <b>Name:</b> ${firstName} ${lastName}
 🎂 <b>Age:</b> ${age}
 ${careerSticker} <b>Career:</b> ${career}
 ⭐ <b>Interests:</b> ${interestsStr}
-🌍 <b>Location:</b> ${city}, ${state}, ${country}`;
+📍 <b>Location:</b> ${city}, ${state}, ${country}`;
+
+  if (description) {
+    profileText += `\n<b>💬 Description:</b> <blockquote>${description}"</blockquote>`;
+  }
 
   return profileText;
 }

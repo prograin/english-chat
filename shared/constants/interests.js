@@ -14,3 +14,4 @@ export const INTERESTS = [
 ];
 
 export const INTEREST_VALUES = INTERESTS.map((g) => g.value);
+export const INTEREST_LABELS = INTERESTS.map((g) => g.label);

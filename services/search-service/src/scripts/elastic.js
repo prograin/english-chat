@@ -52,7 +52,7 @@ const getDocuments = async (index) => {
       match_all: {},
     },
   });
-  const documents = result.hits.hits.map((hit) => hit._source);
+  const documents = result.hits.hits.map((hit) => hit._id);
   console.log(documents);
 };
 

@@ -6,6 +6,8 @@ export const ma_search_base_in = [
   [InlineButton.in_search_same_country_b, InlineButton.in_search_same_city_b],
 ];
 
+export const ma_search_start_profile_in = [[InlineButton.in_profile_b]];
+
 export const fix_ma_search_base_in = [[InlineButton.in_search_start_b]];
 
 export const ma_search_start_all_in = [[InlineButton.in_search_previous_page_b, InlineButton.in_search_next_page_b]];
