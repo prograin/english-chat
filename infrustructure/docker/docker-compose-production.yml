@@ -254,6 +254,8 @@ services:
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.http.ssl.enabled=false
+      - logger.level=error
     network_mode: host
     # ports:
     #   - "9200:9200"
