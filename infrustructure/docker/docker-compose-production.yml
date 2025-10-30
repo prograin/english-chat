@@ -13,6 +13,9 @@ services:
     environment:
       NODE_ENV: production
       API_URL: localhost
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Chat Service
@@ -40,6 +43,9 @@ services:
         condition: service_healthy
       users-service:
         condition: service_healthy
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Presence Service
@@ -65,6 +71,9 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Telegram Bot Service
@@ -90,6 +99,9 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Search Service
@@ -115,6 +127,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Relations Service
@@ -142,6 +157,9 @@ services:
         condition: service_healthy
       users-service:
         condition: service_healthy
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Users Service
@@ -172,6 +190,9 @@ services:
       test: ["CMD-SHELL", "node /usr/hey-app/services/users-service/src/check-db.js"]
       interval: 5s
       retries: 5
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Database
@@ -197,6 +218,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+    mem_limit: 1g
+    mem_reservation: 512m
+    cpus: 1.0
 
   # --------------------
   # Redis
@@ -215,6 +239,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
   # --------------------
   # Elasticsearch
@@ -238,6 +265,9 @@ services:
       test: curl -s -u elastic:${ELASTIC_PASSWORD} -o /dev/null -w "%{http_code}" http://localhost:9200/
       interval: 30s
       retries: 50
+    mem_limit: 1.5g
+    mem_reservation: 1g
+    cpus: 1.0
 
   # --------------------
   # nginx
@@ -256,6 +286,9 @@ services:
       - front-web
       - chat-service
       - presence-service
+    mem_limit: 256m
+    mem_reservation: 128m
+    cpus: 0.5
 
 volumes:
   postgres_data:
