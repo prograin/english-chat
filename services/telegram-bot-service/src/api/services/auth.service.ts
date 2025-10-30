@@ -15,14 +15,23 @@ dotenv.config({ path: ".telegram.env" });
  */
 export const authService = async (data: Record<string, string | number>) => {
   if (!verifyTelegramAuth(data)) {
-    const error = new Error("Invalid telegram data") as Error & { statusCode?: number };
-    error.statusCode = 400;
+    const error = new Error(
+      "Telegram authentication failed: the provided data is invalid or has been tampered with. " +
+        "Please ensure you are logging in with the same Telegram account that joined the bot."
+    ) as Error & { statusCode?: number };
+    error.statusCode = 401;
     throw error;
   }
 
   const telegram_id = BigInt(data.id.toString());
   const user = await UserAdminController.getUserByTelegramId(telegram_id);
-  if (user.error) throw new Error(`User with ${telegram_id} is not found`);
+  if (user.error) {
+    const error = new Error(
+      `No user found for Telegram ID ${telegram_id}. ` + "Please make sure you are using the Telegram account that is registered with this bot."
+    ) as Error & { statusCode?: number };
+    error.statusCode = 404;
+    throw error;
+  }
 
   const user_id = user.data.id;
   const payload = {
@@ -52,7 +61,11 @@ export const authService = async (data: Record<string, string | number>) => {
  */
 const verifyTelegramAuth = (data: Record<string, string | number>) => {
   const bot_token = process.env.BOT_TOKEN;
-  if (!bot_token) throw new Error("BOT_TOKEN is missing");
+  if (!bot_token) {
+    const error = new Error("Server misconfiguration: Unable to verify Telegram login.") as Error & { statusCode?: number };
+    error.statusCode = 500;
+    throw error;
+  }
 
   const { hash, ...checkData } = data;
   const dataCheckString = Object.keys(checkData)

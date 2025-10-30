@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -6,6 +6,9 @@ export default function TelegramLoginWidget() {
   const { login } = useAuthContext();
   const navigate = useNavigate();
   const containerRef = useRef(null);
+
+  const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleTelegramAuth = async (user) => {
     try {
@@ -15,16 +18,21 @@ export default function TelegramLoginWidget() {
         body: JSON.stringify(user),
       });
 
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`Auth failed: ${res.status} ${errText}`);
+      const resJson = await res.json();
+
+      if (!resJson.success) {
+        setError(resJson.message || "Login failed.");
+        setShowModal(true);
+        return;
       }
 
-      const { data } = await res.json();
-      login(data.token, data.user);
+      const { token, user: userData } = resJson.data;
+      login(token, userData);
       navigate("/user/profile");
     } catch (err) {
       console.error("Telegram login failed", err);
+      setError("Network or server error. Please try again.");
+      setShowModal(true);
     }
   };
 
@@ -40,18 +48,33 @@ export default function TelegramLoginWidget() {
     window.handleTelegramAuth = handleTelegramAuth;
     script.setAttribute("data-onauth", "handleTelegramAuth(user)");
 
-    if (containerRef.current) {
-      containerRef.current.appendChild(script);
-    }
+    if (containerRef.current) containerRef.current.appendChild(script);
 
-    //Unmounted, means remove from dom, when we change the page and link to other pages
     return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = "";
-      }
+      if (containerRef.current) containerRef.current.innerHTML = "";
       delete window.handleTelegramAuth;
     };
   }, []);
 
-  return <div ref={containerRef} className="flex justify-center items-center"></div>;
+  return (
+    <>
+      <div ref={containerRef} className="flex justify-center items-center"></div>
+
+      {/* Glass-Style Error Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
+          <div className="bg-[var(--color-surface)]/80 backdrop-blur-md rounded-2xl shadow-[var(--color-shadow-heavy)] max-w-sm w-full p-6 text-center border border-white/20">
+            <h2 className="text-lg font-bold text-[var(--color-error)] mb-3">Login Error</h2>
+            <p className="text-[var(--color-text-primary)] mb-6">{error}</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="button-glass px-6 py-2 font-bold text-[var(--color-text-primary)] hover:bg-white/25"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
