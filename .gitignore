@@ -3,7 +3,6 @@ node_modules*
 *.env*
 .vscode
 apps/web/src/features/users/static
-infrustructure/docker/nginx
 
 # Logs
 logs
