@@ -5,10 +5,8 @@ export const authController = async (req: Request, res: Response, next: NextFunc
   try {
     const body = req.body;
     const data = await authService(body);
-    console.log(data);
-    res.status(200).json({ data });
+    res.status(200).json({ success: true, data });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
