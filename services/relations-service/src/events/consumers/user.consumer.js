@@ -34,7 +34,7 @@ const handleUser = async ({ event, userId, data }) => {
 
 export const userConsumer = new RedisStreamConsumer({
   stream: REDIS_STREAMS.user.name,
-  group: "presence-service-group",
+  group: "relations-service-group",
   consumerName: `search-worker-${process.pid}`,
   handleMessage: handleUser,
 });
