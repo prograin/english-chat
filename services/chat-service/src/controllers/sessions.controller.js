@@ -1,9 +1,10 @@
 import {
   createSessionService,
   getSessionsService,
-  getSessionByTargetService,
+  getSessionsByTargetService,
   updateSessionService,
   getActiveSessionService,
+  checkActiveSessionService,
 } from "../services/sessions.service.js";
 
 export const createSessionController = async (req, res, next) => {
@@ -23,7 +24,7 @@ export const createSessionController = async (req, res, next) => {
 
 export const getSessionsController = async (req, res, next) => {
   try {
-    const userId = req.user.user_id;
+    const userId = req.params.userId || req.user.user_id;
     let sessions;
 
     if (req.query.active === "true") {
@@ -38,12 +39,12 @@ export const getSessionsController = async (req, res, next) => {
   }
 };
 
-export const getSessionByTargetController = async (req, res, next) => {
+export const getSessionsByTargetController = async (req, res, next) => {
   try {
     const userId = req.user.user_id;
     const partnerId = req.params.targetId;
 
-    const session = await getSessionByTargetService(userId, partnerId);
+    const session = await getSessionsByTargetService(userId, partnerId);
     return res.status(200).json({ session });
   } catch (error) {
     next(error);
@@ -60,6 +61,21 @@ export const updateSessionController = async (req, res, next) => {
     return res.status(200).json({
       message: "Session updated successfully",
       session,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkActiveSessionController = async (req, res, next) => {
+  try {
+    const userId = req.user.user_id;
+
+    const isActive = await checkActiveSessionService(userId);
+
+    res.status(200).json({
+      message: "Session status checked successfully",
+      isActive,
     });
   } catch (error) {
     next(error);

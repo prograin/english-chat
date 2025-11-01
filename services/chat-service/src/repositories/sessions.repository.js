@@ -1,3 +1,5 @@
+//LINK doc\samples\sessions-sequalize.json
+
 import SessionModel from "../models/sessions.model.js";
 
 export const createSession = async (userId, partnerId, status = "active") => {
@@ -26,6 +28,15 @@ export const getSessionsByTargetId = async (userId, partnerId) => {
     where: {
       user_id: userId,
       partner_id: partnerId,
+    },
+  });
+};
+
+export const getActiveSessions = async (userId) => {
+  return await SessionModel.findAll({
+    where: {
+      user_id: userId,
+      status: "active",
     },
   });
 };

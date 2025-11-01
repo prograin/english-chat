@@ -44,10 +44,15 @@ export const PREFIX_KEY = {
     requests: {
       key: (sender, reciever) => `chats:requests:${sender}_to_${reciever}`,
     },
+    sessions: {
+      has_active: {
+        key: (userId) => `chats:sessions:has-active:${userId}`,
+      },
+    },
   },
   relations: {
     blocks: {
-      key: (blocker, blocked) => `rlations:blocks:${blocker}:${blocked}`,
+      key: (blocker, blocked) => `relations:blocks:${blocker}:${blocked}`,
     },
     contacts: {
       key: (user, contact) => `relations:contacts:${user}:${contact}`,
